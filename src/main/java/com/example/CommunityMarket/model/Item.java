@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class Item {
 
-    //set immutable item
-    private final String id;
-    private final String name;
-    private final String description;
-    private final String category;
+
+    private String id;
+    private String name;
+    private String description;
+    private String category;
 
     public Item(String id, String name, String description, String category) {
         this.id = id;
