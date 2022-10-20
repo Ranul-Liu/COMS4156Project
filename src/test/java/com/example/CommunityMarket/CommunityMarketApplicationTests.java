@@ -33,5 +33,5 @@ class CommunityMarketApplicationTests {
 		String emailAddress1 = "usernamedomain.com";
 		String emailAddress2 = "username@domain";
 	}
-	
+
 }
