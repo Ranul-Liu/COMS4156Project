@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.util.regex.Pattern;
 
 public class User {
 
@@ -19,6 +20,8 @@ public class User {
     private Connection connection;
     private int usernameLength = 16;
     private int passwordLength = 16;
+    private String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
     public User(String username, String email, String password) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         this.username = username;
@@ -133,10 +136,19 @@ public class User {
     }
 
     public void setEmail(String email) {
+        boolean isValid = Pattern.compile(regexPattern)
+                .matcher(email)
+                .matches();
+        if (!isValid) {
+            throw new IllegalArgumentException("wrong email format");
+        }
         this.email = email;
     }
 
     public void setPassword(String password) {
+        if (password.length() > this.passwordLength) {
+            throw new IllegalArgumentException("password too long");
+        }
         this.password = password;
     }
 
