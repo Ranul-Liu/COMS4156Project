@@ -17,6 +17,8 @@ public class User {
     private String password;
     private boolean logInState;
     private Connection connection;
+    private int usernameLength = 16;
+    private int passwordLength = 16;
 
     public User(String username, String email, String password) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         this.username = username;
@@ -49,12 +51,62 @@ public class User {
         }
     }
 
-    public void postUser() throws SQLException {
+    public void postUser(UUID userID, String username, String password) throws SQLException {
+        if (username.length() > this.usernameLength) {
+            throw new IllegalArgumentException("username too long");
+        }
+        if (password.length() > this.passwordLength) {
+            throw new IllegalArgumentException("password too long");
+        }
         Statement statement = connection.createStatement();
         statement.executeUpdate(
                 String.format("INSERT INTO Users (userID, username, password) "
-                        + "values (%s, %s, %s)", this.userID, this.username, this.password));
+                        + "values (%s, %s, %s)", userID, username, password));
         statement.close();
+    }
+
+    public void postUsername(String username) throws SQLException, IllegalAccessException {
+        if (!this.logInState) {
+            throw new IllegalAccessException("not logged in");
+        }
+        if (username.length() > this.usernameLength) {
+            throw new IllegalArgumentException("username too long");
+        }
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(
+                String.format("UPDATE Users username = %s where userID = %s", username, this.userID));
+        statement.close();
+    }
+
+    public void postPassword(String existingPassword, String password) throws SQLException, IllegalAccessException {
+        if (!this.password.equals(existingPassword)) {
+            throw new IllegalAccessException("invalid password");
+        }
+        if (password.length() > this.passwordLength) {
+            throw new IllegalArgumentException("password too long");
+        }
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(
+                String.format("UPDATE Users password = %s where userID = %s", password, this.userID));
+        statement.close();
+    }
+
+    public void postEmail(String existingPassword, String email) throws SQLException, IllegalAccessException {
+        if (!this.password.equals(existingPassword)) {
+            throw new IllegalAccessException("invalid password");
+        }
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(
+                String.format("UPDATE Users email = %s where userID = %s", email, this.userID));
+        statement.close();
+    }
+
+    public ResultSet getProfile(String userID) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(String.format(
+                "select userID, username from Users where userID = %s", userID));
+        statement.close();
+        return resultSet;
     }
 
     public UUID getUserID() {
