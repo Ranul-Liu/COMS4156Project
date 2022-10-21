@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table(name = "item")
 public class Item {
     @Id
     @SequenceGenerator(
@@ -14,78 +14,72 @@ public class Item {
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "itemId")
-    private String id;
-    @Column(name = "itemName")
-    private String name;
-    @Column(name = "itemDescription")
-    private String description;
-    @Column(name = "itemCategory")
-    private String category;
+    @Column(name = "item_id")
+    private String itemId;
+    @Column(name = "item_name")
+    private String itemName;
+    @Column(name = "item_description")
+    private String itemDescription;
+    @Column(name = "item_category")
+    private String itemCategory;
 
 
     public Item(String name, String description, String category) {
-        this.name = name;
-        this.description = description;
-        this.category = category;
+        this.itemName = name;
+        this.itemDescription = description;
+        this.itemCategory = category;
     }
 
 
     public String getId() {
-        return id;
+        return itemId;
     }
 
     public String getName() {
-        return name;
+        return itemName;
     }
 
     public String getDescription() {
-        return description;
+        return itemDescription;
     }
 
     public String getCategory() {
-        return category;
+        return itemCategory;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String itemId) {
+        this.itemId = itemId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String itemName) {
+        this.itemName = itemName;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String itemDescription) {
+        this.itemDescription = itemDescription;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategory(String itemCategory) {
+        this.itemCategory = itemCategory;
     }
-    public Item setItem(String id, String name,
-                        String description, String category
+    public Item setItem(String itemId, String itemName,
+                        String itemDescription, String itemCategory
                         ) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.category = category;
+        this.itemId = itemId;
+        this.itemName = itemName;
+        this.itemDescription = itemDescription;
+        this.itemCategory = itemCategory;
         return this;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return id.equals(item.id) && name.equals(item.name) && description.equals(item.description) && category.equals(item.category);
-    }
+
     @Override
     public String toString() {
         return "Item{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", category='" + category + '\'' +
+                "id='" + itemId + '\'' +
+                ", name='" + itemName + '\'' +
+                ", description='" + itemDescription + '\'' +
+                ", category='" + itemCategory + '\'' +
                 '}';
     }
 }

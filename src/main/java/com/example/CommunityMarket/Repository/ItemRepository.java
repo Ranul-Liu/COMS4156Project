@@ -16,33 +16,34 @@ public interface ItemRepository extends JpaRepository<Item, String> {
 
 
     //get
-    @Query(value = "select * from item where ((:id is NULL or id = :id) and\n" +
-            "                          (:name is NULL or name = :name) and\n" +
-            "                          (:description is NULL or description = :description) and\n" +
-            "                          (:category is NULL or category = :category))", nativeQuery = true)
-    List<Item> findByTemplate(@Param("id") String id,
-                                     @Param("name") String name,
-                                     @Param("description") String description,
-                                     @Param("category") String category
+    @Query(value = "select * from item where ((:item_id is NULL or item_id = :item_id) and\n" +
+            "                          (:item_name is NULL or item_name = :item_name) and\n" +
+            "                          (:item_description is NULL or item_description = :item_description) and\n" +
+            "                          (:item_category is NULL or item_category = :item_category))", nativeQuery = true)
+    List<Item> findByTemplate(@Param("item_id") String item_id,
+                                     @Param("item_name") String item_name,
+                                     @Param("item_description") String item_description,
+                                     @Param("item_category") String item_category
     );
     //add
     @Transactional
     @Modifying
-    @Query(value = "insert into item values(:id,:name,:description,:category)",nativeQuery = true)
-    void insertItem(@Param("id") String id,
-                    @Param("name") String name,
-                    @Param("description") String description,
-                    @Param("category") String category);
+    @Query(value = "insert into item values(:item_id,:item_name,:item_description,:item_category)",nativeQuery = true)
+    void insertItem(@Param("item_id") String item_id,
+                    @Param("item_name") String item_name,
+                    @Param("item_description") String item_description,
+                    @Param("item_category") String item_category);
     //delete
     @Transactional
     @Modifying
     @Query(value = "delete from item \n" +
             "where \n" +
-            "((id = :id) and\n" +
-            "(name = :name) and\n"281
+            "((item_id = :item_id) and\n" +
+            "(item_name = :item_name) and\n"
             ,nativeQuery = true)
-    void deleteItem(@Param("id") Integer player_id,
-                             @Param("name") Integer client_id,
-                             @Param("category") Integer league_id);
+    void deleteItem(@Param("item_id")       String item_id,
+                    @Param("item_name")     String item_name,
+                    @Param("item_description")     String item_description,
+                    @Param("item_category") String item_category);
 
 }
