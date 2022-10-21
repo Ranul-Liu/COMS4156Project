@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ItemRepository extends JpaRepository<Item, String> {
+public interface ItemRepository extends CrudRepository<Item, String> {
 
 
     //get
@@ -36,10 +36,12 @@ public interface ItemRepository extends JpaRepository<Item, String> {
     //delete
     @Transactional
     @Modifying
-    @Query(value = "delete from item \n" +
-            "where \n" +
-            "((item_id = :item_id) and\n" +
-            "(item_name = :item_name) and\n"
+    @Query(value = """
+            delete from item\s
+            where\s
+            ((item_id = :item_id) and
+            (item_name = :item_name)
+            """
             ,nativeQuery = true)
     void deleteItem(@Param("item_id")       String item_id,
                     @Param("item_name")     String item_name,

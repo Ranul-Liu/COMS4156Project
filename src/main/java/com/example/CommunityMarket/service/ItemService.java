@@ -12,14 +12,17 @@ import java.util.Optional;
 
 @Service
 public class ItemService {
-    private final ItemRepository itemRepository;
     @Autowired
-    public ItemService(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
+    ItemRepository itemRepo;
+
+    //get operation
+    public List<Item> getItemByTemplate(String item_id,
+                                        String item_name,
+                                        String item_description,
+                                        String item_category){
+        return itemRepo.findByTemplate(item_id,item_name,item_description,item_category);
+
     }
 
-    //find by id
-    public List<Item> getItems() {
-        return itemRepository.findAll();
-    }
+
 }
