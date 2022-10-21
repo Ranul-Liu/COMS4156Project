@@ -41,7 +41,7 @@ public interface ItemRepository extends JpaRepository<Item, String> {
             "((id = :id) and\n" +
             "(name = :name) and\n"281
             ,nativeQuery = true)
-    void deleteFantasyPlayer(@Param("id") Integer player_id,
+    void deleteItem(@Param("id") Integer player_id,
                              @Param("name") Integer client_id,
                              @Param("category") Integer league_id);
 
