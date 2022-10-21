@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface ItemRepository extends CrudRepository<Item, String> {
 
 
-    //get
+    //get method
     @Query(value = "select * from item where ((:item_id is NULL or item_id = :item_id) and\n" +
             "                          (:item_name is NULL or item_name = :item_name) and\n" +
             "                          (:item_description is NULL or item_description = :item_description) and\n" +
@@ -25,7 +25,7 @@ public interface ItemRepository extends CrudRepository<Item, String> {
                                      @Param("item_description") String item_description,
                                      @Param("item_category") String item_category
     );
-    //add
+    //add method
     @Transactional
     @Modifying
     @Query(value = "insert into item values(:item_id,:item_name,:item_description,:item_category)",nativeQuery = true)
@@ -34,7 +34,7 @@ public interface ItemRepository extends CrudRepository<Item, String> {
                     @Param("item_description") String item_description,
                     @Param("item_category") String item_category);
     //delete
-    @Transactional
+    /*@Transactional
     @Modifying
     @Query(value = """
             delete from item\s
@@ -46,6 +46,6 @@ public interface ItemRepository extends CrudRepository<Item, String> {
     void deleteItem(@Param("item_id")       String item_id,
                     @Param("item_name")     String item_name,
                     @Param("item_description")     String item_description,
-                    @Param("item_category") String item_category);
+                    @Param("item_category") String item_category);*/
 
 }
