@@ -39,14 +39,14 @@ public class ItemController {
     @RequestMapping(value = "/item", method = RequestMethod.PUT)
     public ResponseEntity<?> updateItem(@RequestBody Item newItem) {
         List<Item> result = itemService.updateItem(newItem);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);item_description
     }
 
-    /*@RequestMapping(value = "/item", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/item", method = RequestMethod.DELETE)
     public ResponseEntity<?> postItem(@RequestBody Item newItem) {
-        List<Item> result = itemService.deleteItem(newItem);
+        List<Item> result = itemService.deleteItemById(newItem);
         return new ResponseEntity<>(result, HttpStatus.OK);
-    }*/
+    }
 
 }
 

@@ -34,7 +34,7 @@ public interface ItemRepository extends CrudRepository<Item, String> {
                     @Param("item_description") String item_description,
                     @Param("item_category") String item_category);
     //delete
-    /*@Transactional
+    @Transactional
     @Modifying
     @Query(value = """
             delete from item\s
@@ -46,6 +46,6 @@ public interface ItemRepository extends CrudRepository<Item, String> {
     void deleteItem(@Param("item_id")       String item_id,
                     @Param("item_name")     String item_name,
                     @Param("item_description")     String item_description,
-                    @Param("item_category") String item_category);*/
+                    @Param("item_category") String item_category);
 
 }

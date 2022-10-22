@@ -1,16 +1,30 @@
 package com.example.CommunityMarket.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
-
+@Entity
+@Table (name = "Transaction")
 public class Transaction {
+    @Column(name = "transaction_id")
     private String transactionID;
+    @Column(name = "seller_id")
     private String sellerID;
+
+    @Column(name = "buyer_id")
     private String buyerID;
+    @Column(name = "item_id")
     private String itemID;
+    @Column(name = "price")
     private int price;
+    @Column(name = "postTime")
     private LocalDateTime postTime;
+    @Column(name = "quantity")
     private int quantity;
+    @Column(name = "isOpen")
     private boolean isOpen;
+    @Column(name = "closeTime")
     private LocalDateTime closeTime;
 
     public Transaction(String transactionID, String sellerID, String itemID, int price) {
@@ -90,5 +104,20 @@ public class Transaction {
 
     public void setCloseTime(LocalDateTime closeTime) {
         this.closeTime = closeTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "transactionID='" + transactionID + '\'' +
+                ", sellerID='" + sellerID + '\'' +
+                ", buyerID='" + buyerID + '\'' +
+                ", itemID='" + itemID + '\'' +
+                ", price=" + price +
+                ", postTime=" + postTime +
+                ", quantity=" + quantity +
+                ", isOpen=" + isOpen +
+                ", closeTime=" + closeTime +
+                '}';
     }
 }
