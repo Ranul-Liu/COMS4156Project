@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -89,7 +90,6 @@ public class UserTest {
     }
 
     // Make sure that delete raises exception when user not found
-    // TO DO
     @Test(expected = IllegalArgumentException.class)
     public void testExceptionDeleteUserById() throws {
 
@@ -175,18 +175,29 @@ public class UserTest {
         userService.checkInputs(testUser);
     }
 
-    // TO DO
-    // TO DO
-    // TO DO
     @Test
     public void testCheckGetByIdExists() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 
+        User newUser = new User("William23",
+                "william23gmail.com",
+                "william23234");
+        UUID user_id = newUser.getUserID();
+
+        Optional<User> optUser = Optional.of(newUser);
+        Mockito.when(userRepo.findById(user_id.toString())).thenReturn(optUser);
+
+        User result = userService.getByID(user_id.toString()).get(0);
+
+        assertEquals(user_id, result.getUserID());
 
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCheckGetByIdNotExists() throws {
-
+    public void testCheckGetByIdNotExists() {
+        Integer user_id = 1;
+        Optional<User> optUser = Optional.empty();
+        Mockito.when(userRepo.findById(user_id.toString())).thenReturn(optUser);
+        userService.getByID(user_id.toString());
 
     }
 
@@ -197,8 +208,16 @@ public class UserTest {
                 "william123@gmail.com",
                 "william123");
 
-
+        Mockito.when(userRepo.findByTemplate(null,
+                "william123")).thenReturn(List.of(newUser));
+        User result = userService.getUserByTemplate(null,
+                "william123").get(0);
+        assertEquals(result.getUserID(), result.getUserID());
 
     }
+
+
+
+
 
 }
