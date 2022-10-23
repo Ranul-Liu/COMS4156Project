@@ -23,12 +23,15 @@ public class Item {
     @Column(name = "item_category")
     private String itemCategory;
 
+    public Item() {
 
+    }
     public Item(String name, String description, String category) {
         this.itemName = name;
         this.itemDescription = description;
         this.itemCategory = category;
     }
+
 
 
     public String getId() {

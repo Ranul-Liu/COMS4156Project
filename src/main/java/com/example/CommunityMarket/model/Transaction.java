@@ -1,14 +1,15 @@
 package com.example.CommunityMarket.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 @Entity
 @Table (name = "Transaction")
 public class Transaction {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id")
-    private String transactionID;
+    private Integer transactionID;
     @Column(name = "seller_id")
     private String sellerID;
 
@@ -27,14 +28,21 @@ public class Transaction {
     @Column(name = "closeTime")
     private LocalDateTime closeTime;
 
-    public Transaction(String transactionID, String sellerID, String itemID, int price) {
+
+
+    public Transaction(Integer transactionID, String sellerID, String itemID, int price) {
         this.transactionID = transactionID;
         this.sellerID = sellerID;
         this.itemID = itemID;
         this.price = price;
     }
 
-    public String getTransactionID() {
+    public Transaction() {
+
+    }
+
+
+    public Integer getTransactionID() {
         return transactionID;
     }
 
@@ -70,7 +78,7 @@ public class Transaction {
         return closeTime;
     }
 
-    public void setTransactionID(String transactionID) {
+    public void setTransactionID(Integer transactionID) {
         this.transactionID = transactionID;
     }
 
