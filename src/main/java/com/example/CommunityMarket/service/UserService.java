@@ -23,8 +23,10 @@ public class UserService {
         if (result.isPresent()) {
             User userResult = result.get();
             return List.of(userResult);
+        } else {
+            throw new IllegalArgumentException("User not found by ID in DB.");
         }
-        return Collections.emptyList();
+
     }
 
     //get operation
@@ -34,8 +36,8 @@ public class UserService {
     }
 
     //post operation
-    public List<User> postUser(User item) {
-        User result = userRepo.save(item);
+    public List<User> postUser(User user) {
+        User result = userRepo.save(user);
         return List.of(result);
     }
 
@@ -45,7 +47,7 @@ public class UserService {
             User result = userRepo.save(user);
             return List.of(result);
         } else {
-            throw new IllegalArgumentException("Resource not found by ID in DB, cannot update");
+            throw new IllegalArgumentException("User not found by ID in DB, cannot update");
         }
     }
 
@@ -54,7 +56,40 @@ public class UserService {
         if (getByID(user.getUserID().toString()).size() >= 1) {
             userRepo.deleteById(user.getUserID().toString());
         } else {
-            throw new IllegalArgumentException("Resource not found in DB, cannot delete");
+            throw new IllegalArgumentException("User not found in DB, cannot delete");
+        }
+    }
+
+    //check if an email is valid
+    public boolean isValidEmail(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
+
+    // checking:    - length of string is <128 characters
+    //              - that string is not blank ex "   "
+    //              - string is initialize (not == null)
+    // returns true if follows rules above, false otherwise
+    public boolean checkIfInvalid(String string) {
+        return string.length() > 128 || string.isBlank();
+    }
+
+    // check and sanitize inputs
+    public void checkInputs(User user) throws IllegalArgumentException {
+
+        try {
+            if (!isValidEmail(user.getEmail())) {
+                throw new IllegalArgumentException("Email is invalid");
+            } else if (checkIfInvalid(user.getEmail())) {
+                throw new IllegalArgumentException("Email must be between 1-128 characters.");
+            } else if (checkIfInvalid(user.getUsername())) {
+                throw new IllegalArgumentException("Username must be between 1-128 characters.");
+            }
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("User formatted incorrectly please provide the following:\n" +
+                    "username, email");
         }
     }
 
