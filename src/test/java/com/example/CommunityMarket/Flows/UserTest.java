@@ -6,6 +6,7 @@ import com.example.CommunityMarket.Repository.UserRepository;
 import com.example.CommunityMarket.service.UserService;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,10 +91,10 @@ public class UserTest {
     }
 
     // Make sure that delete raises exception when user not found
-    @Test(expected = IllegalArgumentException.class)
+    /*@Test(expected = IllegalArgumentException.class)
     public void testExceptionDeleteUserById() throws {
 
-    }
+    }*/
 
     @Test
     public void testIfInvalidEmail() {

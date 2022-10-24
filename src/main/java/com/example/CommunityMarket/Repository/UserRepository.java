@@ -1,3 +1,4 @@
+/*
 package com.example.CommunityMarket.Repository;
 import com.example.CommunityMarket.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,3 +31,4 @@ public interface UserRepository extends CrudRepository<User, String> {
                     @Param("username") String username,
                     @Param("password") String password);
 }
+*/

@@ -25,7 +25,7 @@ public interface ItemRepository extends CrudRepository<Item, String> {
                                      @Param("item_description") String item_description,
                                      @Param("item_category") String item_category
     );
-    //add method
+    // method
     @Transactional
     @Modifying
     @Query(value = "insert into item values(:item_id,:item_name,:item_description,:item_category)",nativeQuery = true)
@@ -33,7 +33,7 @@ public interface ItemRepository extends CrudRepository<Item, String> {
                     @Param("item_name") String item_name,
                     @Param("item_description") String item_description,
                     @Param("item_category") String item_category);
-    //delete
+    /*//delete
     @Transactional
     @Modifying
     @Query(value = """
@@ -47,5 +47,5 @@ public interface ItemRepository extends CrudRepository<Item, String> {
                     @Param("item_name")     String item_name,
                     @Param("item_description")     String item_description,
                     @Param("item_category") String item_category);
-
+*/
 }

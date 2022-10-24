@@ -3,7 +3,7 @@ package com.example.CommunityMarket.model;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 @Entity
-@Table (name = "Transaction")
+@Table (name = "transaction")
 public class Transaction {
 
     @Id
@@ -29,12 +29,14 @@ public class Transaction {
     private LocalDateTime closeTime;
 
 
-
-    public Transaction(Integer transactionID, String sellerID, String itemID, int price) {
+    public Transaction(Integer transactionID, String sellerID, String buyerID, String itemID, int price, LocalDateTime postTime, int quantity, boolean isOpen, LocalDateTime closeTime) {
         this.transactionID = transactionID;
         this.sellerID = sellerID;
+        this.buyerID = buyerID;
         this.itemID = itemID;
         this.price = price;
+        this.quantity = quantity;
+
     }
 
     public Transaction() {

@@ -1,5 +1,7 @@
 package com.example.CommunityMarket.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -7,32 +9,31 @@ import java.util.Objects;
 @Table(name = "item")
 public class Item {
     @Id
-    @SequenceGenerator(
-            name = "item_sequence",
-            sequenceName = "item_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //problem with generative value id
+    @JsonProperty("item_id")
     @Column(name = "item_id")
     private String itemId;
     @Column(name = "item_name")
+    @JsonProperty("item_name")
     private String itemName;
     @Column(name = "item_description")
+    @JsonProperty("item_description")
     private String itemDescription;
     @Column(name = "item_category")
+    @JsonProperty("item_category")
     private String itemCategory;
+
+    public Item(String itemId, String itemName, String itemDescription, String itemCategory) {
+        this.itemId = itemId;
+        this.itemName = itemName;
+        this.itemDescription = itemDescription;
+        this.itemCategory = itemCategory;
+    }
 
     public Item() {
 
     }
-    public Item(String name, String description, String category) {
-        this.itemName = name;
-        this.itemDescription = description;
-        this.itemCategory = category;
-    }
-
-
 
     public String getId() {
         return itemId;

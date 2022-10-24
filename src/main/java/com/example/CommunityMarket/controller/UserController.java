@@ -1,3 +1,4 @@
+/*
 package com.example.CommunityMarket.controller;
 
 import com.example.CommunityMarket.model.User;
@@ -40,3 +41,4 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
+*/

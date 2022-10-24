@@ -35,9 +35,11 @@ public class ItemService {
 
     //post operation
     public List<Item> postItem(Item item) {
+
         Item result = itemRepo.save(item);
         return List.of(result);
     }
+
     //put operation
     public List<Item> updateItem(Item item) throws IllegalArgumentException {
         if (getByID(item.getId()).size() >= 1) {
@@ -49,12 +51,12 @@ public class ItemService {
     }
 
     // delete operation
-    public void deleteItemById(Item item) {
+    /*public void deleteItemById(Item item) {
         if (getByID(item.getId()).size() >= 1) {
             itemRepo.deleteById(item.getId());
         } else {
             throw new IllegalArgumentException("Resource not found in DB, cannot delete");
         }
-    }
+    }*/
 
 }

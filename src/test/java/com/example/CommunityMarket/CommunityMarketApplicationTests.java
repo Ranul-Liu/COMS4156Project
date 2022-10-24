@@ -24,10 +24,10 @@ class CommunityMarketApplicationTests {
 
 	}
 
-	@Test
+	/*@Test
 	void testUserSetUsername() {
 
-	}
+	}*/
 
 	void testUserSetEmail() {
 		String emailAddress1 = "usernamedomain.com";

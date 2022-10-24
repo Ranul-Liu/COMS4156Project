@@ -1,3 +1,4 @@
+/*
 package com.example.CommunityMarket.model;
 
 import java.util.Objects;
@@ -180,3 +181,4 @@ public class User {
         return Objects.hash(userID, email, username);
     }
 }
+*/

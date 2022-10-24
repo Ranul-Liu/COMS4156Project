@@ -4,6 +4,7 @@ import com.example.CommunityMarket.model.Item;
 import com.example.CommunityMarket.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,15 +14,18 @@ import java.util.List;
 public class ItemController {
 
     @Autowired
-    private ItemService itemService;
+    private final ItemService itemService;
 
-    @RequestMapping(value = "/item", method = RequestMethod.GET)
+    public ItemController(ItemService itemService){
+        this.itemService = itemService;
+    }
+
+    @RequestMapping(value = "/item", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getItemByTemplate(
             @RequestParam(value = "item_id", required = false) String item_id,
             @RequestParam(value = "item_name", required = false) String item_name,
             @RequestParam(value = "item_description", required = false) String item_description,
             @RequestParam(value = "item_category", required = false) String item_category) {
-
 
         // verify userID and logged in?
 
@@ -30,10 +34,11 @@ public class ItemController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/item", method = RequestMethod.POST)
+    @RequestMapping(value = "/item", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> postItem(@RequestBody Item newItem) {
         List<Item> result = itemService.postItem(newItem);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
+
     }
 
     @RequestMapping(value = "/item", method = RequestMethod.PUT)
@@ -43,10 +48,12 @@ public class ItemController {
     }
 
     /*@RequestMapping(value = "/item", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteItem(@RequestBody Item newItem) {
-        List<Item> result = itemService.deleteItemById(newItem);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<?> deleteItem(@RequestParam(value = "_id") Integer user_id) {
+        // delete from
+        itemService.deleteItemById(item_id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }*/
+
 
 }
 
