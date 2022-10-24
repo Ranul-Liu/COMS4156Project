@@ -32,7 +32,7 @@ public class UserTest {
     @MockBean
     private UserRepository userRepo;
 
-    // Test that the id is correctly updated by postUser method
+    // Test that the username is correctly updated by postUser method
     @Test
     public void testPostUser() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 
@@ -49,7 +49,7 @@ public class UserTest {
         // save the user
         Mockito.when(userRepo.save(beforeUser)).thenReturn(afterUser);
 
-        //assert that the user_id gets correctly updated
+        //assert that the username gets correctly updated
         assertEquals(userService.postUser(beforeUser).get(0).getUsername(), "selena12345");
     }
 
@@ -186,10 +186,7 @@ public class UserTest {
 
         Optional<User> optUser = Optional.of(newUser);
         Mockito.when(userRepo.findById(user_id.toString())).thenReturn(optUser);
-
-        User result = userService.getByID(user_id.toString()).get(0);
-
-        assertEquals(user_id, result.getUserID());
+        assertEquals(List.of(optUser.get()), userService.getByID(user_id.toString()));
 
     }
 

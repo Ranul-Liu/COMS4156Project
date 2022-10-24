@@ -22,8 +22,9 @@ public class ItemService {
         if (result.isPresent()) {
             Item itemResult = result.get();
             return List.of(itemResult);
+        } else {
+            throw new IllegalArgumentException("Item not found by ID in DB.");
         }
-        return Collections.emptyList();
     }
     //get operation
     public List<Item> getItemByTemplate(String item_id,
@@ -46,7 +47,7 @@ public class ItemService {
             Item result = itemRepo.save(item);
             return List.of(result);
         } else {
-            throw new IllegalArgumentException("Resource not found by ID in DB, cannot update");
+            throw new IllegalArgumentException("Item not found by ID in DB, cannot update");
         }
     }
 
