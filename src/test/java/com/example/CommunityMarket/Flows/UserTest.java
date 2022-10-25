@@ -57,12 +57,16 @@ public class UserTest {
     public void testUpdateUser() throws IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
         // Initialize updated user
+        User beforeUser = new User(123,
+                "selena12@gmail.com",
+                "def666");
+
         User updatedUser = new User(123,
                 "emanueld@gmail.com",
                 "123abc");
 
         // user exists
-        Mockito.when(userRepo.existsById(updatedUser.getUserID().toString())).thenReturn(true);
+        Mockito.when(userRepo.findById(String.valueOf(updatedUser.getUserID()))).thenReturn(Optional.of(updatedUser));
 
         // save the changes
         Mockito.when(userRepo.save(updatedUser)).thenReturn(updatedUser);
@@ -158,7 +162,7 @@ public class UserTest {
         // Initialize test user with invalid username
         User testUser = new User(45,
                 "william123@gmail.com",
-                "william123");
+                "1111111111111111111111111111111111111111");
 
         userService.checkInputs(testUser);
     }
@@ -170,7 +174,7 @@ public class UserTest {
         // Initialize test user with invalid username
         User testUser = new User(null,
                 "william123@gmail.com",
-                "william123");
+                null);
 
         userService.checkInputs(testUser);
     }
