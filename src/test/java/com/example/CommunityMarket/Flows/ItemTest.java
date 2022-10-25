@@ -3,6 +3,7 @@ package com.example.CommunityMarket.Flows;
 
 import com.example.CommunityMarket.model.Item;
 import com.example.CommunityMarket.Repository.ItemRepository;
+import com.example.CommunityMarket.model.User;
 import com.example.CommunityMarket.service.ItemService;
 
 import org.junit.Test;
@@ -91,15 +92,25 @@ public class ItemTest {
     //Test that item gets correctly updated
     @Test
     public void testUpdateItem() {
-
         // Initialize updated item
-        Item updatedItem= new Item("10",
+        Item beforeItem = new Item("1",
                 "Sword",
                 "This is a sword",
                 "Attack weapons");
 
+        Item updatedItem = new Item("1",
+                "Shield",
+                "This is a shield",
+                "Defense weapons");
+
+        // user exists
+        Mockito.when(itemRepo.findById(String.valueOf(updatedItem.getId()))).thenReturn(Optional.of(updatedItem));
+
+        // save the changes
+        Mockito.when(itemRepo.save(updatedItem)).thenReturn(updatedItem);
+
         // item exists
-        Mockito.when(itemRepo.existsById("10")).thenReturn(true);
+        Mockito.when(itemRepo.existsById("1")).thenReturn(true);
 
         // save the changes
         Mockito.when(itemRepo.save(updatedItem)).thenReturn(updatedItem);
