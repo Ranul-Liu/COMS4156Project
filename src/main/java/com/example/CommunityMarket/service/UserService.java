@@ -1,12 +1,11 @@
-/*
 package com.example.CommunityMarket.service;
-
 
 import com.example.CommunityMarket.Repository.UserRepository;
 import com.example.CommunityMarket.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import javax.persistence.Table;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,9 +17,12 @@ public class UserService {
     @Autowired
     UserRepository userRepo;
 
+    private final String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+
+
     //get by ID
-    public List<User> getByID(String userID) {
-        Optional<User> result = userRepo.findById(userID);
+    public List<User> getByID(Integer user_id) {
+        Optional<User> result = userRepo.findById(user_id.toString());
         if (result.isPresent()) {
             User userResult = result.get();
             return List.of(userResult);
@@ -31,9 +33,10 @@ public class UserService {
     }
 
     //get operation
-    public List<User> getUserByTemplate(String userID,
-                                        String username){
-        return userRepo.findByTemplate(userID,username);
+    public List<User> getUserByTemplate(Integer user_id,
+                                        String username,
+                                        String email){
+        return userRepo.findByTemplate(user_id,username, email);
     }
 
     //post operation
@@ -44,7 +47,7 @@ public class UserService {
 
     //put operation
     public List<User> updateUser(User user) throws IllegalArgumentException {
-        if (getByID(user.getUserID().toString()).size() >= 1) {
+        if (getByID(user.getUserID()).size() >= 1) {
             User result = userRepo.save(user);
             return List.of(result);
         } else {
@@ -54,7 +57,7 @@ public class UserService {
 
     // delete operation
     public void deleteUserById(User user) {
-        if (getByID(user.getUserID().toString()).size() >= 1) {
+        if (getByID(user.getUserID()).size() >= 1) {
             userRepo.deleteById(user.getUserID().toString());
         } else {
             throw new IllegalArgumentException("User not found in DB, cannot delete");
@@ -63,9 +66,8 @@ public class UserService {
 
     //check if an email is valid
     public boolean isValidEmail(String email) {
-        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-        java.util.regex.Matcher m = p.matcher(email);
+        Pattern p = java.util.regex.Pattern.compile(ePattern);
+        Matcher m = p.matcher(email);
         return m.matches();
     }
 
@@ -77,16 +79,25 @@ public class UserService {
         return string.length() > 128 || string.isBlank();
     }
 
+    public boolean checkUsernameLength(String username) {
+        return !username.isBlank() && username.length() <= 32;
+    }
+
+    public boolean checkEmailLength(String email) {
+        return !email.isBlank() && email.length() <= 128;
+    }
+
     // check and sanitize inputs
     public void checkInputs(User user) throws IllegalArgumentException {
-
         try {
-            if (!isValidEmail(user.getEmail())) {
-                throw new IllegalArgumentException("Email is invalid");
-            } else if (checkIfInvalid(user.getEmail())) {
-                throw new IllegalArgumentException("Email must be between 1-128 characters.");
-            } else if (checkIfInvalid(user.getUsername())) {
-                throw new IllegalArgumentException("Username must be between 1-128 characters.");
+            if (!checkUsernameLength(user.getUsername())) {
+                throw new IllegalArgumentException("Username must be between 1-32 characters");
+            }
+            else if (!checkEmailLength(user.getEmail())) {
+                throw new IllegalArgumentException("Email must be between 1-128 characters");
+            }
+            else if (!isValidEmail(user.getEmail())) {
+                throw new IllegalArgumentException("Invalid email");
             }
         } catch (NullPointerException e) {
             throw new IllegalArgumentException("User formatted incorrectly please provide the following:\n" +
@@ -94,5 +105,17 @@ public class UserService {
         }
     }
 
+    public void checkPostUser(User user) throws IllegalArgumentException {
+        if (user.getUserID() != null) {
+            throw new IllegalArgumentException("Do not provide user_id");
+        }
+        checkInputs(user);
+    }
+
+    public void checkUpdateUser(User user) throws IllegalArgumentException {
+        if (user.getUserID() == null) {
+            throw new IllegalArgumentException("Please provide user_id");
+        }
+        checkInputs(user);
+    }
 }
-*/
