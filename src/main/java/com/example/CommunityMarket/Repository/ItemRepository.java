@@ -25,7 +25,7 @@ public interface ItemRepository extends CrudRepository<Item, String> {
                                      @Param("item_description") String item_description,
                                      @Param("item_category") String item_category
     );
-    // method
+    // post method
     @Transactional
     @Modifying
     @Query(value = "insert into item values(:item_id,:item_name,:item_description,:item_category)",nativeQuery = true)
