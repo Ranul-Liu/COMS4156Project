@@ -1,5 +1,7 @@
 package com.example.CommunityMarket.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 @Entity
@@ -7,25 +9,33 @@ import java.time.LocalDateTime;
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id")
+    @JsonProperty("transaction_id")
     private Integer transactionID;
     @Column(name = "seller_id")
+    @JsonProperty("seller_id")
     private String sellerID;
-
     @Column(name = "buyer_id")
+    @JsonProperty("buyer_id")
     private String buyerID;
     @Column(name = "item_id")
+    @JsonProperty("item_id")
     private String itemID;
     @Column(name = "price")
+    @JsonProperty("price")
     private int price;
     @Column(name = "postTime")
+    @JsonProperty("postTime")
     private LocalDateTime postTime;
     @Column(name = "quantity")
+    @JsonProperty("quantity")
     private int quantity;
     @Column(name = "isOpen")
+    @JsonProperty("isOpen")
     private boolean isOpen;
     @Column(name = "closeTime")
+    @JsonProperty("closeTime")
     private LocalDateTime closeTime;
 
 

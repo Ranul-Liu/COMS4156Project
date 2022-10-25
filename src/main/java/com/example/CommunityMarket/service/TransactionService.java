@@ -5,11 +5,12 @@ import com.example.CommunityMarket.Repository.TransactionRepository;
 import com.example.CommunityMarket.model.Item;
 import com.example.CommunityMarket.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class TransactionService {
 
     @Autowired
