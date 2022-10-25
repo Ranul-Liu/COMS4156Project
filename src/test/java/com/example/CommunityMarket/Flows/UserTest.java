@@ -49,7 +49,7 @@ public class UserTest {
         Mockito.when(userRepo.save(beforeUser)).thenReturn(afterUser);
 
         //assert that the username gets correctly updated
-        assertEquals(userService.postUser(beforeUser).get(0).getUsername(), "selena12345");
+        assertEquals(userService.postUser(beforeUser).get(0).getUsername(), "def666");
     }
 
     //Test that user gets correctly updated
@@ -57,7 +57,7 @@ public class UserTest {
     public void testUpdateUser() throws IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
         // Initialize updated user
-        User updatedUser = new User(133,
+        User updatedUser = new User(123,
                 "emanueld@gmail.com",
                 "123abc");
 
