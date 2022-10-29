@@ -31,27 +31,27 @@ public class ItemTest {
     @Test
     public void testCheckGetByIdExistsForItem() {
 
-        String item_id = "1";
-        Item newItem = new Item("1",
+        Integer item_id = 1;
+        Item newItem = new Item(1,
                 "Sword",
                 "This is a sword",
                 "Attack weapons");
 
         Optional<Item> optItem = Optional.of(newItem);
-        Mockito.when(itemRepo.findById(item_id)).thenReturn(optItem);
+        Mockito.when(itemRepo.findById(item_id.toString())).thenReturn(optItem);
         assertEquals(List.of(optItem.get()), itemService.getByID(item_id));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetByIDExceptForItem() {
-        String item_id = "1";
-        Mockito.when(itemRepo.findById(item_id)).thenReturn(Optional.empty());
+        Integer item_id = 1;
+        Mockito.when(itemRepo.findById(item_id.toString())).thenReturn(Optional.empty());
         itemService.getByID(item_id);
     }
 
     @Test
     public void testGetItemsByTemplate() {
-        Item newItem = new Item("1",
+        Item newItem = new Item(1,
                 "Sword",
                 "This is a sword",
                 "Attack weapons");
@@ -77,7 +77,7 @@ public class ItemTest {
                 "Attack weapons");
 
         // Create newly inserted Item
-        Item afterItem = new Item("2",
+        Item afterItem = new Item(2,
                 "Sword",
                 "This is a sword",
                 "Attack weapons");
@@ -86,19 +86,19 @@ public class ItemTest {
         Mockito.when(itemRepo.save(beforeItem)).thenReturn(afterItem);
 
         //assert that the itemId gets correctly updated
-        assertEquals(itemService.postItem(beforeItem).get(0).getId(), "2");
+        assertEquals(itemService.postItem(beforeItem).get(0).getId(), 2);
     }
 
     //Test that item gets correctly updated
     @Test
     public void testUpdateItem() {
         // Initialize updated item
-        Item beforeItem = new Item("1",
+        Item beforeItem = new Item(1,
                 "Sword",
                 "This is a sword",
                 "Attack weapons");
 
-        Item updatedItem = new Item("1",
+        Item updatedItem = new Item(1,
                 "Shield",
                 "This is a shield",
                 "Defense weapons");
@@ -129,7 +129,7 @@ public class ItemTest {
     public void testExceptionUpdateItem() {
 
         // Initialize updated Item
-        Item updatedItem = new Item("10",
+        Item updatedItem = new Item(10,
                 "Sword",
                 "This is a sword",
                 "Attack weapons");

@@ -17,8 +17,8 @@ public class ItemService {
     ItemRepository itemRepo;
 
     //get by ID
-    public List<Item> getByID(String itemID) {
-        Optional<Item> result = itemRepo.findById(itemID);
+    public List<Item> getByID(Integer itemID) {
+        Optional<Item> result = itemRepo.findById(itemID.toString());
         if (result.isPresent()) {
             Item itemResult = result.get();
             return List.of(itemResult);

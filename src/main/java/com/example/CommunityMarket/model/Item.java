@@ -9,11 +9,12 @@ import java.util.Objects;
 @Table(name = "item")
 public class Item {
     @Id
+
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     //problem with generative value id
     @JsonProperty("item_id")
     @Column(name = "item_id")
-    private String itemId;
+    private Integer itemId;
     @Column(name = "item_name")
     @JsonProperty("item_name")
     private String itemName;
@@ -24,7 +25,7 @@ public class Item {
     @JsonProperty("item_category")
     private String itemCategory;
 
-    public Item(String itemId, String itemName, String itemDescription, String itemCategory) {
+    public Item(Integer itemId, String itemName, String itemDescription, String itemCategory) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.itemDescription = itemDescription;
@@ -35,7 +36,7 @@ public class Item {
 
     }
 
-    public String getId() {
+    public Integer getId() {
         return itemId;
     }
 
@@ -51,7 +52,7 @@ public class Item {
         return itemCategory;
     }
 
-    public void setId(String itemId) {
+    public void setId(Integer itemId) {
         this.itemId = itemId;
     }
 
@@ -66,7 +67,7 @@ public class Item {
     public void setCategory(String itemCategory) {
         this.itemCategory = itemCategory;
     }
-    public Item setItem(String itemId, String itemName,
+    public Item setItem(Integer itemId, String itemName,
                         String itemDescription, String itemCategory
                         ) {
         this.itemId = itemId;

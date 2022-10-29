@@ -52,6 +52,7 @@ public class UserTest {
         assertEquals(userService.postUser(beforeUser).get(0).getUsername(), "def666");
     }
 
+
     //Test that user gets correctly updated
     @Test
     public void testUpdateUser() throws IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalAccessException {

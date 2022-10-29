@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Transaction {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id")
     @JsonProperty("transaction_id")
     private Integer transactionID;
@@ -21,7 +21,7 @@ public class Transaction {
     private String buyerID;
     @Column(name = "item_id")
     @JsonProperty("item_id")
-    private String itemID;
+    private Integer itemID;
     @Column(name = "price")
     @JsonProperty("price")
     private int price;
@@ -39,7 +39,7 @@ public class Transaction {
     private LocalDateTime closeTime;
 
 
-    public Transaction(Integer transactionID, String sellerID, String buyerID, String itemID, int price, LocalDateTime postTime, int quantity, boolean isOpen, LocalDateTime closeTime) {
+    public Transaction(Integer transactionID, String sellerID, String buyerID, Integer itemID, Integer price, Integer quantity) {
         this.transactionID = transactionID;
         this.sellerID = sellerID;
         this.buyerID = buyerID;
@@ -50,9 +50,7 @@ public class Transaction {
     }
 
     public Transaction() {
-
     }
-
 
     public Integer getTransactionID() {
         return transactionID;
@@ -66,7 +64,7 @@ public class Transaction {
         return buyerID;
     }
 
-    public String getItemID() {
+    public Integer getItemID() {
         return itemID;
     }
 
@@ -102,7 +100,7 @@ public class Transaction {
         this.buyerID = buyerID;
     }
 
-    public void setItemID(String itemID) {
+    public void setItemID(Integer itemID) {
         this.itemID = itemID;
     }
 
