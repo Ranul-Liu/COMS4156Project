@@ -10,8 +10,7 @@ import java.util.Objects;
 public class Item {
     @Id
 
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //problem with generative value id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("item_id")
     @Column(name = "item_id")
     private Integer itemId;
