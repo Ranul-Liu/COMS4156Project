@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,16 @@ public class TransactionService {
             return List.of(transactionResult);
         }
         return Collections.emptyList();
+    }
+    public List<Item> getItemByTemplate(Integer transaction_id,
+                                        String buyer_id,
+                                        String seller_id,
+                                        Integer quantity,
+                                        Boolean is_open,
+                                        LocalDateTime post_time,
+                                        LocalDateTime close_time,
+                                        Integer price){
+        return transactionRepo.findByTemplate(transaction_id,buyer_id,seller_id,quantity,is_open,post_time,close_time,price);
     }
 
     public List<Transaction> addTransaction(Transaction transaction) {

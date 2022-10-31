@@ -9,7 +9,6 @@ import java.util.Objects;
 @Table(name = "item")
 public class Item {
     @Id
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("item_id")
     @Column(name = "item_id")
