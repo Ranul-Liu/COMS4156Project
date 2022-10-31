@@ -24,7 +24,7 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
             "                          (:post_time is NULL or post_time = :post_time) and\n" +
             "                          (:close_time is NULL or close_time = :close_time) and\n" +
             "                          (:price is NULL or price = :price))", nativeQuery = true)
-    List<Item> findByTemplate(@Param("transaction_id") Integer transaction_id,
+    List<Transaction> findByTemplate(@Param("transaction_id") Integer transaction_id,
                               @Param("buyer_id") String buyer_id,
                               @Param("seller_id") String seller_id,
                               @Param("quantity") Integer quantity,

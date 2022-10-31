@@ -1,10 +1,7 @@
 package com.example.CommunityMarket.service;
 
-import com.example.CommunityMarket.Repository.ItemRepository;
 import com.example.CommunityMarket.Repository.TransactionRepository;
-import com.example.CommunityMarket.model.Item;
 import com.example.CommunityMarket.model.Transaction;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,14 +24,14 @@ public class TransactionService {
         }
         return Collections.emptyList();
     }
-    public List<Item> getItemByTemplate(Integer transaction_id,
-                                        String buyer_id,
-                                        String seller_id,
-                                        Integer quantity,
-                                        Boolean is_open,
-                                        LocalDateTime post_time,
-                                        LocalDateTime close_time,
-                                        Integer price){
+    public List<Transaction> getTransactionByTemplate(Integer transaction_id,
+                                                      String buyer_id,
+                                                      String seller_id,
+                                                      Integer quantity,
+                                                      Boolean is_open,
+                                                      LocalDateTime post_time,
+                                                      LocalDateTime close_time,
+                                                      Integer price){
         return transactionRepo.findByTemplate(transaction_id,buyer_id,seller_id,quantity,is_open,post_time,close_time,price);
     }
 

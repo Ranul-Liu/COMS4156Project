@@ -25,17 +25,17 @@ public class Transaction {
     @Column(name = "price")
     @JsonProperty("price")
     private int price;
-    @Column(name = "postTime")
-    @JsonProperty("postTime")
+    @Column(name = "post_time")
+    @JsonProperty("post_time")
     private LocalDateTime postTime;
     @Column(name = "quantity")
     @JsonProperty("quantity")
     private int quantity;
-    @Column(name = "isOpen")
+    @Column(name = "is_open")
     @JsonProperty("isOpen")
     private boolean isOpen;
-    @Column(name = "closeTime")
-    @JsonProperty("closeTime")
+    @Column(name = "close_time")
+    @JsonProperty("close_time")
     private LocalDateTime closeTime;
 
 
