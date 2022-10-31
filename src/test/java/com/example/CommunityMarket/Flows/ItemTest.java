@@ -55,11 +55,11 @@ public class ItemTest {
                 "Sword",
                 "This is a sword",
                 "Attack weapons");
-        Mockito.when(itemRepo.findByTemplate("1",
+        Mockito.when(itemRepo.findByTemplate(1,
                 null,
                 null,
                 null)).thenReturn(List.of(newItem));
-        Item result = itemService.getItemByTemplate("1",
+        Item result = itemService.getItemByTemplate(1,
                 null,
                 null,
                 null).get(0);

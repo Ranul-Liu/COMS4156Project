@@ -1,6 +1,7 @@
 package com.example.CommunityMarket.service;
 
 import com.example.CommunityMarket.Repository.ItemRepository;
+import com.example.CommunityMarket.exceptions.ResourceException;
 import com.example.CommunityMarket.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class ItemService {
         }
     }
     //get operation
-    public List<Item> getItemByTemplate(String item_id,
+    public List<Item> getItemByTemplate(Integer item_id,
                                         String item_name,
                                         String item_description,
                                         String item_category){
@@ -59,5 +60,20 @@ public class ItemService {
             throw new IllegalArgumentException("Resource not found in DB, cannot delete");
         }
     }*/
+
+
+    //check inputs for the item
+    /*public void checkItemInputs (Item item) throws ResourceException {
+        if (item.getName() == null) {
+            throw new ResourceException("Please provide item name");
+        }
+        if (item.getDescription() == null) {
+            throw new ResourceException("Please provide item description");
+        }
+        if (item.getCategory() == null) {
+            throw new ResourceException("Please provide item category");
+        }
+
+     }*/
 
 }

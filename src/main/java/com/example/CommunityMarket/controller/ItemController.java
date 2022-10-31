@@ -22,7 +22,7 @@ public class ItemController {
 
     @RequestMapping(value = "/item", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getItemByTemplate(
-            @RequestParam(value = "item_id", required = false) String item_id,
+            @RequestParam(value = "item_id", required = false) Integer item_id,
             @RequestParam(value = "item_name", required = false) String item_name,
             @RequestParam(value = "item_description", required = false) String item_description,
             @RequestParam(value = "item_category", required = false) String item_category) {
