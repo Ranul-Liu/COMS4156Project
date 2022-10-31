@@ -35,7 +35,7 @@ public class UserController {
 
     @RequestMapping(value = "/user", method = RequestMethod.PUT)
     public ResponseEntity<?> updateUser(@RequestBody User newUser) {
-        userService.checkPostUser(newUser);
+        userService.checkUpdateUser(newUser);
         List<User> result = userService.updateUser(newUser);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

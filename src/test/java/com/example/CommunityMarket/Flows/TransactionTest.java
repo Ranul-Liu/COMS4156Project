@@ -98,7 +98,7 @@ public class TransactionTest {
                 10,
                 10
         );
-        // transaction exists
+        // check if transaction exists
         Mockito.when(transactionRepo.findById(afterTransaction.getTransactionID())).thenReturn(Optional.of(afterTransaction));
         // save the changes
         Mockito.when(transactionRepo.save(afterTransaction)).thenReturn(afterTransaction);
