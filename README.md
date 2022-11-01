@@ -20,11 +20,6 @@ Members: Yichen Liu, Siyu Wu, Mengyuan Huang, Jiyao Chen
                       "user_id": 1,
                       "username": "sw3607",
                       "email": "sw3607@columbia.edu"
-                  },
-                  {
-                      "user_id": 2,
-                      "username": "cl2930",
-                      "email": "cl2930@columbia.edu"
                   }
               ]
               ```
