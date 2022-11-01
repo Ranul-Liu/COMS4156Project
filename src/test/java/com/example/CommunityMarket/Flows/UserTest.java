@@ -35,21 +35,22 @@ public class UserTest {
     @Test
     public void testPostUser() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 
-        // Initialize user before postUser called
-        User beforeUser = new User(null,
-                "selena12@gmail.com",
-                "def666");
+        // Initialize a User object to save into the database
+        // user_id = null because it will be auto-generated
+        User newUserToPost = new User(null,
+                "testPostUser@gmail.com",
+                "testPostUser");
 
-        // Create newly inserted User
-        User afterUser = new User(123,
-                "selena12@gmail.com",
-                "def666");
+        // Mock saving the User object
+        Mockito.when(userRepo.save(newUserToPost)).thenReturn(new User(1,
+                "testPostUser@gmail.com",
+                "testPostUser"));
 
-        // save the user
-        Mockito.when(userRepo.save(beforeUser)).thenReturn(afterUser);
-
-        //assert that the username gets correctly updated
-        assertEquals(userService.postUser(beforeUser).get(0).getUsername(), "def666");
+        //assert that the return value of Post are as expected
+        User resultOfPostUser = userService.postUser(newUserToPost).get(0);
+        assertEquals(resultOfPostUser.getUsername(), "testPostUser");
+        assertEquals(resultOfPostUser.getEmail(), "testPostUser@gmail.com");
+        // did not assert user_id because it is auto-generated
     }
 
 
@@ -58,24 +59,24 @@ public class UserTest {
     public void testUpdateUser() throws IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
         // Initialize updated user
-        User beforeUser = new User(123,
-                "selena12@gmail.com",
-                "def666");
+        User newUserToUpdate = new User(1,
+                "testUpdateUser@gmail.com",
+                "testUpdateUser");
 
-        User updatedUser = new User(123,
+        User updatedUser = new User(1,
                 "emanueld@gmail.com",
                 "123abc");
 
-        // user exists
-        Mockito.when(userRepo.findById(String.valueOf(updatedUser.getUserID()))).thenReturn(Optional.of(updatedUser));
-
-        // save the changes
+        // Mock finding the User to update by user_id
+        Mockito.when(userRepo.findById(String.valueOf(newUserToUpdate.getUserID()))).thenReturn(Optional.of(updatedUser));
+        // Mock saving the updates
         Mockito.when(userRepo.save(updatedUser)).thenReturn(updatedUser);
 
-        // assert that user gets correctly updated by checking that all data members are equal to the updatedUser
-        assertEquals(userService.updateUser(updatedUser).get(0).getUserID(), updatedUser.getUserID());
-        assertEquals(userService.updateUser(updatedUser).get(0).getEmail(), updatedUser.getEmail());
-        assertEquals(userService.updateUser(updatedUser).get(0).getUsername(), updatedUser.getUsername());
+        User resultOfUpdateUser = userService.updateUser(updatedUser).get(0);
+        // assert the fields
+        assertEquals(resultOfUpdateUser.getUserID(), updatedUser.getUserID());
+        assertEquals(resultOfUpdateUser.getEmail(), updatedUser.getEmail());
+        assertEquals(resultOfUpdateUser.getUsername(), updatedUser.getUsername());
     }
 
     //Make sure exception raised when the user does not exist
@@ -101,7 +102,18 @@ public class UserTest {
     }*/
 
     @Test
-    public void testIfInvalidEmail() {
+    public void testEmailIsValid() {
+        //  string containing only whitespaces
+        String test = "testEmailIsValid@gmail.com";
+
+        // assert email is not empty and is within the length limit
+        assertTrue(userService.checkEmailLength(test));
+        // assert email is in the right form
+        assertTrue(userService.isValidEmail(test));
+    }
+
+    @Test
+    public void testLongEmailIsInvalid() {
 
         // Initialize a string containing > 128 chars
         String test = "abcdefghijklmnopqrstuvwxyz" +
@@ -110,23 +122,21 @@ public class UserTest {
                 "abcdefghijklmnopqrstuvwxyz" +
                 "abcdefghijklmnopqrstuvwxyz";
 
-        // assert that checkIfInvalid returns true
-        assertTrue(userService.checkIfInvalid(test));
+        // assert email is not empty and is within the length limit
+        assertFalse(userService.checkEmailLength(test));
+        // assert email is in the right form
+        assertFalse(userService.isValidEmail(test));
+    }
 
+    @Test
+    public void testEmptyEmailIsInvalid() {
+        //  string containing only whitespaces
+        String test = "   ";
 
-        //  Change the string to within the 128 limit but containing only blanks
-        test = "   ";
-
-        // assert that checkIfInvalid returns true
-        assertTrue(userService.checkIfInvalid(test));
-
-
-        // Change the String to a valid string
-        test = "This is a valid string.";
-
-        //assert that checkIfInvalid returns false
-        assertFalse(userService.checkIfInvalid(test));
-
+        // assert email is not empty and is within the length limit
+        assertFalse(userService.checkEmailLength(test));
+        // assert email is in the right form
+        assertFalse(userService.isValidEmail(test));
     }
 
     // Test that exception is raised when email is invalid
