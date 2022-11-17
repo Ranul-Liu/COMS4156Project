@@ -35,8 +35,8 @@ public class UserService {
     //get operation
     public List<User> getUserByTemplate(Integer user_id,
                                         String username,
-                                        String email){
-        return userRepo.findByTemplate(user_id,username, email);
+                                        String email, Integer login){
+        return userRepo.findByTemplate(user_id,username, email, login);
     }
 
     //post operation

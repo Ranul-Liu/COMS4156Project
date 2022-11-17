@@ -31,7 +31,7 @@ public class UserTest {
     @MockBean
     private UserRepository userRepo;
 
-    // Test that the username is correctly updated by postUser method
+    // test postUser method
     @Test
     public void testPostUser() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 
@@ -39,44 +39,51 @@ public class UserTest {
         // user_id = null because it will be auto-generated
         User newUserToPost = new User(null,
                 "testPostUser@gmail.com",
-                "testPostUser");
+                "testPostUser",
+                1);
 
         // Mock saving the User object
         Mockito.when(userRepo.save(newUserToPost)).thenReturn(new User(1,
                 "testPostUser@gmail.com",
-                "testPostUser"));
+                "testPostUser",
+                1));
 
         //assert that the return value of Post are as expected
         User resultOfPostUser = userService.postUser(newUserToPost).get(0);
         assertEquals(resultOfPostUser.getUsername(), "testPostUser");
         assertEquals(resultOfPostUser.getEmail(), "testPostUser@gmail.com");
+        assertEquals(resultOfPostUser.getLogin(), 1);
         // did not assert user_id because it is auto-generated
     }
 
 
-    //Test that user gets correctly updated
+    // test updateUser method
     @Test
     public void testUpdateUser() throws IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
         // Initialize updated user
         User newUserToUpdate = new User(1,
                 "testUpdateUser@gmail.com",
-                "testUpdateUser");
+                "testUpdateUser",
+                1);
 
-        User updatedUser = new User(1,
+        // expected result after update
+        User expectedResult = new User(1,
                 "emanueld@gmail.com",
-                "123abc");
+                "123abc",
+                0);
 
-        // Mock finding the User to update by user_id
-        Mockito.when(userRepo.findById(String.valueOf(newUserToUpdate.getUserID()))).thenReturn(Optional.of(updatedUser));
-        // Mock saving the updates
-        Mockito.when(userRepo.save(updatedUser)).thenReturn(updatedUser);
+        // Mock finding the User through user_id
+        Mockito.when(userRepo.findById(String.valueOf(newUserToUpdate.getUserID()))).thenReturn(Optional.of(expectedResult));
+        // Mock updating/saving the database
+        Mockito.when(userRepo.save(expectedResult)).thenReturn(expectedResult);
 
-        User resultOfUpdateUser = userService.updateUser(updatedUser).get(0);
+        User resultOfUpdateUser = userService.updateUser(expectedResult).get(0);
         // assert the fields
-        assertEquals(resultOfUpdateUser.getUserID(), updatedUser.getUserID());
-        assertEquals(resultOfUpdateUser.getEmail(), updatedUser.getEmail());
-        assertEquals(resultOfUpdateUser.getUsername(), updatedUser.getUsername());
+        assertEquals(resultOfUpdateUser.getUserID(), expectedResult.getUserID());
+        assertEquals(resultOfUpdateUser.getEmail(), expectedResult.getEmail());
+        assertEquals(resultOfUpdateUser.getUsername(), expectedResult.getUsername());
+        assertEquals(resultOfUpdateUser.getLogin(), expectedResult.getLogin());
     }
 
     //Make sure exception raised when the user does not exist
@@ -86,7 +93,8 @@ public class UserTest {
         // Initialize updated user
         User updatedUser = new User(22,
                 "Alice22@gmail.com",
-                "Alice2233");
+                "Alice2233",
+                1);
 
         // userID does not exist
         Mockito.when(userRepo.existsById(updatedUser.getUserID().toString())).thenReturn(false);
@@ -146,7 +154,8 @@ public class UserTest {
         // Initialize test user with invalid email
         User testUser = new User(432,
                 "william23gmail.com",
-                "william23234");
+                "william23234",
+                1);
 
         userService.checkInputs(testUser);
     }
@@ -161,7 +170,8 @@ public class UserTest {
                         "emanueldemanueldemanueldemanueldemanueldemanueldemanueld" +
                         "emanueldemanueldemanueldemanueldemanueldemanueld" +
                         "emanueldemanueldemanueldemanueldemanueldemanueld@gmail.com",
-                "emanueld12345");
+                "emanueld12345",
+                1);
 
         userService.checkInputs(testUser);
     }
@@ -173,7 +183,8 @@ public class UserTest {
         // Initialize test user with invalid username
         User testUser = new User(45,
                 "william123@gmail.com",
-                "1111111111111111111111111111111111111111");
+                "1111111111111111111111111111111111111111",
+                1);
 
         userService.checkInputs(testUser);
     }
@@ -185,7 +196,8 @@ public class UserTest {
         // Initialize test user with invalid username
         User testUser = new User(null,
                 "william123@gmail.com",
-                null);
+                null,
+                1);
 
         userService.checkInputs(testUser);
     }
@@ -195,7 +207,8 @@ public class UserTest {
 
         User newUser = new User(77,
                 "william23gmail.com",
-                "william23234");
+                "william23234",
+                1);
         Integer user_id = newUser.getUserID();
 
         Optional<User> optUser = Optional.of(newUser);
@@ -218,12 +231,13 @@ public class UserTest {
 
         User newUser = new User(984,
                 "william123@gmail.com",
-                "william123");
+                "william123",
+                1);
 
         Mockito.when(userRepo.findByTemplate(null,
-                "william123@gmail.com", "william123")).thenReturn(List.of(newUser));
+                "william123@gmail.com", "william123",1)).thenReturn(List.of(newUser));
         User result = userService.getUserByTemplate(null,
-                "william123@gmail.com", "william123").get(0);
+                "william123@gmail.com", "william123",1).get(0);
         assertEquals(result.getUserID(), result.getUserID());
 
     }

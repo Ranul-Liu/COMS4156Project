@@ -19,10 +19,11 @@ public class UserController {
     public ResponseEntity<?> getUserByTemplate(
             @RequestParam(value = "user_id", required = false) Integer user_id,
             @RequestParam(value = "username", required = false) String username,
-            @RequestParam(value = "email", required = false) String email) {
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "login", required = false) Integer login) {
 
         // get results
-        List<User> result = userService.getUserByTemplate(user_id, username, email);
+        List<User> result = userService.getUserByTemplate(user_id, username, email, login);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

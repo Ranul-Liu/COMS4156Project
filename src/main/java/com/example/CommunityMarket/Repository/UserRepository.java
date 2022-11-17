@@ -12,10 +12,12 @@ public interface UserRepository extends CrudRepository<User, String> {
     @Query(value = """
             select * from user where ((:user_id is NULL or user_id = :user_id) and
                                       (:email is NULL or email = :email) and
-                                      (:username is NULL or username = :username))""", nativeQuery = true)
+                                      (:username is NULL or username = :username) and
+                                      (:login is NULL or login = :login))""", nativeQuery = true)
     List<User> findByTemplate(@Param("user_id") Integer user_id,
                               @Param("email") String email,
-                              @Param("username") String username);
+                              @Param("username") String username,
+                              @Param("login") Integer login);
 
     //add method
 //    @Transactional

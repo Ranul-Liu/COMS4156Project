@@ -21,6 +21,10 @@ public class User {
     @JsonProperty("email")
     private String email;
 
+    @Column(name = "login")
+    @JsonProperty("login")
+    private Integer login;
+
     public User() {
         this.userID=null;
         this.email=null;
@@ -28,10 +32,20 @@ public class User {
     }
     public User(Integer user_id,
                 String email,
-                String username) {
+                String username,
+                Integer login) {
         this.userID=user_id;
         this.email=email;
         this.username=username;
+        this.login = login;
+    }
+
+    public Integer getLogin() {
+        return login;
+    }
+
+    public void setLogin(Integer login) {
+        this.login = login;
     }
 
     public Integer getUserID() {
@@ -66,6 +80,7 @@ public class User {
                 "\n\t userID=" + userID +
                 ",\n\t username='" + username + '\'' +
                 ",\n\t email='" + email + '\'' +
+                ",\n\t login='" + login + '\'' +
                 '}';
     }
 
