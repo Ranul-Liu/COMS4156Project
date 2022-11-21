@@ -24,13 +24,26 @@ public class Client {
     @JsonProperty("company_name")
     private String companyName;
 
+    @Column(name = "google_id")
+    @JsonProperty("google_id")
+    private String google_id;
+
     public Client(){}
 
-    public Client(Integer clientID, String email, String client_name, String companyName) {
+    public Client(Integer clientID, String email, String client_name, String companyName,String google_id) {
         this.clientID = clientID;
         this.email = email;
         this.client_name = client_name;
         this.companyName = companyName;
+        this.google_id = google_id;
+    }
+
+    public String getGoogle_id() {
+        return google_id;
+    }
+
+    public void setGoogle_id(String google_id) {
+        this.google_id = google_id;
     }
 
     public Integer getClientID() {
@@ -72,6 +85,7 @@ public class Client {
                 ", email='" + email + '\'' +
                 ", client_name='" + client_name + '\'' +
                 ", companyName='" + companyName + '\'' +
+                ", google_id='" + google_id + '\'' +
                 '}';
     }
 }

@@ -12,8 +12,12 @@ import java.util.Optional;
 @Service
 public class ClientService {
 
-    @Autowired
+    final
     ClientRepository clientRepo;
+
+    public ClientService(ClientRepository clientRepo) {
+        this.clientRepo = clientRepo;
+    }
 
     //find by ID
     public List<Client> getByID(Integer clientID) throws ResourceNotFoundException {
@@ -35,7 +39,6 @@ public class ClientService {
 
     //post client
     public List<Client> postClient(Client client) {
-        client.setClientID(0);
         Client result = clientRepo.save(client);
         return List.of(result);
     }
