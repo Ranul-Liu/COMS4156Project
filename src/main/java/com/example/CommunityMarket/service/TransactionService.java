@@ -31,12 +31,12 @@ public class TransactionService {
                                                       Boolean is_open,
                                                       LocalDateTime post_time,
                                                       LocalDateTime close_time,
-                                                      Integer price){
-        return transactionRepo.findByTemplate(transaction_id,buyer_id,seller_id,quantity,is_open,post_time,close_time,price);
+                                                      Integer price,
+                                                      Boolean is_accept){
+        return transactionRepo.findByTemplate(transaction_id,buyer_id,seller_id,quantity,is_open,post_time,close_time,price,is_accept);
     }
 
     public List<Transaction> addTransaction(Transaction transaction) {
-
         Transaction result = transactionRepo.save(transaction);
         return List.of(result);
     }
@@ -48,6 +48,4 @@ public class TransactionService {
             throw new IllegalArgumentException("Transaction not found by ID in DB, cannot update");
         }
     }
-
-
 }
