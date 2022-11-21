@@ -44,7 +44,7 @@ public class ItemService {
 
     //put operation
     public List<Item> updateItem(Item item) throws IllegalArgumentException {
-        if (getByID(item.getId()).size() >= 1) {
+        if (getByID(item.getItemId()).size() >= 1) {
             Item result = itemRepo.save(item);
             return List.of(result);
         } else {

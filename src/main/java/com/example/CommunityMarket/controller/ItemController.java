@@ -20,25 +20,21 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @RequestMapping(value = "/item", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/item", method = RequestMethod.GET)
     public ResponseEntity<?> getItemByTemplate(
             @RequestParam(value = "item_id", required = false) Integer item_id,
             @RequestParam(value = "item_name", required = false) String item_name,
             @RequestParam(value = "item_description", required = false) String item_description,
             @RequestParam(value = "item_category", required = false) String item_category) {
 
-        // verify userID and logged in?
-
-        // get results
         List<Item> result = itemService.getItemByTemplate(item_id, item_name, item_description, item_category);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/item", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/item", method = RequestMethod.POST)
     public ResponseEntity<?> postItem(@RequestBody Item newItem) {
         List<Item> result = itemService.postItem(newItem);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
-
     }
 
     @RequestMapping(value = "/item", method = RequestMethod.PUT)

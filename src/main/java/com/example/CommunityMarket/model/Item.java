@@ -1,7 +1,6 @@
 package com.example.CommunityMarket.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -23,6 +22,13 @@ public class Item {
     @JsonProperty("item_category")
     private String itemCategory;
 
+    //Default Constructor
+    public Item() {
+        this.itemId=null;
+        this.itemName=null;
+        this.itemDescription=null;
+        this.itemCategory=null;
+    }
     public Item(Integer itemId, String itemName, String itemDescription, String itemCategory) {
         this.itemId = itemId;
         this.itemName = itemName;
@@ -30,59 +36,45 @@ public class Item {
         this.itemCategory = itemCategory;
     }
 
-    public Item() {
-
-    }
-
-    public Integer getId() {
+    public Integer getItemId() {
         return itemId;
     }
 
-    public String getName() {
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
+    }
+
+    public String getItemName() {
         return itemName;
     }
 
-    public String getDescription() {
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public String getItemDescription() {
         return itemDescription;
     }
 
-    public String getCategory() {
+    public void setItemDescription(String itemDescription) {
+        this.itemDescription = itemDescription;
+    }
+
+    public String getItemCategory() {
         return itemCategory;
     }
 
-    public void setId(Integer itemId) {
-        this.itemId = itemId;
-    }
-
-    public void setName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public void setDescription(String itemDescription) {
-        this.itemDescription = itemDescription;
-    }
-
-    public void setCategory(String itemCategory) {
+    public void setItemCategory(String itemCategory) {
         this.itemCategory = itemCategory;
     }
-    public Item setItem(Integer itemId, String itemName,
-                        String itemDescription, String itemCategory
-                        ) {
-        this.itemId = itemId;
-        this.itemName = itemName;
-        this.itemDescription = itemDescription;
-        this.itemCategory = itemCategory;
-        return this;
-    }
-
 
     @Override
     public String toString() {
         return "Item{" +
-                "id='" + itemId + '\'' +
-                ", name='" + itemName + '\'' +
-                ", description='" + itemDescription + '\'' +
-                ", category='" + itemCategory + '\'' +
+                "itemId=" + itemId +
+                ", itemName='" + itemName + '\'' +
+                ", itemDescription='" + itemDescription + '\'' +
+                ", itemCategory='" + itemCategory + '\'' +
                 '}';
     }
 }
