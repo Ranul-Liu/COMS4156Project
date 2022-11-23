@@ -3,6 +3,7 @@ package com.example.CommunityMarket.service;
 import com.example.CommunityMarket.model.Negotiation;
 import com.example.CommunityMarket.repository.TransactionRepository;
 import com.example.CommunityMarket.model.Transaction;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,8 @@ public class TransactionService {
     }
 
     public List<Transaction> addTransaction(Transaction transaction) {
+        LocalDateTime time = LocalDateTime.now();
+        transaction.setPostTime(time);
         Transaction result = transactionRepo.save(transaction);
         return List.of(result);
     }

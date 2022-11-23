@@ -35,11 +35,17 @@ public class Transaction {
     private int price;
 
 
+
+
     @Column(name = "post_time")
-    private Date postTime;
+    @JsonProperty("post_time")
+    private LocalDateTime postTime;
+
 
     @Column(name = "close_time")
-    private Date closeTime;
+    @JsonProperty("close_time")
+    private LocalDateTime closeTime;
+
 
     @Column(name = "quantity")
     @JsonProperty("quantity")
@@ -54,7 +60,7 @@ public class Transaction {
     /*@OneToMany(cascade = CascadeType.ALL, mappedBy = "transaction",fetch=FetchType.EAGER)
     private List<Negotiation> negotiation;*/
 
-    public Transaction(Integer transactionID, String sellerID, String buyerID, Integer itemID, int price, Date postTime, Date closeTime, int quantity, boolean open, boolean accept, List<Negotiation> negotiation) {
+    public Transaction(Integer transactionID, String sellerID, String buyerID, Integer itemID, int price, LocalDateTime postTime, LocalDateTime closeTime, int quantity, boolean open, boolean accept, List<Negotiation> negotiation) {
         this.transactionID = transactionID;
         this.sellerID = sellerID;
         this.buyerID = buyerID;
@@ -118,19 +124,19 @@ public class Transaction {
         this.price = price;
     }
 
-    public Date getPostTime() {
+    public LocalDateTime getPostTime() {
         return postTime;
     }
 
-    public void setPostTime(Date postTime) {
+    public void setPostTime(LocalDateTime postTime) {
         this.postTime = postTime;
     }
 
-    public Date getCloseTime() {
+    public LocalDateTime getCloseTime() {
         return closeTime;
     }
 
-    public void setCloseTime(Date closeTime) {
+    public void setCloseTime(LocalDateTime closeTime) {
         this.closeTime = closeTime;
     }
 
