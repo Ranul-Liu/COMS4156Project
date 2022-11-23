@@ -51,4 +51,11 @@ public class NegotiationService {
     }
 
 
+    public List<Negotiation> getByTransactionID(Integer fk_transaction_id) {
+        List<Negotiation> result = negotiationRepo.findByTransactionID(fk_transaction_id);
+        if (result!=null) {
+            return result;
+        }
+        return Collections.emptyList();
+    }
 }

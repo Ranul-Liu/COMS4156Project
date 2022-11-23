@@ -65,17 +65,17 @@ public class Transaction {
         this.quantity = quantity;
         this.open = open;
         this.accept = accept;
-        this.negotiation = negotiation;
+        //this.negotiation = negotiation;
     }
 
-    public List<Negotiation> getNegotiation() {
+    /*public List<Negotiation> getNegotiation() {
         return negotiation;
     }
 
     public void setNegotiation(List<Negotiation> negotiation) {
         this.negotiation = negotiation;
     }
-
+*/
     public Transaction(){}
 
     public Integer getTransactionID() {
