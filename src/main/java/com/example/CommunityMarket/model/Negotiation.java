@@ -1,12 +1,11 @@
 package com.example.CommunityMarket.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.bytebuddy.asm.Advice;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.Optional;
+
 @Entity
 @Table (name = "negotiation")
 public class Negotiation {
@@ -16,7 +15,7 @@ public class Negotiation {
     private Integer negotiation_id;
 
     @Column(name = "buyer_id")
-    private Integer buyer_id;
+    private String buyer_id;
 
     @Column(name = "post_time")
     private LocalDateTime post_time;
@@ -38,6 +37,18 @@ public class Negotiation {
     @Column(name = "accept")
     private boolean accept;
 
+    @ManyToOne
+    @JoinColumn(name="fk_transaction_id",referencedColumnName = "transaction_id")
+    private Transaction transaction;
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
+
     public Integer getNegotiation_id() {
         return negotiation_id;
     }
@@ -46,11 +57,11 @@ public class Negotiation {
         this.negotiation_id = negotiation_id;
     }
 
-    public Integer getBuyer_id() {
+    public String getBuyer_id() {
         return buyer_id;
     }
 
-    public void setBuyer_id(Integer buyer_id) {
+    public void setBuyer_id(String buyer_id) {
         this.buyer_id = buyer_id;
     }
 

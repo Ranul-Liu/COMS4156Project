@@ -1,14 +1,10 @@
 package com.example.CommunityMarket.service;
 
-import com.example.CommunityMarket.Repository.ItemRepository;
-import com.example.CommunityMarket.exceptions.ResourceException;
+import com.example.CommunityMarket.repository.ItemRepository;
 import com.example.CommunityMarket.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Table;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

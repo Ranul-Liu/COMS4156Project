@@ -1,6 +1,7 @@
 package com.example.CommunityMarket.service;
 
-import com.example.CommunityMarket.Repository.TransactionRepository;
+import com.example.CommunityMarket.model.Negotiation;
+import com.example.CommunityMarket.repository.TransactionRepository;
 import com.example.CommunityMarket.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,14 +1,11 @@
 package com.example.CommunityMarket.service;
 
-import com.example.CommunityMarket.Repository.UserRepository;
+import com.example.CommunityMarket.repository.UserRepository;
 import com.example.CommunityMarket.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import javax.persistence.Table;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

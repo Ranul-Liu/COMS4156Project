@@ -24,7 +24,7 @@ public class ClientController {
     @Autowired
     ClientService clientService;
 
-    private static final Logger Log = LoggerFactory.getLogger(UserController.class);
+    //private static final Logger Log = LoggerFactory.getLogger(CommunityMarketController.class);
     @Autowired
     public ClientController(HttpServletRequest request) { this.request = request; }
 

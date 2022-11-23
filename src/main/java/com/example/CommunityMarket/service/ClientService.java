@@ -1,9 +1,8 @@
 package com.example.CommunityMarket.service;
 
-import com.example.CommunityMarket.Repository.ClientRepository;
+import com.example.CommunityMarket.repository.ClientRepository;
 import com.example.CommunityMarket.exceptions.ResourceNotFoundException;
 import com.example.CommunityMarket.model.Client;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

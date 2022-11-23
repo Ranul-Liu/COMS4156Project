@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table (name = "transaction")
@@ -50,6 +51,32 @@ public class Transaction {
     @Column(name = "accept")
     private boolean accept;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "transaction",fetch=FetchType.EAGER)
+    private List<Negotiation> negotiation;
+
+    public Transaction(Integer transactionID, String sellerID, String buyerID, Integer itemID, int price, Date postTime, Date closeTime, int quantity, boolean open, boolean accept, List<Negotiation> negotiation) {
+        this.transactionID = transactionID;
+        this.sellerID = sellerID;
+        this.buyerID = buyerID;
+        this.itemID = itemID;
+        this.price = price;
+        this.postTime = postTime;
+        this.closeTime = closeTime;
+        this.quantity = quantity;
+        this.open = open;
+        this.accept = accept;
+        this.negotiation = negotiation;
+    }
+
+    public List<Negotiation> getNegotiation() {
+        return negotiation;
+    }
+
+    public void setNegotiation(List<Negotiation> negotiation) {
+        this.negotiation = negotiation;
+    }
+
+    public Transaction(){}
 
     public Integer getTransactionID() {
         return transactionID;
@@ -144,6 +171,7 @@ public class Transaction {
                 ", quantity=" + quantity +
                 ", open=" + open +
                 ", accept=" + accept +
+
                 '}';
     }
 }

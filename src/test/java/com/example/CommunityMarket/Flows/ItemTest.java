@@ -2,8 +2,7 @@ package com.example.CommunityMarket.Flows;
 
 
 import com.example.CommunityMarket.model.Item;
-import com.example.CommunityMarket.Repository.ItemRepository;
-import com.example.CommunityMarket.model.User;
+import com.example.CommunityMarket.repository.ItemRepository;
 import com.example.CommunityMarket.service.ItemService;
 
 import org.junit.Test;

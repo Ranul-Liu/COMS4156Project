@@ -1,4 +1,4 @@
-package com.example.CommunityMarket.Repository;
+package com.example.CommunityMarket.repository;
 import com.example.CommunityMarket.model.Item;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
