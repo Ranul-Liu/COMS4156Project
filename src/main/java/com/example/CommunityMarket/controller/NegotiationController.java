@@ -24,7 +24,7 @@ public class NegotiationController {
         List<Negotiation> result = negotiationService.getByID(negotiation_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-    // view  all negotiation associated with {transaction_id}
+    // view all negotiation associated with {transaction_id}
     @RequestMapping(value="/view-negotiation",method = RequestMethod.GET)
     public ResponseEntity<?> getByTransactionID(@RequestParam(value = "fk_transaction_id", required = true) Integer fk_transaction_id) {
         List<Negotiation> result = negotiationService.getByTransactionID(fk_transaction_id);
@@ -35,6 +35,12 @@ public class NegotiationController {
     public ResponseEntity<?> addnegotiation(@RequestBody Negotiation newnegotiation) {
         List<Negotiation> result = negotiationService.addNegotiation(newnegotiation);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
+    //accept a negotiation
+    @RequestMapping(value = "/accept-negotiation/{negotiation_id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> acceptNegotiation(@PathVariable Integer negotiation_id) {
+        Negotiation result = negotiationService.acceptNegotiation(negotiation_id);
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
 

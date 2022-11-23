@@ -17,6 +17,8 @@ public class NegotiationService {
     NegotiationRepository negotiationRepo;
     @Autowired
     TransactionRepository transactionRepository;
+    @Autowired
+    TransactionService transactionService;
 
     public List<Negotiation> getByID(Integer NegotiationID) {
         Optional<Negotiation> result = negotiationRepo.findById(NegotiationID);
@@ -57,5 +59,28 @@ public class NegotiationService {
             return result;
         }
         return Collections.emptyList();
+    }
+
+    public Negotiation acceptNegotiation(Integer negotiation_id){
+        //find the negotiation
+        Optional<Negotiation> result = negotiationRepo.findById(negotiation_id);
+        if(result.isPresent()){
+            //accept and close the negotiation
+            Negotiation negotiation= result.get();
+            negotiation.setAccept(true);
+            negotiation.setOpen(false);
+            //accept and close transaction,set buyer_id
+            Transaction transactionResult= negotiation.getTransaction();
+            transactionResult.setAccept(true);
+            transactionResult.setOpen(false);
+            transactionResult.setBuyerID(negotiation.getBuyer_id());
+            //save result in database
+            transactionRepository.save(transactionResult);
+            negotiationRepo.save(negotiation);
+            return negotiation;
+        } else {
+            throw new IllegalArgumentException("Negotiation not found by ID in DB, cannot accept");
+        }
+
     }
 }
