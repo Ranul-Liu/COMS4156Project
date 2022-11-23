@@ -51,8 +51,8 @@ public class Transaction {
     @Column(name = "accept")
     private boolean accept;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "transaction",fetch=FetchType.EAGER)
-    private List<Negotiation> negotiation;
+    /*@OneToMany(cascade = CascadeType.ALL, mappedBy = "transaction",fetch=FetchType.EAGER)
+    private List<Negotiation> negotiation;*/
 
     public Transaction(Integer transactionID, String sellerID, String buyerID, Integer itemID, int price, Date postTime, Date closeTime, int quantity, boolean open, boolean accept, List<Negotiation> negotiation) {
         this.transactionID = transactionID;
