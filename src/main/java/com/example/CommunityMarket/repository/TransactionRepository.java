@@ -19,7 +19,7 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
             "                          (:open is NULL or open = :open) and\n" +
             "                          (:post_time is NULL or post_time = :post_time) and\n" +
             "                          (:close_time is NULL or close_time = :close_time) and\n" +
-            "                          (:price is NULL or price = :price)) and\n "+
+            "                          (:initial_price is NULL or initial_price = :initial_price)) and\n "+
             "                          (:accept is NULL or accept = :accept) ", nativeQuery = true)
 
     List<Transaction> findByTemplate(@Param("transaction_id") Integer transaction_id,
@@ -29,7 +29,7 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
                                      @Param("open") Boolean open,
                                      @Param("post_time") LocalDateTime post_time,
                                      @Param("close_time") LocalDateTime close_time,
-                                     @Param("price") Integer price,
+                                     @Param("initial_price") Integer price,
                                      @Param("accept") Boolean accept
                               );
     // post method

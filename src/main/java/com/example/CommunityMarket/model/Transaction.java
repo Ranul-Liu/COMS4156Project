@@ -30,8 +30,8 @@ public class Transaction {
     @JsonProperty("item_id")
     private Integer itemID;
 
-    @Column(name = "price")
-    @JsonProperty("price")
+    @Column(name = "initial_price")
+    @JsonProperty("initial_price")
     private int price;
 
 

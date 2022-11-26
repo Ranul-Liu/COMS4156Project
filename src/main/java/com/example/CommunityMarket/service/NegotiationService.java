@@ -8,6 +8,7 @@ import com.example.CommunityMarket.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,11 @@ public class NegotiationService {
         Integer fk_transaction_id = negotiation.getTransaction().getTransactionID();
         Optional<Transaction> result = transactionRepository.findById(fk_transaction_id);
         if (result.isPresent()) {
+            //set negotiation post_time
+            LocalDateTime time = LocalDateTime.now();
+            negotiation.setPost_time(time);
+            negotiation.setOpen(true);
+            //set the transaction object by transaction_id
             Transaction transactionResult = result.get();
             negotiation.setTransaction(transactionResult);
             Negotiation NegotiationResult = negotiationRepo.save(negotiation);
@@ -65,15 +71,18 @@ public class NegotiationService {
         //find the negotiation
         Optional<Negotiation> result = negotiationRepo.findById(negotiation_id);
         if(result.isPresent()){
-            //accept and close the negotiation
             Negotiation negotiation= result.get();
+            //set negotiation post_time
+            negotiation.setClose_time(LocalDateTime.now());
+            //accept and close the negotiation
             negotiation.setAccept(true);
             negotiation.setOpen(false);
-            //accept and close transaction,set buyer_id
+            //accept and close transaction,set buyer_id, set close_time
             Transaction transactionResult= negotiation.getTransaction();
             transactionResult.setAccept(true);
             transactionResult.setOpen(false);
             transactionResult.setBuyerID(negotiation.getBuyer_id());
+            transactionResult.setCloseTime(LocalDateTime.now());
             //save result in database
             transactionRepository.save(transactionResult);
             negotiationRepo.save(negotiation);

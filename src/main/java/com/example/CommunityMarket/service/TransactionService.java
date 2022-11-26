@@ -41,6 +41,7 @@ public class TransactionService {
     public List<Transaction> addTransaction(Transaction transaction) {
         LocalDateTime time = LocalDateTime.now();
         transaction.setPostTime(time);
+        transaction.setOpen(true);
         Transaction result = transactionRepo.save(transaction);
         return List.of(result);
     }
