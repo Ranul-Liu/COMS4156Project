@@ -52,6 +52,24 @@ public class UserService {
         }
     }
 
+    public List<User> loginUser(User user) throws IllegalArgumentException {
+        if (getByID(user.getUserID()).size() >= 1) {
+            user.setLogin(1);
+            return List.of(user);
+        } else {
+            throw new IllegalArgumentException("User not found by ID in DB, cannot login");
+        }
+    }
+
+    public List<User> logoutUser(User user) throws IllegalArgumentException {
+        if (getByID(user.getUserID()).size() >= 1) {
+            user.setLogin(0);
+            return List.of(user);
+        } else {
+            throw new IllegalArgumentException("User not found by ID in DB, cannot logout");
+        }
+    }
+
     // delete operation
     public void deleteUserById(User user) {
         if (getByID(user.getUserID()).size() >= 1) {

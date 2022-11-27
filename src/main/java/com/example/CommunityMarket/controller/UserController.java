@@ -40,4 +40,21 @@ public class UserController {
         List<User> result = userService.updateUser(newUser);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PostMapping("/users/login")
+    public ResponseEntity<?> loginUser(@RequestBody User user) {
+        List<User> result = userService.loginUser(user);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/users/logout")
+    public ResponseEntity<?> logoutUser(@RequestBody User user) {
+        List<User> result = userService.logoutUser(user);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/users/delete")
+    public void deleteUser(@RequestBody User user) {
+        userService.deleteUserById(user);
+    }
 }
