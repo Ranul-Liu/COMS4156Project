@@ -39,19 +39,19 @@ public class PlayerTest {
         Player newPlayerToPost = new Player(null,
                 "testPostPlayer@gmail.com",
                 "testPostPlayer",
-                1);
+                true);
 
         // Mock saving the Player object
         Mockito.when(playerRepo.save(newPlayerToPost)).thenReturn(new Player(1,
                 "testPostPlayer@gmail.com",
                 "testPostPlayer",
-                1));
+                true));
 
         //assert that the return value of Post are as expected
         Player resultOfPostPlayer = playerService.postPlayer(newPlayerToPost).get(0);
         assertEquals(resultOfPostPlayer.getPlayername(), "testPostPlayer");
         assertEquals(resultOfPostPlayer.getEmail(), "testPostPlayer@gmail.com");
-        assertEquals(resultOfPostPlayer.getLogin(), 1);
+        assertEquals(resultOfPostPlayer.getLogin(), true);
         // did not assert player_id because it is auto-generated
     }
 
@@ -64,13 +64,13 @@ public class PlayerTest {
         Player newPlayerToUpdate = new Player(1,
                 "testUpdatePlayer@gmail.com",
                 "testUpdatePlayer",
-                1);
+                true);
 
         // expected result after update
         Player expectedResult = new Player(1,
                 "emanueld@gmail.com",
                 "123abc",
-                0);
+                false);
 
         // Mock finding the Player through player_id
         Mockito.when(playerRepo.findById(String.valueOf(newPlayerToUpdate.getPlayerID()))).thenReturn(Optional.of(expectedResult));
@@ -93,7 +93,7 @@ public class PlayerTest {
         Player updatedPlayer = new Player(22,
                 "Alice22@gmail.com",
                 "Alice2233",
-                1);
+                true);
 
         // playerID does not exist
         Mockito.when(playerRepo.existsById(updatedPlayer.getPlayerID().toString())).thenReturn(false);
@@ -154,7 +154,7 @@ public class PlayerTest {
         Player testPlayer = new Player(432,
                 "william23gmail.com",
                 "william23234",
-                1);
+                true);
 
         playerService.checkInputs(testPlayer);
     }
@@ -170,7 +170,7 @@ public class PlayerTest {
                         "emanueldemanueldemanueldemanueldemanueldemanueld" +
                         "emanueldemanueldemanueldemanueldemanueldemanueld@gmail.com",
                 "emanueld12345",
-                1);
+                true);
 
         playerService.checkInputs(testPlayer);
     }
@@ -183,7 +183,7 @@ public class PlayerTest {
         Player testPlayer = new Player(45,
                 "william123@gmail.com",
                 "1111111111111111111111111111111111111111",
-                1);
+                true);
 
         playerService.checkInputs(testPlayer);
     }
@@ -196,7 +196,7 @@ public class PlayerTest {
         Player testPlayer = new Player(null,
                 "william123@gmail.com",
                 null,
-                1);
+                true);
 
         playerService.checkInputs(testPlayer);
     }
@@ -207,7 +207,7 @@ public class PlayerTest {
         Player newPlayer = new Player(77,
                 "william23gmail.com",
                 "william23234",
-                1);
+                true);
         Integer player_id = newPlayer.getPlayerID();
 
         Optional<Player> optPlayer = Optional.of(newPlayer);
@@ -231,12 +231,12 @@ public class PlayerTest {
         Player newPlayer = new Player(984,
                 "william123@gmail.com",
                 "william123",
-                1);
+                true);
 
         Mockito.when(playerRepo.findByTemplate(null,
-                "william123@gmail.com", "william123",1)).thenReturn(List.of(newPlayer));
+                "william123@gmail.com", "william123",true)).thenReturn(List.of(newPlayer));
         Player result = playerService.getPlayerByTemplate(null,
-                "william123@gmail.com", "william123",1).get(0);
+                "william123@gmail.com", "william123",true).get(0);
         assertEquals(result.getPlayerID(), result.getPlayerID());
 
     }

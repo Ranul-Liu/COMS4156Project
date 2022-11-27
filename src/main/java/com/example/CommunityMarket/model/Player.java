@@ -23,7 +23,7 @@ public class Player {
 
     @Column(name = "login")
     @JsonProperty("login")
-    private Integer login;
+    private Boolean login;
 
     public Player() {
         this.playerID=null;
@@ -33,18 +33,18 @@ public class Player {
     public Player(Integer player_id,
                 String email,
                 String playername,
-                Integer login) {
+                  Boolean login) {
         this.playerID=player_id;
         this.email=email;
         this.playername=playername;
         this.login = login;
     }
 
-    public Integer getLogin() {
+    public Boolean getLogin() {
         return login;
     }
 
-    public void setLogin(Integer login) {
+    public void setLogin(Boolean login) {
         this.login = login;
     }
 

@@ -20,7 +20,7 @@ public class PlayerController {
             @RequestParam(value = "player_id", required = false) Integer player_id,
             @RequestParam(value = "playername", required = false) String playername,
             @RequestParam(value = "email", required = false) String email,
-            @RequestParam(value = "login", required = false) Integer login) {
+            @RequestParam(value = "login", required = false) Boolean login) {
 
         // get results
         List<Player> result = playerService.getPlayerByTemplate(player_id, playername, email, login);

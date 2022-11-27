@@ -17,7 +17,7 @@ public interface PlayerRepository extends CrudRepository<Player, String> {
     List<Player> findByTemplate(@Param("player_id") Integer player_id,
                               @Param("email") String email,
                               @Param("playername") String playername,
-                              @Param("login") Integer login);
+                              @Param("login") Boolean login);
 
     //add method
 //    @Transactional

@@ -32,7 +32,7 @@ public class PlayerService {
     //get operation
     public List<Player> getPlayerByTemplate(Integer player_id,
                                         String playername,
-                                        String email, Integer login){
+                                        String email, Boolean login){
         return playerRepo.findByTemplate(player_id,playername, email, login);
     }
 
@@ -54,7 +54,7 @@ public class PlayerService {
 
     public List<Player> loginPlayer(Player player) throws IllegalArgumentException {
         if (getByID(player.getPlayerID()).size() >= 1) {
-            player.setLogin(1);
+            player.setLogin(true);
             return List.of(player);
         } else {
             throw new IllegalArgumentException("Player not found by ID in DB, cannot login");
@@ -63,7 +63,7 @@ public class PlayerService {
 
     public List<Player> logoutPlayer(Player player) throws IllegalArgumentException {
         if (getByID(player.getPlayerID()).size() >= 1) {
-            player.setLogin(0);
+            player.setLogin(false);
             return List.of(player);
         } else {
             throw new IllegalArgumentException("Player not found by ID in DB, cannot logout");
