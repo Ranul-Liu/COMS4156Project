@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-public class AuthController {
+public class  AuthController {
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
     private final TokenService tokenService;
 
@@ -17,7 +17,7 @@ public class AuthController {
         this.tokenService = tokenService;
     }
 
-    @PostMapping("/token")
+    @PostMapping("/auth/token")
     public String token(Authentication authentication){
         LOG.debug("Token requested for client:'{}'",authentication.getName());
         String token = tokenService.generateToken(authentication);

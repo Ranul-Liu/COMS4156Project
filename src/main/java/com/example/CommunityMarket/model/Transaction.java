@@ -18,10 +18,10 @@ public class Transaction {
     @JsonProperty("transaction_id")
     private Integer transactionID;
 
-    @ManyToOne
-    @JoinColumn(name="fk_seller_id",referencedColumnName = "player_id")
-//    @Column(name = "seller_id")
-//    @JsonProperty("seller_id")
+//    @ManyToOne
+//    @JoinColumn(name="fk_seller_id",referencedColumnName = "player_id")
+    @Column(name = "seller_id")
+    @JsonProperty("seller_id")
     private Integer sellerID;
 
 //    @ManyToOne
