@@ -62,7 +62,7 @@ public class ItemTest {
                 null,
                 null,
                 null).get(0);
-        assertEquals(result.getId(), result.getId());
+        assertEquals(result.getItemId(), result.getItemId());
     }
 
     // Test that the id is correctly updated by postItem method
@@ -85,7 +85,7 @@ public class ItemTest {
         Mockito.when(itemRepo.save(beforeItem)).thenReturn(afterItem);
 
         //assert that the itemId gets correctly updated
-        assertEquals(itemService.postItem(beforeItem).get(0).getId(), 2);
+        assertEquals(itemService.postItem(beforeItem).get(0).getItemId(), 2);
     }
 
     //Test that item gets correctly updated
@@ -103,7 +103,7 @@ public class ItemTest {
                 "Defense weapons");
 
         // user exists
-        Mockito.when(itemRepo.findById(String.valueOf(updatedItem.getId()))).thenReturn(Optional.of(updatedItem));
+        Mockito.when(itemRepo.findById(String.valueOf(updatedItem.getItemId()))).thenReturn(Optional.of(updatedItem));
 
         // save the changes
         Mockito.when(itemRepo.save(updatedItem)).thenReturn(updatedItem);
@@ -115,10 +115,10 @@ public class ItemTest {
         Mockito.when(itemRepo.save(updatedItem)).thenReturn(updatedItem);
 
         // assert that item gets correctly updated by checking that all data members are equal to the updatedItem
-        assertEquals(itemService.updateItem(updatedItem).get(0).getId(), updatedItem.getId());
-        assertEquals(itemService.updateItem(updatedItem).get(0).getName(), updatedItem.getName());
-        assertEquals(itemService.updateItem(updatedItem).get(0).getDescription(), updatedItem.getDescription());
-        assertEquals(itemService.updateItem(updatedItem).get(0).getCategory(), updatedItem.getCategory());
+        assertEquals(itemService.updateItem(updatedItem).get(0).getItemId(), updatedItem.getItemId());
+        assertEquals(itemService.updateItem(updatedItem).get(0).getItemName(), updatedItem.getItemName());
+        assertEquals(itemService.updateItem(updatedItem).get(0).getItemDescription(), updatedItem.getItemDescription());
+        assertEquals(itemService.updateItem(updatedItem).get(0).getItemCategory(), updatedItem.getItemCategory());
 
 
     }
