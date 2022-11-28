@@ -41,6 +41,19 @@ public class Negotiation {
     @JoinColumn(name="fk_transaction_id",referencedColumnName = "transaction_id")
     private Transaction transaction;
 
+    public Negotiation(Integer negotiation_id, String buyer_id, LocalDateTime post_time, LocalDateTime close_time,
+                       int price, int quantity, boolean open, boolean accept, Transaction transaction) {
+        this.negotiation_id = negotiation_id;
+        this.buyer_id = buyer_id;
+        this.post_time = post_time;
+        this.close_time = close_time;
+        this.price = price;
+        this.quantity = quantity;
+        this.open = open;
+        this.accept = accept;
+        this.transaction = transaction;
+    }
+
     public Transaction getTransaction() {
         return transaction;
     }
