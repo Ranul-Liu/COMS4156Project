@@ -22,6 +22,10 @@ public class Item {
     @JsonProperty("item_category")
     private String itemCategory;
 
+    @ManyToOne
+    @JoinColumn(name="fk_player_id",referencedColumnName = "player_id")
+    private Player player;
+
     //Default Constructor
     public Item() {
         this.itemId=null;

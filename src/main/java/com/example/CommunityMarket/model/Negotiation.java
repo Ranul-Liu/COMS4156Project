@@ -41,12 +41,20 @@ public class Negotiation {
     @JoinColumn(name="fk_transaction_id",referencedColumnName = "transaction_id")
     private Transaction transaction;
 
+    @ManyToOne
+    @JoinColumn(name="fk_player_id",referencedColumnName = "player_id")
+    private Player player;
+
     public Transaction getTransaction() {
         return transaction;
     }
 
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public Integer getNegotiation_id() {

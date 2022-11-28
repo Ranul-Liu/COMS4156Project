@@ -18,9 +18,15 @@ public class Transaction {
     @JsonProperty("transaction_id")
     private Integer transactionID;
 
-    @Column(name = "seller_id")
-    @JsonProperty("seller_id")
-    private String sellerID;
+    @ManyToOne
+    @JoinColumn(name="fk_seller_id",referencedColumnName = "player_id")
+//    @Column(name = "seller_id")
+//    @JsonProperty("seller_id")
+    private Integer sellerID;
+
+//    @ManyToOne
+//    @JoinColumn(name="fk_seller_id",referencedColumnName = "player_id")
+//    private Player seller;
 
     @Column(name = "buyer_id")
     @JsonProperty("buyer_id")
@@ -60,7 +66,7 @@ public class Transaction {
     /*@OneToMany(cascade = CascadeType.ALL, mappedBy = "transaction",fetch=FetchType.EAGER)
     private List<Negotiation> negotiation;*/
 
-    public Transaction(Integer transactionID, String sellerID, String buyerID, Integer itemID, int price, LocalDateTime postTime, LocalDateTime closeTime, int quantity, boolean open, boolean accept, List<Negotiation> negotiation) {
+    public Transaction(Integer transactionID, Integer sellerID, String buyerID, Integer itemID, int price, LocalDateTime postTime, LocalDateTime closeTime, int quantity, boolean open, boolean accept, List<Negotiation> negotiation) {
         this.transactionID = transactionID;
         this.sellerID = sellerID;
         this.buyerID = buyerID;
@@ -92,11 +98,11 @@ public class Transaction {
         this.transactionID = transactionID;
     }
 
-    public String getSellerID() {
+    public Integer getSellerID() {
         return sellerID;
     }
 
-    public void setSellerID(String sellerID) {
+    public void setSellerID(Integer sellerID) {
         this.sellerID = sellerID;
     }
 
