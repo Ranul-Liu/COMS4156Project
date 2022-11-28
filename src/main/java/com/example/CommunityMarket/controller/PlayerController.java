@@ -1,5 +1,7 @@
 package com.example.CommunityMarket.controller;
 
+import com.example.CommunityMarket.exceptions.ResourceException;
+import com.example.CommunityMarket.exceptions.ResourceNotFoundException;
 import com.example.CommunityMarket.model.Player;
 import com.example.CommunityMarket.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,33 +30,33 @@ public class PlayerController {
     }
 
     @RequestMapping(value = "/player", method = RequestMethod.POST)
-    public ResponseEntity<?> postPlayer(@RequestBody Player newPlayer) {
+    public ResponseEntity<?> postPlayer(@RequestBody Player newPlayer) throws ResourceException {
         playerService.checkPostPlayer(newPlayer);
         List<Player> result = playerService.postPlayer(newPlayer);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/player", method = RequestMethod.PUT)
-    public ResponseEntity<?> updatePlayer(@RequestBody Player newPlayer) {
+    public ResponseEntity<?> updatePlayer(@RequestBody Player newPlayer) throws ResourceNotFoundException, ResourceException{
         playerService.checkUpdatePlayer(newPlayer);
         List<Player> result = playerService.updatePlayer(newPlayer);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/players/login")
-    public ResponseEntity<?> loginPlayer(@RequestBody Player player) {
+    public ResponseEntity<?> loginPlayer(@RequestBody Player player) throws ResourceNotFoundException{
         List<Player> result = playerService.loginPlayer(player);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/players/logout")
-    public ResponseEntity<?> logoutPlayer(@RequestBody Player player) {
+    public ResponseEntity<?> logoutPlayer(@RequestBody Player player) throws ResourceNotFoundException {
         List<Player> result = playerService.logoutPlayer(player);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @DeleteMapping("/players/delete")
-    public void deletePlayer(@RequestBody Player player) {
+    public void deletePlayer(@RequestBody Player player) throws ResourceNotFoundException{
         playerService.deletePlayerById(player);
     }
 }

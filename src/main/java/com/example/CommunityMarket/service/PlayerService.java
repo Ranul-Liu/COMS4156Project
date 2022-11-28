@@ -1,5 +1,7 @@
 package com.example.CommunityMarket.service;
 
+import com.example.CommunityMarket.exceptions.ResourceException;
+import com.example.CommunityMarket.exceptions.ResourceNotFoundException;
 import com.example.CommunityMarket.repository.PlayerRepository;
 import com.example.CommunityMarket.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +20,13 @@ public class PlayerService {
 
 
     //get by ID
-    public List<Player> getByID(Integer player_id) {
+    public List<Player> getByID(Integer player_id) throws ResourceNotFoundException {
         Optional<Player> result = playerRepo.findById(player_id.toString());
         if (result.isPresent()) {
             Player playerResult = result.get();
             return List.of(playerResult);
         } else {
-            throw new IllegalArgumentException("Player not found by ID in DB.");
+            throw new ResourceNotFoundException("Player not found by ID in DB.");
         }
 
     }
@@ -43,39 +45,39 @@ public class PlayerService {
     }
 
     //put operation
-    public List<Player> updatePlayer(Player player) throws IllegalArgumentException {
+    public List<Player> updatePlayer(Player player) throws ResourceNotFoundException {
         if (getByID(player.getPlayerID()).size() >= 1) {
             Player result = playerRepo.save(player);
             return List.of(result);
         } else {
-            throw new IllegalArgumentException("Player not found by ID in DB, cannot update");
+            throw new ResourceNotFoundException("Player not found by ID in DB, cannot update");
         }
     }
 
-    public List<Player> loginPlayer(Player player) throws IllegalArgumentException {
+    public List<Player> loginPlayer(Player player) throws ResourceNotFoundException {
         if (getByID(player.getPlayerID()).size() >= 1) {
             player.setLogin(true);
             return List.of(player);
         } else {
-            throw new IllegalArgumentException("Player not found by ID in DB, cannot login");
+            throw new ResourceNotFoundException("Player not found by ID in DB, cannot login");
         }
     }
 
-    public List<Player> logoutPlayer(Player player) throws IllegalArgumentException {
+    public List<Player> logoutPlayer(Player player) throws ResourceNotFoundException {
         if (getByID(player.getPlayerID()).size() >= 1) {
             player.setLogin(false);
             return List.of(player);
         } else {
-            throw new IllegalArgumentException("Player not found by ID in DB, cannot logout");
+            throw new ResourceNotFoundException("Player not found by ID in DB, cannot logout");
         }
     }
 
     // delete operation
-    public void deletePlayerById(Player player) {
+    public void deletePlayerById(Player player) throws ResourceNotFoundException{
         if (getByID(player.getPlayerID()).size() >= 1) {
             playerRepo.deleteById(player.getPlayerID().toString());
         } else {
-            throw new IllegalArgumentException("Player not found in DB, cannot delete");
+            throw new ResourceNotFoundException("Player not found in DB, cannot delete");
         }
     }
 
@@ -103,33 +105,33 @@ public class PlayerService {
     }
 
     // check and sanitize inputs
-    public void checkInputs(Player player) throws IllegalArgumentException {
+    public void checkInputs(Player player) throws ResourceException {
         try {
             if (!checkPlayernameLength(player.getPlayername())) {
-                throw new IllegalArgumentException("Playername must be between 1-32 characters");
+                throw new ResourceException("Playername must be between 1-32 characters");
             }
             else if (!checkEmailLength(player.getEmail())) {
-                throw new IllegalArgumentException("Email must be between 1-128 characters");
+                throw new ResourceException("Email must be between 1-128 characters");
             }
             else if (!isValidEmail(player.getEmail())) {
-                throw new IllegalArgumentException("Invalid email");
+                throw new ResourceException("Invalid email");
             }
         } catch (NullPointerException e) {
-            throw new IllegalArgumentException("Player formatted incorrectly please provide the following:\n" +
+            throw new ResourceException("Player formatted incorrectly please provide the following:\n" +
                     "playername, email");
         }
     }
 
-    public void checkPostPlayer(Player player) throws IllegalArgumentException {
+    public void checkPostPlayer(Player player) throws ResourceException {
         if (player.getPlayerID() != null) {
-            throw new IllegalArgumentException("Do not provide player_id");
+            throw new ResourceException("Do not provide player_id");
         }
         checkInputs(player);
     }
 
-    public void checkUpdatePlayer(Player player) throws IllegalArgumentException {
+    public void checkUpdatePlayer(Player player) throws ResourceException {
         if (player.getPlayerID() == null) {
-            throw new IllegalArgumentException("Please provide player_id");
+            throw new ResourceException("Please provide player_id");
         }
         checkInputs(player);
     }
