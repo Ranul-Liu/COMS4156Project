@@ -13,7 +13,9 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
@@ -21,14 +23,17 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
+import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Slf4j
 
-public class SecurityConfig {
+public class SecurityConfig{
     private final RsaKeyProperties rsaKeys;
     public SecurityConfig(RsaKeyProperties rsaKeys){
         this.rsaKeys = rsaKeys;
@@ -38,24 +43,34 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(
                 User.withUsername("user")
                         .password("{noop}password")
-                        .authorities("read")
+                        .authorities("ADMIN")
                         .build()
         );
     }
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
+        http
                 .csrf(csrf->csrf.disable())
-                .authorizeRequests(auth -> auth
+                .authorizeRequests((authz) -> authz
+
                         .anyRequest().authenticated()
                 )
+                .csrf((csrf)->csrf.disable())
+                .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .httpBasic(Customizer.withDefaults())
+                .exceptionHandling((exceptions) -> exceptions
+                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+                );
 
-                .build();
+        return http.build();
     }
+
+
+
     @Bean
     JwtDecoder jwtDecoder(){
         return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();

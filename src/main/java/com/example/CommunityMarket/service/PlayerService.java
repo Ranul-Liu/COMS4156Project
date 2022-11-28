@@ -135,4 +135,19 @@ public class PlayerService {
         }
         checkInputs(player);
     }
+
+    public void checkPlayerLoggedInById(Integer player_id) throws ResourceException, ResourceNotFoundException {
+        try {
+            List<Player> player = getByID(player_id);
+            if (!(player.size() >= 1)) {
+                throw new ResourceNotFoundException("player_id not found");
+            }
+            if (player.get(0).getLogin() == false) {
+                throw new ResourceException("player_id not logged in");
+            }
+        }
+        catch(Exception e) {
+            throw e;
+        }
+    }
 }
