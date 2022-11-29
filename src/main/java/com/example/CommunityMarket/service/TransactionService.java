@@ -1,6 +1,8 @@
 package com.example.CommunityMarket.service;
 
 import com.example.CommunityMarket.model.Negotiation;
+import com.example.CommunityMarket.model.Player;
+import com.example.CommunityMarket.repository.PlayerRepository;
 import com.example.CommunityMarket.repository.TransactionRepository;
 import com.example.CommunityMarket.model.Transaction;
 import net.bytebuddy.asm.Advice;
@@ -17,6 +19,7 @@ public class TransactionService {
     @Autowired
 
     TransactionRepository transactionRepo;
+    PlayerRepository playerRepo;
 
     public List<Transaction> getByID(Integer transactionID) {
         Optional<Transaction> result = transactionRepo.findById(transactionID);
@@ -27,8 +30,8 @@ public class TransactionService {
         return Collections.emptyList();
     }
     public List<Transaction> getTransactionByTemplate(Integer transaction_id,
-                                                      String buyer_id,
-                                                      String seller_id,
+                                                      Integer buyer_id,
+                                                      Integer seller_id,
                                                       Integer quantity,
                                                       Boolean is_open,
                                                       LocalDateTime post_time,
@@ -39,6 +42,7 @@ public class TransactionService {
     }
 
     public List<Transaction> addTransaction(Transaction transaction) {
+        //Optional<Player> playerResult = playerRepo.findById(seller_id);
         LocalDateTime time = LocalDateTime.now();
         transaction.setPostTime(time);
         transaction.setOpen(true);

@@ -148,7 +148,7 @@ public class PlayerService {
             if (!(player.size() >= 1)) {
                 throw new ResourceNotFoundException("player_id not found");
             }
-            if (player.get(0).getLogin() == false) {
+            if (player.get(0).getLogin() != true) {
                 throw new ResourceException("player_id not logged in");
             }
         }
