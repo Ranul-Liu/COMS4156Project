@@ -64,7 +64,8 @@ public class TransactionController {
     @RequestMapping(value = "/transaction/{seller_id}/{transaction_id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updatetransaction(@RequestBody Transaction newtransaction,
                                                @PathVariable("seller_id") Integer seller_id,
-                                               @PathVariable("transaction_id") Integer transaction_id) throws ResourceException, ResourceNotFoundException {
+                                               @PathVariable("transaction_id") Integer transaction_id)
+            throws ResourceException, ResourceNotFoundException {
         try {
             playerService.checkPlayerLoggedInById(seller_id);
         }
@@ -72,6 +73,20 @@ public class TransactionController {
             throw e;
         }
         List<Transaction> result = transactionService.updateTransaction(newtransaction,transaction_id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/transaction/close/{seller_id}/{transaction_id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> closetransaction(@PathVariable("seller_id") Integer seller_id,
+                                              @PathVariable("transaction_id") Integer transaction_id)
+            throws ResourceException, ResourceNotFoundException {
+        try {
+            playerService.checkPlayerLoggedInById(seller_id);
+        }
+        catch(Exception e) {
+            throw e;
+        }
+        List<Transaction> result = transactionService.closeTransaction(transaction_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

@@ -91,5 +91,6 @@ public class NegotiationService {
             throw new IllegalArgumentException("Negotiation not found by ID in DB, cannot accept");
         }
 
+
     }
 }

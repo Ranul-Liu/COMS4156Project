@@ -64,4 +64,19 @@ public class TransactionService {
         }
     }
 
+    public List<Transaction> closeTransaction(Integer transaction_id) throws IllegalArgumentException {
+        Optional<Transaction> Result = transactionRepo.findById(transaction_id);
+        if (Result.isPresent()) {
+            Transaction transaction = Result.get();
+            transaction.setOpen(false);
+            LocalDateTime current_time = LocalDateTime.now();
+            transaction.setCloseTime(current_time);
+            transactionRepo.save(transaction);
+            return List.of(transaction);
+        } else {
+            throw new IllegalArgumentException("Transaction not found by ID in DB, cannot close");
+        }
+    }
+
+
 }
