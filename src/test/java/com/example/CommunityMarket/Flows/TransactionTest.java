@@ -1,6 +1,7 @@
 package com.example.CommunityMarket.Flows;
 
 
+import com.example.CommunityMarket.model.Item;
 import com.example.CommunityMarket.model.Transaction;
 import com.example.CommunityMarket.repository.TransactionRepository;
 import com.example.CommunityMarket.service.TransactionService;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,106 +29,156 @@ public class TransactionTest {
     @MockBean
     private TransactionRepository transactionRepo;
 
-    /*@Test
-    public void testCheckGetByIdExistsForTransaction() {
-
-        Integer transaction_id = 1;
-        Transaction newTransaction = new Transaction(
-                1,
-                "user1",
-                "user2",
-                1,
-                5,
-                5
-        );
-
-        Optional<Transaction> optTransaction = Optional.of(newTransaction);
-        Mockito.when(transactionRepo.findById(transaction_id)).thenReturn(optTransaction);
-        assertEquals(List.of(optTransaction.get()), transactionService.getByID(transaction_id));
-    }*/
-
-    /*@Test(expected = IllegalArgumentException.class)
-    public void testGetByIDExceptForTransaction() {
-        Integer transaction_id = 1;
-        Mockito.when(transactionRepo.findById(transaction_id)).thenReturn(Optional.empty());
-        transactionService.getByID(transaction_id);
-    }*/
-    /*@Test
-    public void testPostTransaction() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        // Initialize transaction before post method called
-        Transaction beforeTransaction = new Transaction(null,
-                "user1",
-                "user2",
-                1,
-                5,
-                5
-        );
-        Transaction afterTransaction = new Transaction(1,
-                "user1",
-                "user2",
-                1,
-                5,
-                5
-        );
-        // save the transaction
-        Mockito.when(transactionRepo.save(beforeTransaction)).thenReturn(afterTransaction);
-        // assert that transaction get correctly updated with post method
-        assertEquals(transactionService.addTransaction(beforeTransaction).get(0).getTransactionID(), 1);
-        assertEquals(transactionService.addTransaction(beforeTransaction).get(0).getSellerID(), "user1");
-        assertEquals(transactionService.addTransaction(beforeTransaction).get(0).getBuyerID(), "user2");
-        assertEquals(transactionService.addTransaction(beforeTransaction).get(0).getItemID(), 1);
-        assertEquals(transactionService.addTransaction(beforeTransaction).get(0).getPrice(), 5);
-        assertEquals(transactionService.addTransaction(beforeTransaction).get(0).getQuantity(), 5);
-
-    }
+    // test transactionService.getByID() exist
     @Test
-    // Test the transaction get correctly updated
-    public void testUpdateTransaction() throws IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalArgumentException{
-        // Initialize transaction before update method called
-        Transaction beforeTransaction = new Transaction(1,
-                "user1",
-                "user2",
-                1,
-                5,
-                5
+    public void testGetTransactionByIdExist() {
+        Integer transaction_id = 1;
+        Integer seller_id = 1;
+        LocalDateTime date = LocalDateTime.now();
+        Integer item_id = 1;
+        int price = 100;
+        int quantity = 1;
+        boolean open = true, accept = false;
+        Transaction expectedResult = new Transaction(
+                transaction_id,
+                seller_id,
+                "buyer",
+                item_id,
+                price,
+                date,
+                date,
+                quantity,
+                open,
+                accept,
+                null
         );
-        Transaction afterTransaction = new Transaction(1,
-                "newuser1",
-                "newuser2",
-                2,
-                10,
-                10
-        );
-        // check if transaction exists
-        Mockito.when(transactionRepo.findById(afterTransaction.getTransactionID())).thenReturn(Optional.of(afterTransaction));
-        // save the changes
-        Mockito.when(transactionRepo.save(afterTransaction)).thenReturn(afterTransaction);
-        // assert that transaction get correctly updated by checking all fields
-        assertEquals(transactionService.updateTransaction(afterTransaction).get(0).getTransactionID(), 1);
-        assertEquals(transactionService.updateTransaction(afterTransaction).get(0).getSellerID(), "newuser1");
-        assertEquals(transactionService.updateTransaction(afterTransaction).get(0).getBuyerID(), "newuser2");
-        assertEquals(transactionService.updateTransaction(afterTransaction).get(0).getItemID(), 2);
-        assertEquals(transactionService.updateTransaction(afterTransaction).get(0).getPrice(), 10);
-        assertEquals(transactionService.updateTransaction(afterTransaction).get(0).getQuantity(), 10);
+
+        Mockito.when(transactionRepo.findById(transaction_id)).thenReturn(Optional.of(expectedResult));
+
+        // assert
+        Transaction testResult = transactionService.getByID(item_id).get(0);
+        assertEquals(expectedResult.getTransactionID(), testResult.getTransactionID());
+        assertEquals(expectedResult.getBuyerID(), testResult.getBuyerID());
+        assertEquals(expectedResult.getItemID(), testResult.getItemID());
+        assertEquals(expectedResult.getPrice(), testResult.getPrice());
+        assertEquals(expectedResult.getQuantity(), testResult.getQuantity());
+        assertEquals(expectedResult.getPostTime(), testResult.getPostTime());
+        assertEquals(expectedResult.getCloseTime(), testResult.getCloseTime());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testExceptionUpdateTransaction() throws ClassNotFoundException, InstantiationException, IllegalArgumentException {
-        //Instantiate updated transacton
-        Transaction afterTransaction = new Transaction(1,
-                "newuser1",
-                "newuser2",
-                2,
-                10,
-                10
-        );
-        //transaction id dos not exist
-        Mockito.when(transactionRepo.existsById((afterTransaction.getTransactionID()))).thenReturn(false);
-        //call update method
-        transactionService.updateTransaction(afterTransaction);
+    public void testGetTransactionByIDNotExist() {
+        Integer transaction_id = 1;
+        Mockito.when(transactionRepo.findById(transaction_id)).thenReturn(Optional.empty());
+        transactionService.getByID(transaction_id);
     }
 
+    // test transactionService.addTransaction()
+    @Test
+    public void testPostTransaction() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        // Initialize transaction before post method called
+        Integer transaction_id = 1;
+        Integer seller_id = 1;
+        LocalDateTime date = LocalDateTime.now();
+        Integer item_id = 1;
+        int price = 100;
+        int quantity = 1;
+        boolean open = true, accept = false;
+        Transaction newTransactionToPost = new Transaction(
+                transaction_id,
+                seller_id,
+                "buyer",
+                item_id,
+                price,
+                date,
+                date,
+                quantity,
+                open,
+                accept,
+                null
+        );
 
-*/
+        // mock saving in DB
+        Mockito.when(transactionRepo.save(newTransactionToPost)).thenReturn(new Transaction(
+                transaction_id,
+                seller_id,
+                "buyer",
+                item_id,
+                price,
+                date,
+                date,
+                quantity,
+                open,
+                accept,
+                null
+        ));
 
+        // assert
+        Transaction testResult = transactionService.addTransaction(newTransactionToPost).get(0);
+        assertEquals(newTransactionToPost.getTransactionID(), testResult.getTransactionID());
+        assertEquals(newTransactionToPost.getBuyerID(), testResult.getBuyerID());
+        assertEquals(newTransactionToPost.getItemID(), testResult.getItemID());
+        assertEquals(newTransactionToPost.getPrice(), testResult.getPrice());
+        assertEquals(newTransactionToPost.getQuantity(), testResult.getQuantity());
+        assertEquals(newTransactionToPost.getPostTime(), testResult.getPostTime());
+        assertEquals(newTransactionToPost.getCloseTime(), testResult.getCloseTime());
+
+    }
+    @Test
+    // test transactionService.updateTransaction()
+    public void testUpdateTransaction() throws IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalArgumentException{
+        // Initialize transaction BEFORE update
+        Integer transaction_id = 1;
+        Integer seller_id = 1;
+        LocalDateTime date = LocalDateTime.now();
+        Integer item_id = 1;
+        int price = 100;
+        int quantity = 1;
+        boolean open = true, accept = false;
+        Transaction transactionToUpdate = new Transaction(
+                transaction_id,
+                seller_id,
+                "buyer",
+                item_id,
+                price,
+                date,
+                date,
+                quantity,
+                open,
+                accept,
+                null
+        );
+
+        // initialize transaction AFTER update
+        Transaction expectedResult = new Transaction(
+                transaction_id,
+                seller_id,
+                "buyer",
+                item_id,
+                99,
+                date,
+                date,
+                2,
+                open,
+                true,
+                null
+        );
+
+        // Mock finding the Player through player_id
+        Mockito.when(transactionRepo.findById(transactionToUpdate.getTransactionID())).thenReturn(Optional.of(expectedResult));
+        // Mock updating/saving the database
+        Mockito.when(transactionRepo.existsById(transaction_id)).thenReturn(true);
+        Mockito.when(transactionRepo.save(expectedResult)).thenReturn(expectedResult);
+
+        // assert that transaction get correctly updated by checking all fields
+        // assert
+        Transaction testResult = transactionService.updateTransaction(transactionToUpdate).get(0);
+        assertEquals(expectedResult.getTransactionID(), testResult.getTransactionID());
+        assertEquals(expectedResult.getBuyerID(), testResult.getBuyerID());
+        assertEquals(expectedResult.getItemID(), testResult.getItemID());
+        assertEquals(expectedResult.getPrice(), testResult.getPrice());
+        assertEquals(expectedResult.getQuantity(), testResult.getQuantity());
+        assertEquals(expectedResult.getPostTime(), testResult.getPostTime());
+        assertEquals(expectedResult.getCloseTime(), testResult.getCloseTime());
+    }
 }
