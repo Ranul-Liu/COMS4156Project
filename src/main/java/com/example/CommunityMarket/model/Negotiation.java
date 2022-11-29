@@ -41,9 +41,12 @@ public class Negotiation {
     @JoinColumn(name="fk_transaction_id",referencedColumnName = "transaction_id")
     private Transaction transaction;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name="fk_player_id",referencedColumnName = "player_id")
-    private Player player;
+    private Player player;*/
+
+    public Negotiation(){
+    }
 
     public Negotiation(Integer negotiation_id, String buyer_id, LocalDateTime post_time, LocalDateTime close_time,
                        int price, int quantity, boolean open, boolean accept, Transaction transaction) {
@@ -56,7 +59,7 @@ public class Negotiation {
         this.open = open;
         this.accept = accept;
         this.transaction = transaction;
-        this.player = null;
+
     }
 
     public Transaction getTransaction() {
@@ -67,9 +70,7 @@ public class Negotiation {
         this.transaction = transaction;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
+
 
     public Integer getNegotiation_id() {
         return negotiation_id;

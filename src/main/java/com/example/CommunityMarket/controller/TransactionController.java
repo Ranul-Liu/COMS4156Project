@@ -48,7 +48,9 @@ public class TransactionController {
 
     // post a new transaction
     @RequestMapping(value = "/transaction/{seller_id}", method = RequestMethod.POST)
-    public ResponseEntity<?> addtransaction(@RequestBody Transaction newtransaction, @PathVariable("seller_id") Integer seller_id) throws ResourceException, ResourceNotFoundException {
+    public ResponseEntity<?> addtransaction(@RequestBody Transaction newtransaction,
+                                            @PathVariable("seller_id") Integer seller_id)
+            throws ResourceException, ResourceNotFoundException {
         try {
             playerService.checkPlayerLoggedInById(seller_id);
         }
