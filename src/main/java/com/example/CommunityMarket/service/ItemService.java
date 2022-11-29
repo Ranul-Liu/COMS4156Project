@@ -15,7 +15,7 @@ public class ItemService {
 
     //get by ID
     public List<Item> getByID(Integer itemID) {
-        Optional<Item> result = itemRepo.findById(itemID.toString());
+        Optional<Item> result = itemRepo.findById(itemID);
         if (result.isPresent()) {
             Item itemResult = result.get();
             return List.of(itemResult);
@@ -39,10 +39,14 @@ public class ItemService {
     }
 
     //put operation
-    public List<Item> updateItem(Item item) throws IllegalArgumentException {
-        if (getByID(item.getItemId()).size() >= 1) {
-            Item result = itemRepo.save(item);
-            return List.of(result);
+    public List<Item> updateItem(Integer item_id, Item updateditem) throws IllegalArgumentException {
+        Optional<Item> result = itemRepo.findById(item_id);
+        if(result.isPresent()){
+            Item item = result.get();
+            item.setItemName(updateditem.getItemName());
+            item.setItemCategory(updateditem.getItemCategory());
+            item.setItemDescription(updateditem.getItemDescription());
+            return List.of(item);
         } else {
             throw new IllegalArgumentException("Item not found by ID in DB, cannot update");
         }

@@ -37,9 +37,9 @@ public class ItemController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/item", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateItem(@RequestBody Item newItem) {
-        List<Item> result = itemService.updateItem(newItem);
+    @RequestMapping(value = "/item/{item_id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateItem(@RequestBody Item item, @PathVariable Integer item_id) {
+        List<Item> result = itemService.updateItem(item_id,item);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
