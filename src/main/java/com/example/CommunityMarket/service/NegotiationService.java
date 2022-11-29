@@ -1,7 +1,6 @@
 package com.example.CommunityMarket.service;
 
 import com.example.CommunityMarket.model.Transaction;
-import com.example.CommunityMarket.model.User;
 import com.example.CommunityMarket.repository.NegotiationRepository;
 import com.example.CommunityMarket.model.Negotiation;
 import com.example.CommunityMarket.repository.TransactionRepository;
