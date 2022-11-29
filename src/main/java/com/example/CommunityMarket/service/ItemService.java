@@ -46,6 +46,7 @@ public class ItemService {
             item.setItemName(updateditem.getItemName());
             item.setItemCategory(updateditem.getItemCategory());
             item.setItemDescription(updateditem.getItemDescription());
+            itemRepo.save(item);
             return List.of(item);
         } else {
             throw new IllegalArgumentException("Item not found by ID in DB, cannot update");

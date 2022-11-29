@@ -49,10 +49,16 @@ public class TransactionService {
         Transaction result = transactionRepo.save(transaction);
         return List.of(result);
     }
-    public List<Transaction> updateTransaction(Transaction transaction) throws IllegalArgumentException {
-        if (getByID(transaction.getTransactionID()).size() >= 1) {
-            Transaction result = transactionRepo.save(transaction);
-            return List.of(result);
+    public List<Transaction> updateTransaction(Transaction newtransaction, Integer transaction_id) throws IllegalArgumentException {
+        Optional<Transaction> Result = transactionRepo.findById(transaction_id);
+        if (Result.isPresent()) {
+            Transaction transaction = Result.get();
+            //seller can only update price, quantity
+            transaction.setPrice(newtransaction.getPrice());
+            //todo: check new quantity < current quantity
+            transaction.setQuantity(newtransaction.getQuantity());
+            transactionRepo.save(transaction);
+            return List.of(transaction);
         } else {
             throw new IllegalArgumentException("Transaction not found by ID in DB, cannot update");
         }

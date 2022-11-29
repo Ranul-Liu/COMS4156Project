@@ -59,15 +59,17 @@ public class TransactionController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/transaction/{transaction_id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updatetransaction(@RequestBody Transaction newtransaction, @PathVariable("seller_id") Integer seller_id) throws ResourceException, ResourceNotFoundException {
+    @RequestMapping(value = "/transaction/{seller_id}/{transaction_id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updatetransaction(@RequestBody Transaction newtransaction,
+                                               @PathVariable("seller_id") Integer seller_id,
+                                               @PathVariable("transaction_id") Integer transaction_id) throws ResourceException, ResourceNotFoundException {
         try {
             playerService.checkPlayerLoggedInById(seller_id);
         }
         catch(Exception e) {
             throw e;
         }
-        List<Transaction> result = transactionService.updateTransaction(newtransaction);
+        List<Transaction> result = transactionService.updateTransaction(newtransaction,transaction_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
