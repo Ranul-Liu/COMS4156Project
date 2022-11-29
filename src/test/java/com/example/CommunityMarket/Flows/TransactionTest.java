@@ -172,7 +172,7 @@ public class TransactionTest {
 
         // assert that transaction get correctly updated by checking all fields
         // assert
-        Transaction testResult = transactionService.updateTransaction(transactionToUpdate).get(0);
+        Transaction testResult = transactionService.updateTransaction(transactionToUpdate,transaction_id).get(0);
         assertEquals(expectedResult.getTransactionID(), testResult.getTransactionID());
         assertEquals(expectedResult.getBuyerID(), testResult.getBuyerID());
         assertEquals(expectedResult.getItemID(), testResult.getItemID());
