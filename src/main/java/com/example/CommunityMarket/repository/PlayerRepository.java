@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PlayerRepository extends CrudRepository<Player, String> {
+public interface PlayerRepository extends CrudRepository<Player, Integer> {
 
     @Query(value = """
             select * from player where ((:player_id is NULL or player_id = :player_id) and

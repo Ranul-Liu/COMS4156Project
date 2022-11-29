@@ -43,15 +43,15 @@ public class PlayerController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/players/login")
-    public ResponseEntity<?> loginPlayer(@RequestBody Player player) throws ResourceNotFoundException{
-        List<Player> result = playerService.loginPlayer(player);
+    @PostMapping("/player/login/{player_id}")
+    public ResponseEntity<?> loginPlayer(@PathVariable Integer player_id) throws ResourceNotFoundException{
+        List<Player> result = playerService.loginPlayer(player_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/players/logout")
-    public ResponseEntity<?> logoutPlayer(@RequestBody Player player) throws ResourceNotFoundException {
-        List<Player> result = playerService.logoutPlayer(player);
+    @PostMapping("/player/logout/{player_id}")
+    public ResponseEntity<?> logoutPlayer(@PathVariable Integer player_id) throws ResourceNotFoundException {
+        List<Player> result = playerService.logoutPlayer(player_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

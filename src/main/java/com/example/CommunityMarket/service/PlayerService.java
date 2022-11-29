@@ -21,7 +21,7 @@ public class PlayerService {
 
     //get by ID
     public List<Player> getByID(Integer player_id) throws ResourceNotFoundException {
-        Optional<Player> result = playerRepo.findById(player_id.toString());
+        Optional<Player> result = playerRepo.findById(player_id);
         if (result.isPresent()) {
             Player playerResult = result.get();
             return List.of(playerResult);
@@ -54,19 +54,25 @@ public class PlayerService {
         }
     }
 
-    public List<Player> loginPlayer(Player player) throws ResourceNotFoundException {
-        if (getByID(player.getPlayerID()).size() >= 1) {
-            player.setLogin(true);
-            return List.of(player);
+    public List<Player> loginPlayer(Integer player_id) throws ResourceNotFoundException {
+        Optional<Player> result = playerRepo.findById(player_id);
+        if (result.isPresent()) {
+            Player playerResult = result.get();
+            playerResult.setLogin(true);
+            playerRepo.save(playerResult);
+            return List.of(playerResult);
         } else {
             throw new ResourceNotFoundException("Player not found by ID in DB, cannot login");
         }
     }
 
-    public List<Player> logoutPlayer(Player player) throws ResourceNotFoundException {
-        if (getByID(player.getPlayerID()).size() >= 1) {
-            player.setLogin(false);
-            return List.of(player);
+    public List<Player> logoutPlayer(Integer player_id) throws ResourceNotFoundException {
+        Optional<Player> result = playerRepo.findById(player_id);
+        if (result.isPresent()) {
+            Player playerResult = result.get();
+            playerResult.setLogin(false);
+            playerRepo.save(playerResult);
+            return List.of(playerResult);
         } else {
             throw new ResourceNotFoundException("Player not found by ID in DB, cannot logout");
         }
@@ -75,7 +81,7 @@ public class PlayerService {
     // delete operation
     public void deletePlayerById(Player player) throws ResourceNotFoundException{
         if (getByID(player.getPlayerID()).size() >= 1) {
-            playerRepo.deleteById(player.getPlayerID().toString());
+            playerRepo.deleteById(player.getPlayerID());
         } else {
             throw new ResourceNotFoundException("Player not found in DB, cannot delete");
         }
