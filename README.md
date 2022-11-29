@@ -12,8 +12,10 @@ Members: Yichen Liu, Siyu Wu, Mengyuan Huang, Jiyao Chen
               * `user_id` (Type: Integer)
               * `email` (Type: String)
               * `username` (Type: String)
-           * Sample HTTP Request: localhost:8080/users?user_id=1
-           * Sample Response:
+           * Sample HTTP Request:  
+           `localhost:8080/users?user_id=1`
+           * Sample Response:  
+              `Status: 200`
               ```json
               [
                   {
@@ -27,23 +29,23 @@ Members: Yichen Liu, Siyu Wu, Mengyuan Huang, Jiyao Chen
         * Description: Create a new user with username and email. UserID will be generated automatically.
            * Sample Request Body:
            ```json
-              
+
            ```
-           * Sample Response: 
+           * Sample Response:
            ```json
-              
+
            ```
       * `PUT /user`
         * Description: Update user information. Input must contain userID. Only username and email can be updated.
            * Sample Request Body:
            ```json
-              
+
            ```
            * Sample Response:
            ```json
-              
+
            ```
-           
+
       * `DELETE /user` (coming soon)
    * ___Item___
       * `GET /item`
@@ -56,14 +58,69 @@ Members: Yichen Liu, Siyu Wu, Mengyuan Huang, Jiyao Chen
               * `item_name` (Type: String)
               * `item_description` (Type: String)
               * `item_category` (Type: String)
-           * Sample HTTP Request: localhost:8080/item?item_id=1
-           * Sample Response:
+           * Sample HTTP Request:  
+           `localhost:8080/item?item_id=1`
+           * Sample Response:  
+              `Status: 200`
               ```json
-              
+              [
+                {
+                  "item_id": 1,
+                  "item_name":"shield",
+                  "item_description":"a stone shield",
+                  "item_category":"defence"
+                }
+              ]
               ```
-      * `POST /item`
+      * `POST /item`  
+        * Description: Add a new item to the database.
+          * Sample Request Body:
+          ```json
+          {
+              "item_name":"shield",
+              "item_description":"a stone shield",
+              "item_category":"defense"
+          }
+          ```
+          * Sample Response:  
+             `Status: 201`
+             ```json
+             [
+               {
+                 "item_id": 1,
+                 "item_name":"shield",
+                 "item_description":"a stone shield",
+                 "item_category":"defence"
+               }
+             ]
+             ```
+
       * `PUT /item`
-      * `DELETE /item`
+        * Description: Update an existing item in the database.
+          * Sample Request Body:  
+          ```json
+          {
+              "item_id": 1,
+              "item_name":"shield",
+              "item_description":"a stone shield",
+              "item_category":"defence"
+          }
+          ```
+          * Sample Response:  
+             `Status: 200`
+             ```json
+             [
+               {
+                 "item_id": 1,
+                 "item_name":"shield",
+                 "item_description":"a stone shield",
+                 "item_category":"defence"
+               }
+             ]
+             ```
+
+      * `DELETE /item`  
+      Currently this is not supported.
    * ___Transaction___
       * `GET /transaction`
       * `POST /transaction`
