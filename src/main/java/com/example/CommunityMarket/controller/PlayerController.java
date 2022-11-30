@@ -36,10 +36,10 @@ public class PlayerController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/player", method = RequestMethod.PUT)
-    public ResponseEntity<?> updatePlayer(@RequestBody Player newPlayer) throws ResourceNotFoundException, ResourceException{
+    @RequestMapping(value = "/player/update/{player_id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updatePlayer(@RequestBody Player newPlayer, @PathVariable Integer player_id) throws ResourceNotFoundException, ResourceException{
         playerService.checkUpdatePlayer(newPlayer);
-        List<Player> result = playerService.updatePlayer(newPlayer);
+        List<Player> result = playerService.updatePlayer(newPlayer,player_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -55,9 +55,11 @@ public class PlayerController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @DeleteMapping("/players/delete")
-    public void deletePlayer(@RequestBody Player player) throws ResourceNotFoundException{
-        playerService.deletePlayerById(player);
+    @DeleteMapping("/players/delete/{player_id}")
+    public void deletePlayer(@PathVariable Integer player_id)
+            throws ResourceNotFoundException{
+
+        playerService.deletePlayerById(player_id);
     }
 }
 

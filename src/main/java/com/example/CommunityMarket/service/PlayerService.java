@@ -45,10 +45,14 @@ public class PlayerService {
     }
 
     //put operation
-    public List<Player> updatePlayer(Player player) throws ResourceNotFoundException {
-        if (getByID(player.getPlayerID()).size() >= 1) {
-            Player result = playerRepo.save(player);
-            return List.of(result);
+    public List<Player> updatePlayer(Player updateplayer, Integer player_id) throws ResourceNotFoundException {
+        Optional<Player> result = playerRepo.findById(player_id);
+        if (result.isPresent()) {
+            Player player = result.get();
+            player.setEmail(updateplayer.getEmail());
+            player.setPlayername(updateplayer.getPlayername());
+            playerRepo.save(player);
+            return List.of(player);
         } else {
             throw new ResourceNotFoundException("Player not found by ID in DB, cannot update");
         }
@@ -79,11 +83,11 @@ public class PlayerService {
     }
 
     // delete operation
-    public void deletePlayerById(Player player) throws ResourceNotFoundException{
-        if (getByID(player.getPlayerID()).size() >= 1) {
-            playerRepo.deleteById(player.getPlayerID());
+    public void deletePlayerById(Integer player_id) throws ResourceNotFoundException{
+        if (getByID(player_id).size() >= 1) {
+            playerRepo.deleteById(player_id);
         } else {
-            throw new ResourceNotFoundException("Player not found in DB, cannot delete");
+            throw new ResourceNotFoundException("Player not found by id in DB, cannot delete");
         }
     }
 
@@ -98,8 +102,9 @@ public class PlayerService {
     //              - that string is not blank ex "   "
     //              - string is initialize (not == null)
     // returns true if follows rules above, false otherwise
-    public boolean checkIfInvalid(String string) {
-        return string.length() > 128 || string.isBlank();
+    public boolean checkPlayernameIfInvalid(String string) {
+
+        return string.isBlank();
     }
 
     public boolean checkPlayernameLength(String playername) {
@@ -115,6 +120,9 @@ public class PlayerService {
         try {
             if (!checkPlayernameLength(player.getPlayername())) {
                 throw new ResourceException("Playername must be between 1-32 characters");
+            }
+            else if (!checkPlayernameIfInvalid(player.getPlayername())){
+                throw new ResourceException("Playername cannot be blank");
             }
             else if (!checkEmailLength(player.getEmail())) {
                 throw new ResourceException("Email must be between 1-128 characters");
@@ -136,19 +144,19 @@ public class PlayerService {
     }
 
     public void checkUpdatePlayer(Player player) throws ResourceException {
-        if (player.getPlayerID() == null) {
-            throw new ResourceException("Please provide player_id");
+        if (player.getPlayerID() != null) {
+            throw new ResourceException("Do not provide player_id");
         }
         checkInputs(player);
     }
 
     public void checkPlayerLoggedInById(Integer player_id) throws ResourceException, ResourceNotFoundException {
         try {
-            List<Player> player = getByID(player_id);
-            if (!(player.size() >= 1)) {
+            Optional<Player> player = playerRepo.findById(player_id);
+            if (!player.isPresent()) {
                 throw new ResourceNotFoundException("player_id not found");
             }
-            if (player.get(0).getLogin() != true) {
+            if (player.get().getLogin() != true) {
                 throw new ResourceException("player_id not logged in");
             }
         }
