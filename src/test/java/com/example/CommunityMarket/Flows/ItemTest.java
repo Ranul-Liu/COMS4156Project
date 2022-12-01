@@ -1,14 +1,18 @@
-/*
+
 package com.example.CommunityMarket.Flows;
 
 
+import com.example.CommunityMarket.exceptions.ResourceException;
+import com.example.CommunityMarket.exceptions.ResourceNotFoundException;
 import com.example.CommunityMarket.model.Item;
 import com.example.CommunityMarket.model.Player;
 import com.example.CommunityMarket.repository.ItemRepository;
 import com.example.CommunityMarket.service.ItemService;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,13 +35,13 @@ public class ItemTest {
 
     // test itemService.getByID with an existing element
     @Test
-    public void testGetItemByIDExist() {
+    public void testGetItemByIDExist() throws ResourceNotFoundException {
         Integer item_id = 1;
         Optional<Item> expectedResult = Optional.of(new Item(item_id,
                                                             "test item",
                                                             "This is a test item",
                                                             "test category"));
-        Mockito.when(itemRepo.findById(item_id.toString())).thenReturn(expectedResult);
+        Mockito.when(itemRepo.findById(item_id)).thenReturn(expectedResult);
         Item testResult = itemService.getByID(item_id).get(0);
         assertEquals(expectedResult.get().getItemName(), testResult.getItemName());
         assertEquals(expectedResult.get().getItemId(), testResult.getItemId());
@@ -46,16 +50,20 @@ public class ItemTest {
     }
 
     // test itemService.getByID with an item does not exist
-    @Test(expected = IllegalArgumentException.class)
+    // exception raised when item_id does not exist
+    @Test
     public void testGetItemByIDNotExist() {
         Integer item_id = 1;
-        Mockito.when(itemRepo.findById(item_id.toString())).thenReturn(Optional.empty());
-        itemService.getByID(item_id);
+        Mockito.when(itemRepo.findById(item_id)).thenReturn(Optional.empty());
+        Assertions.assertThrows(ResourceNotFoundException.class,
+                ()->itemService.getByID(item_id),
+                "Item not found by ID in DB."
+                );
     }
 
     // test itemService.getItemByTemplate()
     @Test
-    public void testGetItemByTemplate() {
+    public void testGetItemByTemplateExist() throws ResourceNotFoundException {
         Integer item_id = 1;
         Item expectedResult = new Item(item_id,
                 "test item",
@@ -77,6 +85,7 @@ public class ItemTest {
         assertEquals(expectedResult.getItemCategory(), testResult.getItemCategory());
         assertEquals(expectedResult.getItemDescription(), testResult.getItemDescription());
     }
+
 
     // test itemService.postItem() success
     @Test
@@ -102,52 +111,135 @@ public class ItemTest {
         assertEquals(newItemToPost.getItemDescription(), testResult.getItemDescription());
     }
 
-    // test itemService.postItem() success
+    // test itemService.updateItem() success
     @Test
-    public void testUpdateItemSuccess() {
+    public void testUpdateItemSuccess() throws ResourceNotFoundException {
         Integer item_id = 1;
         // initialize the item BEFORE update
-        Item itemToUpdate = new Item(item_id,
+        Item itemBeforeUpdate = new Item(item_id,
                 "test item",
                 "This is a test item",
                 "test category");
+        // initialize the item for request body
+        Item itemForUpdate = new Item(item_id,
+                "after update",
+                "after update",
+                "after update");
 
-        // initialize the item AFTER update
+        // initialize the expected response AFTER update
         Item expectedResult = new Item(item_id,
                 "after update",
                 "after update",
                 "after update");
 
         // Mock finding the Player through player_id
-        Mockito.when(itemRepo.findById(String.valueOf(itemToUpdate.getItemId()))).thenReturn(Optional.of(expectedResult));
+        Mockito.when(itemRepo.findById(item_id)).thenReturn(Optional.of(itemBeforeUpdate));
         // Mock updating/saving the database
-        Mockito.when(itemRepo.existsById(item_id.toString())).thenReturn(true);
-        Mockito.when(itemRepo.save(expectedResult)).thenReturn(expectedResult);
+        Mockito.when(itemRepo.save(itemForUpdate)).thenReturn(itemForUpdate);
 
         // assert the fields
-        Item testResult = itemService.updateItem(itemToUpdate).get(0);
-        assertEquals(itemToUpdate.getItemName(), testResult.getItemName());
-        assertEquals(itemToUpdate.getItemId(), testResult.getItemId());
-        assertEquals(itemToUpdate.getItemCategory(), testResult.getItemCategory());
-        assertEquals(itemToUpdate.getItemDescription(), testResult.getItemDescription());
+        Item testResult = itemService.updateItem(item_id,itemForUpdate).get(0);
+        assertEquals(expectedResult.getItemName(), testResult.getItemName());
+        assertEquals(expectedResult.getItemId(), testResult.getItemId());
+        assertEquals(expectedResult.getItemCategory(), testResult.getItemCategory());
+        assertEquals(expectedResult.getItemDescription(), testResult.getItemDescription());
     }
 
-    //Make sure exception raised when the item does not exist
-    @Test(expected = IllegalArgumentException.class)
+    // Test UpdateItem
+    // Exception Raised when item_id is not found in DB
+    @Test
     public void testExceptionUpdateItem() {
+        Integer item_id = 1;
+        Mockito.when(itemRepo.findById(item_id)).thenReturn(Optional.empty());
+        Assertions.assertThrows(ResourceNotFoundException.class,
+                ()->itemService.deleteItemById(item_id),
+                "Item not found by ID in DB, cannot update");
+    }
 
-        // Initialize updated Item
-        Item updatedItem = new Item(10,
-                "Sword",
-                "This is a sword",
-                "Attack weapons");
+    // Test DeleteItemById Succeed
+    @Test
+    public void testDeleteItemByIdSucceed() throws ResourceNotFoundException {
+        Integer item_id = 1;
+        Item itemToDelete = new Item(1,
+                "test item",
+                "This is a test item",
+                "test category"
+                );
 
-        // itemID does not exist
-        Mockito.when(itemRepo.existsById("10")).thenReturn(false);
+        Mockito.when(itemRepo.findById(item_id)).thenReturn(Optional.of(itemToDelete));
+        itemRepo.deleteById(item_id);
+        Mockito.verify(itemRepo).deleteById(item_id);
+    }
 
-        //call updateItem method
-        itemService.updateItem(updatedItem);
+    // Test DeleteItemById
+    // Exception Raised when item_id is not found in DB
+    @Test
+    public void testExceptionDeleteItemById() {
+        Integer item_id = 1;
+        Mockito.when(itemRepo.findById(item_id)).thenReturn(Optional.empty());
+        Assertions.assertThrows(ResourceNotFoundException.class,
+                ()->itemService.deleteItemById(item_id),
+                "Item not found by ID in DB, cannot delete");
+    }
+
+    // Test checkPostItemInputs
+    // Exception thrown when item_id is provided when post item
+    @Test
+    public void testExceptionCheckPostItemInputs() {
+
+        Item item = new Item(1,
+                "test item",
+                "This is a test item",
+                "test category"
+        );
+        Assertions.assertThrows(ResourceException.class,
+                ()->itemService.checkPostItemInputs(item),
+                "Please do not provide item_id");
+    }
+
+    // Test checkPostItemInputs
+    // Exception thrown when item_name is not provided
+    @Test
+    public void testExceptionCheckPostItemInputs2() {
+
+        Item item = new Item(1,
+                null,
+                "This is a test item",
+                "test category"
+        );
+        Assertions.assertThrows(ResourceException.class,
+                ()->itemService.checkPostItemInputs(item),
+                "Please provide item name");
+    }
+
+    // Test checkPostItemInputs
+    // Exception thrown when item_category is not provided
+    @Test
+    public void testExceptionCheckPostItemInputs3() {
+
+        Item item = new Item(1,
+                "test item",
+                "test description",
+                null
+        );
+        Assertions.assertThrows(ResourceException.class,
+                ()->itemService.checkPostItemInputs(item),
+                "Please provide item category");
+    }
+    // Test checkPostItemInputs
+    // Exception thrown when item_description is not provided
+    @Test
+    public void testExceptionCheckPostItemInputs4() {
+
+        Item item = new Item(1,
+                "test item",
+                null,
+                "test category"
+        );
+        Assertions.assertThrows(ResourceException.class,
+                ()->itemService.checkPostItemInputs(item),
+                "Please provide item description");
     }
 
 }
-*/
+
