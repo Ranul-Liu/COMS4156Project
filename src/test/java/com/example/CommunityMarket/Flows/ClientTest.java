@@ -3,6 +3,7 @@ package com.example.CommunityMarket.Flows;
 import com.example.CommunityMarket.exceptions.ResourceException;
 import com.example.CommunityMarket.exceptions.ResourceNotFoundException;
 import com.example.CommunityMarket.model.Client;
+import com.example.CommunityMarket.model.Player;
 import com.example.CommunityMarket.repository.*;
 import com.example.CommunityMarket.service.ClientService;
 
@@ -14,12 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -49,13 +49,14 @@ public class ClientTest {
         assertEquals(client_id, result.getClientID());
     }
 
-    @Test(expected = ResourceNotFoundException.class)
-    public void testCheckGetByIdNotExists() throws ResourceNotFoundException {
-
+    @Test
+    public void testCheckGetByIdNotExists() {
         Integer client_id = 1;
         Optional<Client> optClient = Optional.empty();
         Mockito.when(clientRepo.findById(client_id)).thenReturn(optClient);
-        clientService.getByID(client_id);
+        assertThrows(ResourceNotFoundException.class,
+                ()->clientService.getByID(client_id));
+
     }
 
     @Test
@@ -118,15 +119,17 @@ public class ClientTest {
 
     }
 
-    @Test(expected = ResourceNotFoundException.class)
-    public void testUpdateClientNotFound() throws ResourceNotFoundException {
+    @Test
+    public void testUpdateClientNotFound() {
+        Integer update_client_id = 13;
         Client client = new Client(13,
                 "client1@gmail.com",
                 "client1",
                 "Company1",
                 "4");
-        Mockito.when(clientRepo.existsById(13)).thenReturn(Boolean.FALSE);
-        clientService.updateClient(client);
+        Mockito.when(clientRepo.findById(update_client_id)).thenReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class,
+                ()->clientService.updateClient(client));
     }
 
     @Test
@@ -139,13 +142,14 @@ public class ClientTest {
 
     }
 
-    @Test(expected = ResourceNotFoundException.class)
-    public void testDeleteClientByIdNotFound() throws ResourceNotFoundException {
-
+    @Test
+    public void testDeleteClientByIdNotFound() {
         Integer client_id = 10;
 
-        Mockito.when(clientRepo.existsById(client_id)).thenReturn(Boolean.FALSE);
-        clientService.deleteClientById(client_id);
+        Mockito.when(clientRepo.findById(client_id)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class,
+                ()->clientService.deleteClientById(client_id));
 
     }
 
