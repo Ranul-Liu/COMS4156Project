@@ -24,13 +24,13 @@ public class NegotiationController {
         this.playerService = playerService;
     }
 
-    public ResponseEntity<?> getById(@RequestParam(value = "negotiation_id", required = true) Integer negotiation_id) {
-        List<Negotiation> result = negotiationService.getByID(negotiation_id);
+    public ResponseEntity<?> getById(@RequestParam(value = "negotiation_id", required = true) Integer negotiation_id) throws ResourceNotFoundException {
+        Negotiation result = negotiationService.getByID(negotiation_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     // view all negotiation associated with {transaction_id}
     @RequestMapping(value="/view-negotiation",method = RequestMethod.GET)
-    public ResponseEntity<?> getByTransactionID(@RequestParam(value = "fk_transaction_id", required = true) Integer fk_transaction_id) {
+    public ResponseEntity<?> getByTransactionID(@RequestParam(value = "fk_transaction_id", required = true) Integer fk_transaction_id) throws ResourceNotFoundException {
         List<Negotiation> result = negotiationService.getByTransactionID(fk_transaction_id);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }

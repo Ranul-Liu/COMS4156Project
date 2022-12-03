@@ -1,5 +1,6 @@
 package com.example.CommunityMarket.service;
 
+import com.example.CommunityMarket.exceptions.ResourceNotFoundException;
 import com.example.CommunityMarket.model.Transaction;
 import com.example.CommunityMarket.repository.NegotiationRepository;
 import com.example.CommunityMarket.model.Negotiation;
@@ -20,16 +21,17 @@ public class NegotiationService {
     @Autowired
     TransactionService transactionService;
 
-    public List<Negotiation> getByID(Integer NegotiationID) {
+    public Negotiation getByID(Integer NegotiationID) throws ResourceNotFoundException {
         Optional<Negotiation> result = negotiationRepo.findById(NegotiationID);
         if (result.isPresent()) {
             Negotiation NegotiationResult = result.get();
-            return List.of(NegotiationResult);
+            return NegotiationResult;
+        } else {
+            throw new ResourceNotFoundException("Negotiation not found by ID");
         }
-        return Collections.emptyList();
     }
 
-    public List<Negotiation> addNegotiation(Negotiation negotiation) {
+    public List<Negotiation> addNegotiation(Negotiation negotiation) throws ResourceNotFoundException {
         Integer fk_transaction_id = negotiation.getTransaction().getTransactionID();
         Optional<Transaction> result = transactionRepository.findById(fk_transaction_id);
         if (result.isPresent()) {
@@ -43,30 +45,31 @@ public class NegotiationService {
             Negotiation NegotiationResult = negotiationRepo.save(negotiation);
             return List.of(NegotiationResult);
         } else {
-            throw new IllegalArgumentException("Transaction not found by ID in DB.");
+            throw new ResourceNotFoundException("Transaction not found by ID in DB.");
         }
 
     }
-
-    public List<Negotiation> updateNegotiation(Negotiation negotiation) {
+    // no longer needed
+    /*public List<Negotiation> updateNegotiation(Negotiation negotiation) throws ResourceNotFoundException {
         if (getByID(negotiation.getNegotiation_id()).size() >= 1) {
             Negotiation result = negotiationRepo.save(negotiation);
             return List.of(result);
         } else {
-            throw new IllegalArgumentException("Negotiation not found by ID in DB, cannot update");
+            throw new ResourceNotFoundException("Negotiation not found by ID in DB, cannot update");
         }
-    }
+    }*/
 
 
-    public List<Negotiation> getByTransactionID(Integer fk_transaction_id) {
+    public List<Negotiation> getByTransactionID(Integer fk_transaction_id) throws ResourceNotFoundException {
         List<Negotiation> result = negotiationRepo.findByTransactionID(fk_transaction_id);
         if (result!=null) {
             return result;
+        } else {
+            throw new ResourceNotFoundException("Negotiation not found by transaction_id");
         }
-        return Collections.emptyList();
     }
 
-    public Negotiation acceptNegotiation(Integer negotiation_id){
+    public Negotiation acceptNegotiation(Integer negotiation_id) throws ResourceNotFoundException {
         //find the negotiation
         Optional<Negotiation> result = negotiationRepo.findById(negotiation_id);
         if(result.isPresent()){
@@ -87,7 +90,7 @@ public class NegotiationService {
             negotiationRepo.save(negotiation);
             return negotiation;
         } else {
-            throw new IllegalArgumentException("Negotiation not found by ID in DB, cannot accept");
+            throw new ResourceNotFoundException("Negotiation not found by ID in DB, cannot accept");
         }
 
 

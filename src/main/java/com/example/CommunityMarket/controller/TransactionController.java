@@ -24,7 +24,7 @@ public class TransactionController {
     public TransactionController(TransactionService transactionService, PlayerService playerService){ this.transactionService = transactionService; this.playerService = playerService;}
     // get by transaction id
     //@RequestMapping(value = "/transaction", method = RequestMethod.GET)
-    public ResponseEntity<?> getById(@RequestParam(value = "transaction_id", required = true) Integer transaction_id) {
+    public ResponseEntity<?> getById(@RequestParam(value = "transaction_id", required = true) Integer transaction_id) throws ResourceNotFoundException {
         List<Transaction> result = transactionService.getByID(transaction_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -57,7 +57,7 @@ public class TransactionController {
         catch(Exception e) {
             throw e;
         }
-        List<Transaction> result = transactionService.addTransaction(newtransaction);
+        List<Transaction> result = transactionService.addTransaction(newtransaction,seller_id);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 

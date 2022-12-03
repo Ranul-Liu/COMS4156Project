@@ -15,7 +15,7 @@ public class Negotiation {
     private Integer negotiation_id;
 
     @Column(name = "buyer_id")
-    private String buyer_id;
+    private Integer buyer_id;
 
     @Column(name = "post_time")
     private LocalDateTime post_time;
@@ -25,11 +25,11 @@ public class Negotiation {
 
     @Column(name = "price")
     @JsonProperty("price")
-    private int price;
+    private Integer price;
 
     @Column(name = "quantity")
     @JsonProperty("quantity")
-    private int quantity;
+    private Integer quantity;
 
     @Column(name = "open")
     private boolean open;
@@ -41,15 +41,14 @@ public class Negotiation {
     @JoinColumn(name="fk_transaction_id",referencedColumnName = "transaction_id")
     private Transaction transaction;
 
-    /*@ManyToOne
-    @JoinColumn(name="fk_player_id",referencedColumnName = "player_id")
-    private Player player;*/
-
-    public Negotiation(){
+    public Negotiation(Integer buyer_id, Integer price, Integer quantity, Transaction transaction){
+        this.buyer_id = buyer_id;
+        this.price = price;
+        this.quantity = quantity;
+        this.transaction = transaction;
     }
 
-    public Negotiation(Integer negotiation_id, String buyer_id, LocalDateTime post_time, LocalDateTime close_time,
-                       int price, int quantity, boolean open, boolean accept, Transaction transaction) {
+    public Negotiation(Integer negotiation_id, Integer buyer_id, LocalDateTime post_time, LocalDateTime close_time, Integer price, Integer quantity, boolean open, boolean accept, Transaction transaction) {
         this.negotiation_id = negotiation_id;
         this.buyer_id = buyer_id;
         this.post_time = post_time;
@@ -59,18 +58,7 @@ public class Negotiation {
         this.open = open;
         this.accept = accept;
         this.transaction = transaction;
-
     }
-
-    public Transaction getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
-    }
-
-
 
     public Integer getNegotiation_id() {
         return negotiation_id;
@@ -80,11 +68,11 @@ public class Negotiation {
         this.negotiation_id = negotiation_id;
     }
 
-    public String getBuyer_id() {
+    public Integer getBuyer_id() {
         return buyer_id;
     }
 
-    public void setBuyer_id(String buyer_id) {
+    public void setBuyer_id(Integer buyer_id) {
         this.buyer_id = buyer_id;
     }
 
@@ -104,19 +92,19 @@ public class Negotiation {
         this.close_time = close_time;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -134,6 +122,14 @@ public class Negotiation {
 
     public void setAccept(boolean accept) {
         this.accept = accept;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
     }
 
     @Override

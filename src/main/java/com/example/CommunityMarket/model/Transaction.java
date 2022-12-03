@@ -30,7 +30,7 @@ public class Transaction {
 
     @Column(name = "buyer_id")
     @JsonProperty("buyer_id")
-    private String buyerID;
+    private Integer buyerID;
 
     @Column(name = "item_id")
     @JsonProperty("item_id")
@@ -63,10 +63,15 @@ public class Transaction {
     @Column(name = "accept")
     private boolean accept;
 
-    /*@OneToMany(cascade = CascadeType.ALL, mappedBy = "transaction",fetch=FetchType.EAGER)
-    private List<Negotiation> negotiation;*/
+    public Transaction(){}
 
-    public Transaction(Integer transactionID, Integer sellerID, String buyerID, Integer itemID, int price, LocalDateTime postTime, LocalDateTime closeTime, int quantity, boolean open, boolean accept, List<Negotiation> negotiation) {
+    public Transaction(Integer itemID, int price, int quantity) {
+        this.itemID = itemID;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    public Transaction(Integer transactionID, Integer sellerID, Integer buyerID, Integer itemID, int price, LocalDateTime postTime, LocalDateTime closeTime, int quantity, boolean open, boolean accept) {
         this.transactionID = transactionID;
         this.sellerID = sellerID;
         this.buyerID = buyerID;
@@ -77,18 +82,7 @@ public class Transaction {
         this.quantity = quantity;
         this.open = open;
         this.accept = accept;
-        //this.negotiation = negotiation;
     }
-
-    /*public List<Negotiation> getNegotiation() {
-        return negotiation;
-    }
-
-    public void setNegotiation(List<Negotiation> negotiation) {
-        this.negotiation = negotiation;
-    }
-*/
-    public Transaction(){}
 
     public Integer getTransactionID() {
         return transactionID;
@@ -106,11 +100,11 @@ public class Transaction {
         this.sellerID = sellerID;
     }
 
-    public String getBuyerID() {
+    public Integer getBuyerID() {
         return buyerID;
     }
 
-    public void setBuyerID(String buyerID) {
+    public void setBuyerID(Integer buyerID) {
         this.buyerID = buyerID;
     }
 

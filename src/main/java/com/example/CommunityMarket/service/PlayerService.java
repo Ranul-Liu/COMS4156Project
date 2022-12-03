@@ -102,9 +102,8 @@ public class PlayerService {
     //              - that string is not blank ex "   "
     //              - string is initialize (not == null)
     // returns true if follows rules above, false otherwise
-    public boolean checkPlayernameIfInvalid(String string) {
-
-        return string.isBlank();
+    public boolean checkPlayernameIfInvalid(String playername) {
+        return !playername.isBlank();
     }
 
     public boolean checkPlayernameLength(String playername) {
