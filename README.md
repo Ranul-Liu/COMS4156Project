@@ -141,7 +141,10 @@ Members: Yichen Liu, Siyu Wu, Mengyuan Huang, Jiyao Chen
              ]
              ```
 
-      * `DELETE /item` (coming soon)
+      * `DELETE /item/{item_id}`
+        * Description: Delete the given item.
+          * Sample HTTP Request: `localhost:8080/item?item_id=1`
+          * Sample Response: `Status: 200`
    * ___Transaction___
       * `GET /transaction`
         * Description: Return a full list of transactions
@@ -317,19 +320,17 @@ Members: Yichen Liu, Siyu Wu, Mengyuan Huang, Jiyao Chen
           * Sample Response:  
           `Status: 200`
           ```json
-          [
-              {
-                "negotiation_id": 1,
-                "buyer_id": 2,
-                "post_time": "2022-12-04-17-22-53",
-                "close_time": "2022-12-04-17-22-54",
-                "price": 3,
-                "quantity": 5,
-                "open": false,
-                "accept": true,
-                "transaction": {"transaction_id":1, "Open": false, "Accept": true}
-              }
-          ]
+            {
+              "negotiation_id": 1,
+              "buyer_id": 2,
+              "post_time": "2022-12-04-17-22-53",
+              "close_time": "2022-12-04-17-22-54",
+              "price": 3,
+              "quantity": 5,
+              "open": false,
+              "accept": true,
+              "transaction": {"transaction_id":1, "Open": false, "Accept": true}
+            }
           ```
 ## System description
 This system provides an in-community market with negotiation/auction functionality. Clients can create users and modify the state of players, such as bags of items and amount of money (in-game scenario). Users can post their items to the community market at desired prices, and other users can buy the items or negotiate the price.
