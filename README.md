@@ -2,58 +2,80 @@
 Team: CHLW  
 Members: Yichen Liu, Siyu Wu, Mengyuan Huang, Jiyao Chen
 ## 1. Documented API
-   * ___User___
-      * `GET /user`
-        * Description: Return a full list of registered users
-           * Sample HTTP Request: localhost:8080/user
-      * `GET /user`
+   * ___Player___
+      * `GET /player`
+        * Description: Return a full list of registered players
+           * Sample HTTP Request: localhost:8080/player
+      * `GET /player`
         * Description: Return a list of users that matches the given parameter
            * Optinal Parameters:
-              * `user_id` (Type: Integer)
+              * `player_id` (Type: Integer)
               * `email` (Type: String)
-              * `username` (Type: String)
+              * `playername` (Type: String)
            * Sample HTTP Request:  
-           `localhost:8080/users?user_id=1`
+           `localhost:8080/player?player_id=1`
            * Sample Response:  
               `Status: 200`
               ```json
               [
                   {
-                      "user_id": 1,
-                      "username": "sw3607",
+                      "player_id": 1,
+                      "playername": "sw3607",
                       "email": "sw3607@columbia.edu"
                   }
               ]
               ```
-      * `POST /user`
-        * Description: Create a new user with username and email. UserID will be generated automatically.
+      * `POST /player`
+        * Description: Create a new player with username and email. UserID will be generated automatically.
            * Sample Request Body:
            ```json
-
+           {
+              "playername": "sw3607",
+              "email": "sw3607@columbia.edu"
+           }
            ```
-           * Sample Response:
+           * Sample Response:  
+           `status: 201`
            ```json
-
+           [
+               {
+                   "player_id": 1,
+                   "playername": "sw3607",
+                   "email": "sw3607@columbia.edu"
+               }
+           ]
            ```
-      * `PUT /user`
-        * Description: Update user information. Input must contain userID. Only username and email can be updated.
+      * `PUT /player`
+        * Description: Update player information. Input must contain playerID. Only playername and email can be updated.
            * Sample Request Body:
            ```json
-
+           {
+               "player_id": 1,
+               "playername":"newname@columbia.edu",
+               "email":"newemail@columbia.edu"
+           }
            ```
-           * Sample Response:
+           * Sample Response:  
+           `status: 200`
            ```json
-
+           [
+               {
+                   "player_id": 1,
+                   "playername": "newname@columbia.edu",
+                   "email": "newemail@columbia.edu"
+               }
+           ]
            ```
 
-      * `DELETE /user` (coming soon)
+      * `DELETE /player` (coming soon)
    * ___Item___
       * `GET /item`
         * Description: Return a full list of items
-             * Sample HTTP Request: localhost:8080/item
+             * Sample HTTP Request:  
+             `localhost:8080/item`
       * `GET /item`
-        * Description: Return a list of items that matches the given parameter
-           * Optinal Parameters:
+        * Description: Return a list of items that matches the given parameters
+           * Optional Parameters:
               * `item_id` (Type: Integer)
               * `item_name` (Type: String)
               * `item_description` (Type: String)
@@ -119,13 +141,197 @@ Members: Yichen Liu, Siyu Wu, Mengyuan Huang, Jiyao Chen
              ]
              ```
 
-      * `DELETE /item`  
-      Currently this is not supported.
+      * `DELETE /item/{item_id}`
+        * Description: Delete the given item.
+          * Sample HTTP Request: `localhost:8080/item?item_id=1`
+          * Sample Response: `Status: 200`
    * ___Transaction___
       * `GET /transaction`
+        * Description: Return a full list of transactions
+          * Sample HTTP Request:
+          `localhost:8080/transaction`
+      * `GET /transaction`
+        * Description: Return a list of transactions that matches the given parameters
+          * Optional parameters:
+            * `transaction_id` (Type: Integer)
+            * `item_id` (Type: Integer)
+            * `buyer_id` (Type: Integer)
+            * `seller_id` (Type: Integer)
+            * `quantity` (Type: Integer)
+            * `open` (Type: Boolean)
+            * `post_time` (Type: LocalDateTime)
+            * `close_time` (Type: LocalDateTime)
+            * `price` (Type: Integer)
+            * `accept` (Type: Boolean)
+          * Sample HTTP Request:  
+          `localhost:8080/transaction?transaction_id=1`
+          * Sample Response:  
+          `Status: 200`
+          ```json
+          [
+              {
+                "transaction_id": 1,
+                "item_id": 1,
+                "buyer_id": 2,
+                "seller_id": 1,
+                "quantity": 1,
+                "open": true,
+                "post_time": "2022-12-04-17-22-53",
+                "close_time": null,
+                "price": 100,
+                "accept": false
+              }
+          ]
+          ```
       * `POST /transaction`
-      * `PUT /transaction`
-      * `DELETE /transaction`
+        * Description: Add a new transaction to the database.
+          * Sample Request Body:
+          ```json
+          {
+              "seller_id":"1",
+              "item_id" : "1",
+              "price" : "100",
+              "quantity" : "1",
+              "accept" : false,
+              "open" : true
+          }
+          ```
+          * Sample Response:  
+          `Status: 201`
+          ```json
+          [
+              {
+                "transaction_id": 1,
+                "item_id": 1,
+                "buyer_id": null,
+                "seller_id": 1,
+                "quantity": 1,
+                "open": true,
+                "post_time": "2022-12-04-17-22-53",
+                "close_time": null,
+                "price": 100,
+                "accept": false
+              }
+          ]
+          ```
+      * `PUT /transaction/{seller_id}/{transaction_id}`
+        * Description: Update a given transaction.
+          * Sample Request Body:  
+          ```json
+          {
+              "initial_price" : "3",
+              "quantity" : "3"
+            }
+            ```
+            * Sample Response:
+            `Status: 200`
+            ```json
+            [
+                {
+                  "transaction_id": 1,
+                  "item_id": 1,
+                  "buyer_id": null,
+                  "seller_id": 1,
+                  "quantity": 3,
+                  "open": true,
+                  "post_time": "2022-12-04-17-22-53",
+                  "close_time": null,
+                  "price": 3,
+                  "accept": false
+                }
+            ]
+            ```
+      * `PUT /transaction/close/{seller_id}/{transaction_id}`
+        * Description: Close the given transaction.
+          * Sample Response:
+          `Status: 200`
+          ```json
+          [
+              {
+                "transaction_id": 1,
+                "item_id": 1,
+                "buyer_id": null,
+                "seller_id": 1,
+                "quantity": 3,
+                "open": false,
+                "post_time": "2022-12-04-17-22-53",
+                "close_time": "2022-12-04-17-22-54",
+                "price": 3,
+                "accept": false
+              }
+          ]
+          ```
+      * `DELETE /transaction` (coming soon)
+
+   * ___Negotiation___
+      * `Get /view-negotiation`
+        * Description: Return a list of negotiations according to the transaction_id.
+          * Sample HTTP Request: `localhost:8080/view-negotiation?fk_transaction_id=1`
+          * Sample Response:  
+          `Status: 200`  
+          ```json
+          [
+              {
+                "negotiation_id": 1,
+                "buyer_id": 2,
+                "post_time": "2022-12-04-17-22-53",
+                "close_time": null,
+                "price": 3,
+                "quantity": 5,
+                "open": true,
+                "accept": null,
+                "transaction": {"transaction_id":1}
+              }
+          ]
+          ```
+      * `POST /addnegotiation/{buyer_id}`
+        * Description: Add a new negotiation.
+          * Sample Request Body:  
+          ```json
+          {
+              "buyer_id":1,
+              "price":3,
+              "quantity":5,
+              "transaction":{
+                "transaction_id":1
+              }
+          }
+          ```
+          * Sample Response:  
+          `Status: 201`  
+          ```json
+          [
+              {
+                "negotiation_id": 1,
+                "buyer_id": 2,
+                "post_time": "2022-12-04-17-22-53",
+                "close_time": null,
+                "price": 3,
+                "quantity": 5,
+                "open": true,
+                "accept": null,
+                "transaction": {"transaction_id":1}
+              }
+          ]
+          ```
+      * `PUT /accept-negotiation/{seller_id}/{negotiation_id}`
+        * Description: Accept one negotiation.
+          * Sample HTTP Request: `localhost:8080/accept-negotiation/1/1`
+          * Sample Response:  
+          `Status: 200`
+          ```json
+            {
+              "negotiation_id": 1,
+              "buyer_id": 2,
+              "post_time": "2022-12-04-17-22-53",
+              "close_time": "2022-12-04-17-22-54",
+              "price": 3,
+              "quantity": 5,
+              "open": false,
+              "accept": true,
+              "transaction": {"transaction_id":1, "Open": false, "Accept": true}
+            }
+          ```
 ## System description
 This system provides an in-community market with negotiation/auction functionality. Clients can create users and modify the state of players, such as bags of items and amount of money (in-game scenario). Users can post their items to the community market at desired prices, and other users can buy the items or negotiate the price.
 ## Target Clients
