@@ -41,6 +41,7 @@ public class Negotiation {
     @JoinColumn(name="fk_transaction_id",referencedColumnName = "transaction_id")
     private Transaction transaction;
 
+    public Negotiation(){}
     public Negotiation(Integer buyer_id, Integer price, Integer quantity, Transaction transaction){
         this.buyer_id = buyer_id;
         this.price = price;

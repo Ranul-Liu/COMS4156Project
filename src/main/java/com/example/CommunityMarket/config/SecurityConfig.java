@@ -1,3 +1,4 @@
+
 package com.example.CommunityMarket.config;
 
 import com.nimbusds.jose.jwk.JWK;
@@ -52,10 +53,10 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf->csrf.disable())
+
                 .authorizeRequests((authz) -> authz
 
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .csrf((csrf)->csrf.disable())
                 .httpBasic(Customizer.withDefaults())
@@ -83,3 +84,4 @@ public class SecurityConfig{
         return new NimbusJwtEncoder(jwks);
     }
 }
+

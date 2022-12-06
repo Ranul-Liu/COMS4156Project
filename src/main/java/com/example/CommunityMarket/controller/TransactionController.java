@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
+
+@CrossOrigin
 @RestController
 public class TransactionController {
     @Autowired

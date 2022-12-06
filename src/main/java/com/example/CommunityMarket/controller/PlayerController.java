@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class PlayerController {
 
     @Autowired
@@ -26,6 +27,11 @@ public class PlayerController {
 
         // get results
         List<Player> result = playerService.getPlayerByTemplate(player_id, playername, email, login);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    @GetMapping(value = "/player/{id}")
+    public ResponseEntity<?> getPlayerById(@PathVariable Integer id) throws ResourceNotFoundException {
+        List<Player> result = playerService.getByID(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
