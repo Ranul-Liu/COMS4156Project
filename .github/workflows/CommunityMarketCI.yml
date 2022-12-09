@@ -1,5 +1,5 @@
 name: CommunityMarket CI with maven
-run-name: ${{ github.actor }} is unittesting Community Market API 🚀
+run-name: ${{ github.actor }} is testing Community Market API 🚀
 on: [push]
 jobs:
   build:
