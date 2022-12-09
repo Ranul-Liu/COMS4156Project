@@ -42,6 +42,7 @@ public class SecurityConfig{
     @Bean
     public InMemoryUserDetailsManager user(){
         return new InMemoryUserDetailsManager(
+
                 User.withUsername("user")
                         .password("{noop}password")
                         .authorities("ADMIN")
