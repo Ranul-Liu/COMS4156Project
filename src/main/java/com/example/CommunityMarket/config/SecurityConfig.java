@@ -57,7 +57,7 @@ public class SecurityConfig{
 
                 .authorizeRequests((authz) -> authz
 
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
                 .csrf((csrf)->csrf.disable())
                 .httpBasic(Customizer.withDefaults())

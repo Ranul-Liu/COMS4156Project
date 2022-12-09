@@ -1,0 +1,171 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > NegotiationController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.CommunityMarket.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: NegotiationController (com.example.CommunityMarket.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NegotiationController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (4/20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.CommunityMarket.controller;
+&nbsp;import com.example.CommunityMarket.exceptions.ResourceException;
+&nbsp;import com.example.CommunityMarket.exceptions.ResourceNotFoundException;
+&nbsp;import com.example.CommunityMarket.model.Negotiation;
+&nbsp;import com.example.CommunityMarket.service.NegotiationService;
+&nbsp;import com.example.CommunityMarket.service.PlayerService;
+&nbsp;import com.example.CommunityMarket.service.TransactionService;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;@CrossOrigin
+&nbsp;@RestController
+&nbsp;public class NegotiationController {
+&nbsp;    private final NegotiationService negotiationService;
+&nbsp;    private final TransactionService transactionService;
+&nbsp;
+&nbsp;    private final PlayerService playerService;
+&nbsp;
+<b class="fc">&nbsp;    public NegotiationController(NegotiationService negotiationService, TransactionService transactionService, PlayerService playerService) {</b>
+<b class="fc">&nbsp;        this.negotiationService = negotiationService;</b>
+<b class="fc">&nbsp;        this.transactionService = transactionService;</b>
+<b class="fc">&nbsp;        this.playerService = playerService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ResponseEntity&lt;?&gt; getById(@RequestParam(value = &quot;negotiation_id&quot;, required = true) Integer negotiation_id) throws ResourceNotFoundException {
+<b class="nc">&nbsp;        Negotiation result = negotiationService.getByID(negotiation_id);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(result, HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;    // view all negotiation associated with {transaction_id}
+&nbsp;    @RequestMapping(value=&quot;/view-negotiation&quot;,method = RequestMethod.GET)
+&nbsp;    public ResponseEntity&lt;?&gt; getByTransactionID(@RequestParam(value = &quot;fk_transaction_id&quot;, required = true) Integer fk_transaction_id) throws ResourceNotFoundException {
+<b class="nc">&nbsp;        List&lt;Negotiation&gt; result = negotiationService.getByTransactionID(fk_transaction_id);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(result,HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;    // add a new negotiation
+&nbsp;    @RequestMapping(value = &quot;/add-negotiation/{buyer_id}&quot;, method = RequestMethod.POST)
+&nbsp;    public ResponseEntity&lt;?&gt; addnegotiation(@RequestBody Negotiation newnegotiation,
+&nbsp;                                            @PathVariable(&quot;buyer_id&quot;) Integer buyer_id)
+&nbsp;            throws ResourceException, ResourceNotFoundException {
+&nbsp;        try {
+<b class="nc">&nbsp;            playerService.checkPlayerLoggedInById(buyer_id);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch(Exception e) {</b>
+<b class="nc">&nbsp;            throw e;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        List&lt;Negotiation&gt; result = negotiationService.addNegotiation(newnegotiation);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(result, HttpStatus.CREATED);</b>
+&nbsp;    }
+&nbsp;    //accept a negotiation
+&nbsp;    @RequestMapping(value = &quot;/accept-negotiation/{seller_id}/{negotiation_id}&quot;, method = RequestMethod.PUT)
+&nbsp;    public ResponseEntity&lt;?&gt; acceptNegotiation(@PathVariable Integer negotiation_id,
+&nbsp;                                               @PathVariable Integer seller_id)
+&nbsp;            throws ResourceException, ResourceNotFoundException {
+&nbsp;        try {
+<b class="nc">&nbsp;            playerService.checkPlayerLoggedInById(seller_id);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch(Exception e) {</b>
+<b class="nc">&nbsp;            throw e;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        Negotiation result = negotiationService.acceptNegotiation(negotiation_id);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(result,HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-05 20:59</div>
+</div>
+</body>
+</html>

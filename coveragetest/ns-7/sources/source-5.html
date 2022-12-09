@@ -1,0 +1,91 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ClientRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.CommunityMarket.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientRepository (com.example.CommunityMarket.repository)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ClientRepository</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.CommunityMarket.repository;
+&nbsp;import com.example.CommunityMarket.model.Client;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.CrudRepository;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Repository
+&nbsp;public interface ClientRepository extends CrudRepository&lt;Client, Integer&gt; {
+&nbsp;
+&nbsp;    //get by template
+&nbsp;    @Query(value = &quot;&quot;&quot;
+&nbsp;            select * from client where ((:client_id is NULL or client_id = :client_id) and
+&nbsp;                                      (:email is NULL or email = email) and
+&nbsp;                                      (:client_name is NULL or client_name = :client_name) and
+&nbsp;                                      (:company_name is NULL or company_name = :company_name))&quot;&quot;&quot;, nativeQuery = true)
+&nbsp;    List&lt;Client&gt; findByTemplate(@Param(&quot;client_id&quot;) Integer client_id,
+&nbsp;                              @Param(&quot;client_name&quot;) String client_name,
+&nbsp;                              @Param(&quot;company_name&quot;) String company_name,
+&nbsp;                              @Param(&quot;email&quot;) String email
+&nbsp;    );
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-05 20:59</div>
+</div>
+</body>
+</html>

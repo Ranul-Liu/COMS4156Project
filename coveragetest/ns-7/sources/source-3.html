@@ -1,0 +1,105 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PlayerRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.CommunityMarket.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: PlayerRepository (com.example.CommunityMarket.repository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">PlayerRepository$MockitoMock$FJCDt4sD</td>
+  </tr>
+  <tr>
+    <td class="name">PlayerRepository$MockitoMock$FJCDt4sD$auxiliary$kmwmrbpy</td>
+  </tr>
+  <tr>
+    <td class="name">PlayerRepository$MockitoMock$FJCDt4sD$auxiliary$zGeqvzSR</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.CommunityMarket.repository;
+&nbsp;import com.example.CommunityMarket.model.Player;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.CrudRepository;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Repository
+&nbsp;public interface PlayerRepository extends CrudRepository&lt;Player, Integer&gt; {
+&nbsp;
+&nbsp;    @Query(value = &quot;&quot;&quot;
+&nbsp;            select * from player where ((:player_id is NULL or player_id = :player_id) and
+&nbsp;                                      (:email is NULL or email = :email) and
+&nbsp;                                      (:playername is NULL or playername = :playername) and
+&nbsp;                                      (:login is NULL or login = :login))&quot;&quot;&quot;, nativeQuery = true)
+&nbsp;    List&lt;Player&gt; findByTemplate(@Param(&quot;player_id&quot;) Integer player_id,
+&nbsp;                              @Param(&quot;email&quot;) String email,
+&nbsp;                              @Param(&quot;playername&quot;) String playername,
+&nbsp;                              @Param(&quot;login&quot;) Boolean login);
+&nbsp;
+&nbsp;    //add method
+&nbsp;//    @Transactional
+&nbsp;//    @Modifying
+&nbsp;//    @Query(value = &quot;insert into Players values(:playerID,:playername,:password)&quot;,nativeQuery = true)
+&nbsp;//    void insertPlayer(@Param(&quot;playerID&quot;) String playerID,
+&nbsp;//                    @Param(&quot;playername&quot;) String playername,
+&nbsp;//                    @Param(&quot;password&quot;) String password);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-05 20:59</div>
+</div>
+</body>
+</html>

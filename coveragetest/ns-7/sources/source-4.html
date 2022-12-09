@@ -1,0 +1,114 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TransactionRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.CommunityMarket.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: TransactionRepository (com.example.CommunityMarket.repository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">TransactionRepository$MockitoMock$aWdewyJA</td>
+  </tr>
+  <tr>
+    <td class="name">TransactionRepository$MockitoMock$aWdewyJA$auxiliary$41oIfeob</td>
+  </tr>
+  <tr>
+    <td class="name">TransactionRepository$MockitoMock$aWdewyJA$auxiliary$a2lxcDwr</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.CommunityMarket.repository;
+&nbsp;
+&nbsp;import com.example.CommunityMarket.model.Transaction;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.CrudRepository;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;
+&nbsp;import java.time.LocalDateTime;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface TransactionRepository extends CrudRepository&lt;Transaction, Integer&gt; {
+&nbsp;
+&nbsp;
+&nbsp;    // get method
+&nbsp;    @Query(value = &quot;select * from transaction where ((:transaction_id is NULL or transaction_id = :transaction_id) and\n&quot; +
+&nbsp;            &quot;                          (:buyer_id is NULL or buyer_id = :buyer_id) and\n&quot; +
+&nbsp;            &quot;                          (:seller_id is NULL or seller_id = :seller_id) and\n&quot; +
+&nbsp;            &quot;                          (:quantity is NULL or quantity = :quantity) and\n&quot; +
+&nbsp;            &quot;                          (:open is NULL or open = :open) and\n&quot; +
+&nbsp;            &quot;                          (:post_time is NULL or post_time = :post_time) and\n&quot; +
+&nbsp;            &quot;                          (:close_time is NULL or close_time = :close_time) and\n&quot; +
+&nbsp;            &quot;                          (:initial_price is NULL or initial_price = :initial_price)) and\n &quot;+
+&nbsp;            &quot;                          (:accept is NULL or accept = :accept) &quot;, nativeQuery = true)
+&nbsp;
+&nbsp;    List&lt;Transaction&gt; findByTemplate(@Param(&quot;transaction_id&quot;) Integer transaction_id,
+&nbsp;                                     @Param(&quot;buyer_id&quot;) Integer buyer_id,
+&nbsp;                                     @Param(&quot;seller_id&quot;) Integer seller_id,
+&nbsp;                                     @Param(&quot;quantity&quot;) Integer quantity,
+&nbsp;                                     @Param(&quot;open&quot;) Boolean open,
+&nbsp;                                     @Param(&quot;post_time&quot;) LocalDateTime post_time,
+&nbsp;                                     @Param(&quot;close_time&quot;) LocalDateTime close_time,
+&nbsp;                                     @Param(&quot;initial_price&quot;) Integer price,
+&nbsp;                                     @Param(&quot;accept&quot;) Boolean accept
+&nbsp;                              );
+&nbsp;    // post method
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-05 20:59</div>
+</div>
+</body>
+</html>

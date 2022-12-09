@@ -1,0 +1,209 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Player</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.CommunityMarket.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Player (com.example.CommunityMarket.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.8%
+  </span>
+  <span class="absValue">
+    (9/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.9%
+  </span>
+  <span class="absValue">
+    (16/18)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Player$HibernateProxy$0YSjRGuk</td>
+  </tr>
+  <tr>
+    <td class="name">Player$HibernateProxy$CNn6Nxl5</td>
+  </tr>
+  <tr>
+    <td class="name">Player$HibernateProxy$Wto7tqV7</td>
+  </tr>
+  <tr>
+    <td class="name">Player$HibernateProxy$yJ38cxK4</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    81.8%
+  </span>
+  <span class="absValue">
+    (9/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.9%
+  </span>
+  <span class="absValue">
+    (16/18)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.CommunityMarket.model;
+&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+&nbsp;import javax.persistence.*;
+&nbsp;
+&nbsp;@Entity
+&nbsp;@Table(name = &quot;player&quot;)
+&nbsp;public class Player {
+&nbsp;
+&nbsp;    // Data members
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    @JsonProperty(&quot;player_id&quot;)
+&nbsp;    @Column(name = &quot;player_id&quot;)
+&nbsp;    private Integer playerID;
+&nbsp;
+&nbsp;    @Column(name = &quot;playername&quot;)
+&nbsp;    @JsonProperty(&quot;playername&quot;)
+&nbsp;    private String playername;
+&nbsp;
+&nbsp;    @Column(name = &quot;email&quot;)
+&nbsp;    @JsonProperty(&quot;email&quot;)
+&nbsp;    private String email;
+&nbsp;
+&nbsp;    @Column(name = &quot;login&quot;)
+&nbsp;    @JsonProperty(&quot;login&quot;)
+&nbsp;    private Boolean login;
+&nbsp;
+<b class="fc">&nbsp;    public Player() {</b>
+<b class="fc">&nbsp;        this.playerID=null;</b>
+<b class="fc">&nbsp;        this.email=null;</b>
+<b class="fc">&nbsp;        this.playername=null;</b>
+&nbsp;    }
+&nbsp;    public Player(Integer player_id,
+&nbsp;                String email,
+&nbsp;                String playername,
+<b class="fc">&nbsp;                  Boolean login) {</b>
+<b class="fc">&nbsp;        this.playerID=player_id;</b>
+<b class="fc">&nbsp;        this.email=email;</b>
+<b class="fc">&nbsp;        this.playername=playername;</b>
+<b class="fc">&nbsp;        this.login = login;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Boolean getLogin() {
+<b class="fc">&nbsp;        return login;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setLogin(Boolean login) {
+<b class="fc">&nbsp;        this.login = login;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Integer getPlayerID() {
+<b class="fc">&nbsp;        return this.playerID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPlayerID(Integer playerID) {
+<b class="nc">&nbsp;        this.playerID = playerID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getPlayername() {
+<b class="fc">&nbsp;        return this.playername;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPlayername(String playername) {
+<b class="fc">&nbsp;        this.playername = playername;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getEmail() {
+<b class="fc">&nbsp;        return this.email;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEmail(String email) {
+<b class="fc">&nbsp;        this.email = email;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    //  Return class as JSON String
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;        return &quot;\nPlayer { &quot; +</b>
+&nbsp;                &quot;\n\t playerID=&quot; + playerID +
+&nbsp;                &quot;,\n\t playername=&#39;&quot; + playername + &#39;\&#39;&#39; +
+&nbsp;                &quot;,\n\t email=&#39;&quot; + email + &#39;\&#39;&#39; +
+&nbsp;                &quot;,\n\t login=&#39;&quot; + login + &#39;\&#39;&#39; +
+&nbsp;                &#39;}&#39;;
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-05 20:59</div>
+</div>
+</body>
+</html>

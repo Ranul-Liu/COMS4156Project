@@ -1,0 +1,213 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Client</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.CommunityMarket.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Client (com.example.CommunityMarket.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Client</td>
+<td class="coverageStat">
+  <span class="percent">
+    7.7%
+  </span>
+  <span class="absValue">
+    (1/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    5.6%
+  </span>
+  <span class="absValue">
+    (1/18)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Client$HibernateProxy$0M3m9cfv</td>
+  </tr>
+  <tr>
+    <td class="name">Client$HibernateProxy$2FCZh37c</td>
+  </tr>
+  <tr>
+    <td class="name">Client$HibernateProxy$hZyPSR93</td>
+  </tr>
+  <tr>
+    <td class="name">Client$HibernateProxy$McmjAcqp</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    7.7%
+  </span>
+  <span class="absValue">
+    (1/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    5.6%
+  </span>
+  <span class="absValue">
+    (1/18)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.CommunityMarket.model;
+&nbsp;import com.fasterxml.jackson.annotation.JsonIgnore;
+&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+&nbsp;import javax.persistence.*;
+&nbsp;
+&nbsp;@Entity
+&nbsp;@Table(name = &quot;client&quot;)
+&nbsp;public class Client {
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    @Column( name = &quot;client_id&quot;)
+&nbsp;    @JsonIgnore
+&nbsp;    private Integer clientID;
+&nbsp;
+&nbsp;    @Column(name = &quot;email&quot;)
+&nbsp;    @JsonProperty(&quot;email&quot;)
+&nbsp;    private String email;
+&nbsp;
+&nbsp;    @Column(name = &quot;client_name&quot;)
+&nbsp;    @JsonProperty(&quot;client_name&quot;)
+&nbsp;    private String client_name;
+&nbsp;
+&nbsp;    @Column(name = &quot;company_name&quot;)
+&nbsp;    @JsonProperty(&quot;company_name&quot;)
+&nbsp;    private String companyName;
+&nbsp;
+&nbsp;    @Column(name = &quot;google_id&quot;)
+&nbsp;    @JsonProperty(&quot;google_id&quot;)
+&nbsp;    private String google_id;
+&nbsp;
+<b class="fc">&nbsp;    public Client(){}</b>
+&nbsp;
+<b class="nc">&nbsp;    public Client(Integer clientID, String email, String client_name, String companyName,String google_id) {</b>
+<b class="nc">&nbsp;        this.clientID = clientID;</b>
+<b class="nc">&nbsp;        this.email = email;</b>
+<b class="nc">&nbsp;        this.client_name = client_name;</b>
+<b class="nc">&nbsp;        this.companyName = companyName;</b>
+<b class="nc">&nbsp;        this.google_id = google_id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getGoogle_id() {
+<b class="nc">&nbsp;        return google_id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setGoogle_id(String google_id) {
+<b class="nc">&nbsp;        this.google_id = google_id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Integer getClientID() {
+<b class="nc">&nbsp;        return clientID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setClientID(Integer clientID) {
+<b class="nc">&nbsp;        this.clientID = clientID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getEmail() {
+<b class="nc">&nbsp;        return email;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEmail(String email) {
+<b class="nc">&nbsp;        this.email = email;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getClient_name() {
+<b class="nc">&nbsp;        return client_name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setClient_name(String client_name) {
+<b class="nc">&nbsp;        this.client_name = client_name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getCompanyName() {
+<b class="nc">&nbsp;        return companyName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCompanyName(String companyName) {
+<b class="nc">&nbsp;        this.companyName = companyName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;        return &quot;Client{&quot; +</b>
+&nbsp;                &quot;clientID=&quot; + clientID +
+&nbsp;                &quot;, email=&#39;&quot; + email + &#39;\&#39;&#39; +
+&nbsp;                &quot;, client_name=&#39;&quot; + client_name + &#39;\&#39;&#39; +
+&nbsp;                &quot;, companyName=&#39;&quot; + companyName + &#39;\&#39;&#39; +
+&nbsp;                &quot;, google_id=&#39;&quot; + google_id + &#39;\&#39;&#39; +
+&nbsp;                &#39;}&#39;;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-05 20:59</div>
+</div>
+</body>
+</html>

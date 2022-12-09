@@ -1,0 +1,159 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ClientController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.CommunityMarket.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientController (com.example.CommunityMarket.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.CommunityMarket.controller;
+&nbsp;
+&nbsp;import com.example.CommunityMarket.exceptions.ResourceNotFoundException;
+&nbsp;import com.example.CommunityMarket.model.Client;
+&nbsp;import com.example.CommunityMarket.service.ClientService;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.stereotype.Controller;
+&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestMethod;
+&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+&nbsp;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Controller
+&nbsp;public class ClientController {
+&nbsp;    private final HttpServletRequest request;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    ClientService clientService;
+&nbsp;
+&nbsp;    //private static final Logger Log = LoggerFactory.getLogger(CommunityMarketController.class);
+&nbsp;    @Autowired
+<b class="fc">&nbsp;    public ClientController(HttpServletRequest request) { this.request = request; }</b>
+&nbsp;
+&nbsp;    /*@RequestMapping(value = &quot;/getClient&quot;, method = RequestMethod.GET)
+&nbsp;    public ResponseEntity&lt;?&gt; getClient(@RequestParam(value = &quot;google_id&quot;) String google_id) {
+&nbsp;        Log.info(&quot;Requesting client info with google_id {}&quot;,google_id);
+&nbsp;        try{
+&nbsp;            List&lt;Client&gt; result = clientService.getClientByGoogleId(google_id);
+&nbsp;            Log.info(&quot;GET client request successful&quot;);
+&nbsp;            return new ResponseEntity&lt;&gt;(result,HttpStatus.OK);
+&nbsp;        } catch (Exception e) {
+&nbsp;            Log.error(&quot;Exception on GET client&quot;,e);
+&nbsp;            return new ResponseEntity&lt;&gt;(HttpStatus.INTERNAL_SERVER_ERROR);
+&nbsp;        }
+&nbsp;    }*/
+&nbsp;
+&nbsp;    @RequestMapping(value = &quot;/client&quot;, method = RequestMethod.POST)
+&nbsp;    public ResponseEntity&lt;?&gt; postClient(@RequestBody Client newClient) {
+<b class="nc">&nbsp;        List&lt;Client&gt; result = clientService.postClient(newClient);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(result, HttpStatus.CREATED);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @RequestMapping(value = &quot;/client&quot;, method = RequestMethod.PUT)
+&nbsp;    public ResponseEntity&lt;?&gt; updateClient(@RequestBody Client client) throws ResourceNotFoundException {
+<b class="nc">&nbsp;        List&lt;Client&gt; result = clientService.updateClient(client);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(result, HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-05 20:59</div>
+</div>
+</body>
+</html>

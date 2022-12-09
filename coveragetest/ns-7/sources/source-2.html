@@ -1,0 +1,111 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > NegotiationRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.CommunityMarket.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: NegotiationRepository (com.example.CommunityMarket.repository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">NegotiationRepository$MockitoMock$c0DCs21D</td>
+  </tr>
+  <tr>
+    <td class="name">NegotiationRepository$MockitoMock$c0DCs21D$auxiliary$cWzNEQ22</td>
+  </tr>
+  <tr>
+    <td class="name">NegotiationRepository$MockitoMock$c0DCs21D$auxiliary$KcRH0aCT</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.CommunityMarket.repository;
+&nbsp;import com.example.CommunityMarket.model.Negotiation;
+&nbsp;import com.example.CommunityMarket.model.Transaction;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.CrudRepository;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;
+&nbsp;import java.time.LocalDateTime;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public interface NegotiationRepository extends CrudRepository&lt;Negotiation, Integer&gt;{
+&nbsp;    //get by template
+&nbsp;    @Query(value = &quot;select * from negotiation where ((:negotiation_id is NULL or negotiation_id = :negotiation_id) and\n&quot; +
+&nbsp;            &quot;                          (:buyer_id is NULL or buyer_id = :buyer_id) and\n&quot; +
+&nbsp;            &quot;                          (:fk_transaction_id is NULL or fk_transaction_id = :fk_transaction_id) and\n&quot; +
+&nbsp;            &quot;                          (:quantity is NULL or quantity = :quantity) and\n&quot; +
+&nbsp;            &quot;                          (:open is NULL or open = :open) and\n&quot; +
+&nbsp;            &quot;                          (:post_time is NULL or post_time = :post_time) and\n&quot; +
+&nbsp;            &quot;                          (:close_time is NULL or close_time = :close_time) and\n&quot; +
+&nbsp;            &quot;                          (:price is NULL or price = :price)) and\n &quot;+
+&nbsp;            &quot;                          (:accept is NULL or accept = :accept) &quot;, nativeQuery = true)
+&nbsp;    List&lt;Negotiation&gt; findByTemplate(@Param(&quot;negotiation_id&quot;) Integer negotiation_id,
+&nbsp;                                     @Param(&quot;buyer_id&quot;) String buyer_id,
+&nbsp;                                     @Param(&quot;fk_transaction_id&quot;) String seller_id,
+&nbsp;                                     @Param(&quot;quantity&quot;) Integer quantity,
+&nbsp;                                     @Param(&quot;open&quot;) Boolean open,
+&nbsp;                                     @Param(&quot;post_time&quot;) LocalDateTime post_time,
+&nbsp;                                     @Param(&quot;close_time&quot;) LocalDateTime close_time,
+&nbsp;                                     @Param(&quot;price&quot;) Integer price,
+&nbsp;                                     @Param(&quot;accept&quot;) Boolean accept
+&nbsp;    );
+&nbsp;    //find by TransactionID
+&nbsp;    @Query(value = &quot;select * from negotiation where fk_transaction_id = :fk_transaction_id&quot;, nativeQuery = true)
+&nbsp;    List&lt;Negotiation&gt; findByTransactionID(@Param(&quot;fk_transaction_id&quot;) Integer fk_transaction_id);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-05 20:59</div>
+</div>
+</body>
+</html>

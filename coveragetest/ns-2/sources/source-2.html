@@ -1,0 +1,207 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SecurityConfig</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.CommunityMarket.config</a>
+</div>
+
+<h1>Coverage Summary for Class: SecurityConfig (com.example.CommunityMarket.config)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SecurityConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/23)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SecurityConfig$$EnhancerBySpringCGLIB$$c0895e6d</td>
+  </tr>
+  <tr>
+    <td class="name">SecurityConfig$$EnhancerBySpringCGLIB$$c0895e6d$$FastClassBySpringCGLIB$$ead4bd71</td>
+  </tr>
+  <tr>
+    <td class="name">SecurityConfig$$FastClassBySpringCGLIB$$68ca4ff4</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/23)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;
+&nbsp;package com.example.CommunityMarket.config;
+&nbsp;
+&nbsp;import com.nimbusds.jose.jwk.JWK;
+&nbsp;import com.nimbusds.jose.jwk.JWKSet;
+&nbsp;import com.nimbusds.jose.jwk.RSAKey;
+&nbsp;import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+&nbsp;import com.nimbusds.jose.jwk.source.JWKSource;
+&nbsp;import com.nimbusds.jose.proc.SecurityContext;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.springframework.context.annotation.Bean;
+&nbsp;import org.springframework.context.annotation.Configuration;
+&nbsp;import org.springframework.security.config.Customizer;
+&nbsp;import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+&nbsp;
+&nbsp;import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+&nbsp;import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+&nbsp;import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+&nbsp;import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+&nbsp;import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+&nbsp;import org.springframework.security.config.http.SessionCreationPolicy;
+&nbsp;import org.springframework.security.core.userdetails.User;
+&nbsp;import org.springframework.security.oauth2.jwt.JwtDecoder;
+&nbsp;import org.springframework.security.oauth2.jwt.JwtEncoder;
+&nbsp;import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+&nbsp;import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+&nbsp;import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
+&nbsp;import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
+&nbsp;import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+&nbsp;import org.springframework.security.web.SecurityFilterChain;
+&nbsp;
+&nbsp;import static org.springframework.security.config.Customizer.withDefaults;
+&nbsp;
+&nbsp;@Configuration
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;
+&nbsp;public class SecurityConfig{
+&nbsp;    private final RsaKeyProperties rsaKeys;
+<b class="fc">&nbsp;    public SecurityConfig(RsaKeyProperties rsaKeys){</b>
+<b class="fc">&nbsp;        this.rsaKeys = rsaKeys;</b>
+&nbsp;    }
+&nbsp;    @Bean
+&nbsp;    public InMemoryUserDetailsManager user(){
+<b class="fc">&nbsp;        return new InMemoryUserDetailsManager(</b>
+&nbsp;
+<b class="fc">&nbsp;                User.withUsername(&quot;user&quot;)</b>
+<b class="fc">&nbsp;                        .password(&quot;{noop}password&quot;)</b>
+<b class="fc">&nbsp;                        .authorities(&quot;ADMIN&quot;)</b>
+<b class="fc">&nbsp;                        .build()</b>
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Bean
+&nbsp;    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+<b class="fc">&nbsp;        http</b>
+&nbsp;
+<b class="fc">&nbsp;                .authorizeRequests((authz) -&gt; authz</b>
+&nbsp;
+<b class="fc">&nbsp;                        .anyRequest().permitAll()</b>
+&nbsp;                )
+<b class="fc">&nbsp;                .csrf((csrf)-&gt;csrf.disable())</b>
+<b class="fc">&nbsp;                .httpBasic(Customizer.withDefaults())</b>
+<b class="fc">&nbsp;                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)</b>
+<b class="fc">&nbsp;                .sessionManagement(session -&gt; session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))</b>
+<b class="fc">&nbsp;                .exceptionHandling((exceptions) -&gt; exceptions</b>
+<b class="fc">&nbsp;                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())</b>
+<b class="fc">&nbsp;                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())</b>
+&nbsp;                );
+&nbsp;
+<b class="fc">&nbsp;        return http.build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @Bean
+&nbsp;    JwtDecoder jwtDecoder(){
+<b class="fc">&nbsp;        return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Bean
+&nbsp;    JwtEncoder jwtEncoder(){
+<b class="fc">&nbsp;        JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build();</b>
+<b class="fc">&nbsp;        JWKSource&lt;SecurityContext&gt; jwks = new ImmutableJWKSet&lt;&gt;(new JWKSet(jwk));</b>
+<b class="fc">&nbsp;        return new NimbusJwtEncoder(jwks);</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-05 20:59</div>
+</div>
+</body>
+</html>

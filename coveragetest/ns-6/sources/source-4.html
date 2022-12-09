@@ -1,0 +1,269 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PlayerService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.CommunityMarket.service</a>
+</div>
+
+<h1>Coverage Summary for Class: PlayerService (com.example.CommunityMarket.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlayerService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.8%
+  </span>
+  <span class="absValue">
+    (15/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.9%
+  </span>
+  <span class="absValue">
+    (58/66)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.CommunityMarket.service;
+&nbsp;
+&nbsp;import com.example.CommunityMarket.exceptions.ResourceException;
+&nbsp;import com.example.CommunityMarket.exceptions.ResourceNotFoundException;
+&nbsp;import com.example.CommunityMarket.repository.PlayerRepository;
+&nbsp;import com.example.CommunityMarket.model.Player;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class PlayerService {</b>
+&nbsp;    @Autowired
+&nbsp;    PlayerRepository playerRepo;
+&nbsp;
+<b class="fc">&nbsp;    private final String ePattern = &quot;^[a-zA-Z0-9.!#$%&amp;&#39;*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$&quot;;</b>
+&nbsp;
+&nbsp;
+&nbsp;    //get by ID
+&nbsp;    public List&lt;Player&gt; getByID(Integer player_id) throws ResourceNotFoundException {
+<b class="fc">&nbsp;        Optional&lt;Player&gt; result = playerRepo.findById(player_id);</b>
+<b class="fc">&nbsp;        if (result.isPresent()) {</b>
+<b class="fc">&nbsp;            Player playerResult = result.get();</b>
+<b class="fc">&nbsp;            return List.of(playerResult);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            throw new ResourceNotFoundException(&quot;Player not found by ID in DB.&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    //get operation
+&nbsp;    public List&lt;Player&gt; getPlayerByTemplate(Integer player_id,
+&nbsp;                                        String playername,
+&nbsp;                                        String email, Boolean login){
+<b class="fc">&nbsp;        return playerRepo.findByTemplate(player_id,playername, email, login);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //post operation
+&nbsp;    public List&lt;Player&gt; postPlayer(Player player) {
+<b class="fc">&nbsp;        Player result = playerRepo.save(player);</b>
+<b class="fc">&nbsp;        return List.of(result);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //put operation
+&nbsp;    public List&lt;Player&gt; updatePlayer(Player updateplayer, Integer player_id) throws ResourceNotFoundException {
+<b class="fc">&nbsp;        Optional&lt;Player&gt; result = playerRepo.findById(player_id);</b>
+<b class="fc">&nbsp;        if (result.isPresent()) {</b>
+<b class="fc">&nbsp;            Player player = result.get();</b>
+<b class="fc">&nbsp;            player.setEmail(updateplayer.getEmail());</b>
+<b class="fc">&nbsp;            player.setPlayername(updateplayer.getPlayername());</b>
+<b class="fc">&nbsp;            playerRepo.save(player);</b>
+<b class="fc">&nbsp;            return List.of(player);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            throw new ResourceNotFoundException(&quot;Player not found by ID in DB, cannot update&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Player&gt; loginPlayer(Integer player_id) throws ResourceNotFoundException {
+<b class="fc">&nbsp;        Optional&lt;Player&gt; result = playerRepo.findById(player_id);</b>
+<b class="fc">&nbsp;        if (result.isPresent()) {</b>
+<b class="fc">&nbsp;            Player playerResult = result.get();</b>
+<b class="fc">&nbsp;            playerResult.setLogin(true);</b>
+<b class="fc">&nbsp;            playerRepo.save(playerResult);</b>
+<b class="fc">&nbsp;            return List.of(playerResult);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            throw new ResourceNotFoundException(&quot;Player not found by ID in DB, cannot login&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Player&gt; logoutPlayer(Integer player_id) throws ResourceNotFoundException {
+<b class="fc">&nbsp;        Optional&lt;Player&gt; result = playerRepo.findById(player_id);</b>
+<b class="fc">&nbsp;        if (result.isPresent()) {</b>
+<b class="fc">&nbsp;            Player playerResult = result.get();</b>
+<b class="fc">&nbsp;            playerResult.setLogin(false);</b>
+<b class="fc">&nbsp;            playerRepo.save(playerResult);</b>
+<b class="fc">&nbsp;            return List.of(playerResult);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            throw new ResourceNotFoundException(&quot;Player not found by ID in DB, cannot logout&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    // delete operation
+&nbsp;    public void deletePlayerById(Integer player_id) throws ResourceNotFoundException{
+<b class="nc">&nbsp;        if (getByID(player_id).size() &gt;= 1) {</b>
+<b class="nc">&nbsp;            playerRepo.deleteById(player_id);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            throw new ResourceNotFoundException(&quot;Player not found by id in DB, cannot delete&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    //check if an email is valid
+&nbsp;    public boolean isValidEmail(String email) {
+<b class="fc">&nbsp;        Pattern p = java.util.regex.Pattern.compile(ePattern);</b>
+<b class="fc">&nbsp;        Matcher m = p.matcher(email);</b>
+<b class="fc">&nbsp;        return m.matches();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // checking:    - length of string is &lt;128 characters
+&nbsp;    //              - that string is not blank ex &quot;   &quot;
+&nbsp;    //              - string is initialize (not == null)
+&nbsp;    // returns true if follows rules above, false otherwise
+&nbsp;    public boolean checkPlayernameIfInvalid(String playername) {
+<b class="fc">&nbsp;        return !playername.isBlank();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean checkPlayernameLength(String playername) {
+<b class="fc">&nbsp;        return !playername.isBlank() &amp;&amp; playername.length() &lt;= 32;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean checkEmailLength(String email) {
+<b class="fc">&nbsp;        return !email.isBlank() &amp;&amp; email.length() &lt;= 128;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // check and sanitize inputs
+&nbsp;    public void checkInputs(Player player) throws ResourceException {
+&nbsp;        try {
+<b class="fc">&nbsp;            if (!checkPlayernameLength(player.getPlayername())) {</b>
+<b class="fc">&nbsp;                throw new ResourceException(&quot;Playername must be between 1-32 characters&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if (!checkPlayernameIfInvalid(player.getPlayername())){</b>
+<b class="nc">&nbsp;                throw new ResourceException(&quot;Playername cannot be blank&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if (!checkEmailLength(player.getEmail())) {</b>
+<b class="fc">&nbsp;                throw new ResourceException(&quot;Email must be between 1-128 characters&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if (!isValidEmail(player.getEmail())) {</b>
+<b class="fc">&nbsp;                throw new ResourceException(&quot;Invalid email&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;        } catch (NullPointerException e) {</b>
+<b class="fc">&nbsp;            throw new ResourceException(&quot;Player formatted incorrectly please provide the following:\n&quot; +</b>
+&nbsp;                    &quot;playername, email&quot;);
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void checkPostPlayer(Player player) throws ResourceException {
+<b class="fc">&nbsp;        if (player.getPlayerID() != null) {</b>
+<b class="fc">&nbsp;            throw new ResourceException(&quot;Do not provide player_id&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        checkInputs(player);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void checkUpdatePlayer(Player player) throws ResourceException {
+<b class="fc">&nbsp;        if (player.getPlayerID() != null) {</b>
+<b class="fc">&nbsp;            throw new ResourceException(&quot;Do not provide player_id&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        checkInputs(player);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void checkPlayerLoggedInById(Integer player_id) throws ResourceException, ResourceNotFoundException {
+&nbsp;        try {
+<b class="fc">&nbsp;            Optional&lt;Player&gt; player = playerRepo.findById(player_id);</b>
+<b class="fc">&nbsp;            if (!player.isPresent()) {</b>
+<b class="fc">&nbsp;                throw new ResourceNotFoundException(&quot;player_id not found&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (player.get().getLogin() != true) {</b>
+<b class="fc">&nbsp;                throw new ResourceException(&quot;player_id not logged in&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        catch(Exception e) {</b>
+<b class="fc">&nbsp;            throw e;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-05 20:59</div>
+</div>
+</body>
+</html>
