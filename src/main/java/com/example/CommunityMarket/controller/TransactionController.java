@@ -87,8 +87,14 @@ public class TransactionController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         // update transaction
-        List<Transaction> result = transactionService.updateTransaction(newtransaction, transaction_id);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        try {
+            List<Transaction> result = transactionService.updateTransaction(newtransaction, transaction_id);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (ResourceException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(value = "/transaction/close/{seller_id}/{transaction_id}", method = RequestMethod.PUT)
@@ -104,8 +110,10 @@ public class TransactionController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         //close transaction
+
         List<Transaction> result = transactionService.closeTransaction(transaction_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
+
     }
 
 

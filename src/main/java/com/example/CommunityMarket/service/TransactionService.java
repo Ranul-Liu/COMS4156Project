@@ -4,7 +4,6 @@ import com.example.CommunityMarket.exceptions.ResourceException;
 import com.example.CommunityMarket.exceptions.ResourceNotFoundException;
 import com.example.CommunityMarket.model.Transaction;
 import com.example.CommunityMarket.repository.ItemRepository;
-import com.example.CommunityMarket.repository.PlayerRepository;
 import com.example.CommunityMarket.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +15,10 @@ import java.util.Optional;
 @Service
 public class TransactionService {
 
-    @Autowired
 
+    @Autowired
     TransactionRepository transactionRepo;
-    PlayerRepository playerRepo;
+    @Autowired
     ItemRepository itemRepo;
 
     public List<Transaction> getByID(Integer transactionID) throws ResourceNotFoundException {
@@ -47,7 +46,8 @@ public class TransactionService {
 
     public List<Transaction> addTransaction(Transaction transaction, Integer seller_id) throws ResourceException, ResourceNotFoundException {
         checkTransactionInput(transaction);
-        if (itemRepo.findById(transaction.getItemID()).isPresent()) {
+        Optional item = itemRepo.findById(transaction.getItemID());
+        if (item.isPresent()) {
             LocalDateTime time = LocalDateTime.now();
             transaction.setPostTime(time);
             transaction.setOpen(true);
