@@ -61,6 +61,8 @@ public class TransactionController {
             playerService.checkPlayerLoggedInById(seller_id);
         } catch (ResourceException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         // post transaction
         try {
