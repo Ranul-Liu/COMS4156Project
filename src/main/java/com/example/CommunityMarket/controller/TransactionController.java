@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,13 +22,18 @@ public class TransactionController {
     @Autowired
     private final PlayerService playerService;
 
-    public TransactionController(TransactionService transactionService, PlayerService playerService){ this.transactionService = transactionService; this.playerService = playerService;}
+    public TransactionController(TransactionService transactionService, PlayerService playerService) {
+        this.transactionService = transactionService;
+        this.playerService = playerService;
+    }
+
     // get by transaction id
     //@RequestMapping(value = "/transaction", method = RequestMethod.GET)
     public ResponseEntity<?> getById(@RequestParam(value = "transaction_id", required = true) Integer transaction_id) throws ResourceNotFoundException {
         List<Transaction> result = transactionService.getByID(transaction_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
     // get by transaction template
     @RequestMapping(value = "/transaction", method = RequestMethod.GET)
     public ResponseEntity<?> getTransactionByTemplate(
@@ -41,10 +45,9 @@ public class TransactionController {
             @RequestParam(value = "post_time", required = false) LocalDateTime post_time,
             @RequestParam(value = "close_time", required = false) LocalDateTime close_time,
             @RequestParam(value = "price", required = false) Integer price,
-            @RequestParam(value = "accept",required = false) Boolean accept)
-    {
+            @RequestParam(value = "accept", required = false) Boolean accept) {
         // get results
-        List<Transaction> result = transactionService.getTransactionByTemplate(transaction_id,buyer_id,seller_id,quantity,open,post_time,close_time,price,accept);
+        List<Transaction> result = transactionService.getTransactionByTemplate(transaction_id, buyer_id, seller_id, quantity, open, post_time, close_time, price, accept);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -53,14 +56,19 @@ public class TransactionController {
     public ResponseEntity<?> addtransaction(@RequestBody Transaction newtransaction,
                                             @PathVariable("seller_id") Integer seller_id)
             throws ResourceException, ResourceNotFoundException {
+        // check whether player logged in
         try {
             playerService.checkPlayerLoggedInById(seller_id);
+        } catch (ResourceException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        catch(Exception e) {
-            throw e;
+        // post transaction
+        try {
+            List<Transaction> result = transactionService.addTransaction(newtransaction, seller_id);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        } catch (ResourceException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        List<Transaction> result = transactionService.addTransaction(newtransaction,seller_id);
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/transaction/{seller_id}/{transaction_id}", method = RequestMethod.PUT)
@@ -70,11 +78,10 @@ public class TransactionController {
             throws ResourceException, ResourceNotFoundException {
         try {
             playerService.checkPlayerLoggedInById(seller_id);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             throw e;
         }
-        List<Transaction> result = transactionService.updateTransaction(newtransaction,transaction_id);
+        List<Transaction> result = transactionService.updateTransaction(newtransaction, transaction_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -84,16 +91,12 @@ public class TransactionController {
             throws ResourceException, ResourceNotFoundException {
         try {
             playerService.checkPlayerLoggedInById(seller_id);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             throw e;
         }
         List<Transaction> result = transactionService.closeTransaction(transaction_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-
-
 
 
 }

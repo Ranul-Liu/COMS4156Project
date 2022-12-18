@@ -2,22 +2,21 @@ package com.example.CommunityMarket.service;
 
 import com.example.CommunityMarket.exceptions.ResourceException;
 import com.example.CommunityMarket.exceptions.ResourceNotFoundException;
-import com.example.CommunityMarket.repository.PlayerRepository;
 import com.example.CommunityMarket.model.Player;
+import com.example.CommunityMarket.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class PlayerService {
+    private final String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
     @Autowired
     PlayerRepository playerRepo;
-
-    private final String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-
 
     //get by ID
     public List<Player> getByID(Integer player_id) throws ResourceNotFoundException {
@@ -33,15 +32,16 @@ public class PlayerService {
 
     //get operation
     public List<Player> getPlayerByTemplate(Integer player_id,
-                                        String playername,
-                                        String email, Boolean login){
-        return playerRepo.findByTemplate(player_id,playername, email, login);
+                                            String playername,
+                                            String email, Boolean login) {
+        return playerRepo.findByTemplate(player_id, playername, email, login);
     }
 
     //post operation
     public List<Player> postPlayer(Player player) {
+
+        player.setLogin(false);
         Player result = playerRepo.save(player);
-        result.setLogin(false);
         return List.of(result);
     }
 
@@ -84,7 +84,7 @@ public class PlayerService {
     }
 
     // delete operation
-    public void deletePlayerById(Integer player_id) throws ResourceNotFoundException{
+    public void deletePlayerById(Integer player_id) throws ResourceNotFoundException {
         if (getByID(player_id).size() >= 1) {
             playerRepo.deleteById(player_id);
         } else {
@@ -120,14 +120,11 @@ public class PlayerService {
         try {
             if (!checkPlayernameLength(player.getPlayername())) {
                 throw new ResourceException("Playername must be between 1-32 characters");
-            }
-            else if (!checkPlayernameIfInvalid(player.getPlayername())){
+            } else if (!checkPlayernameIfInvalid(player.getPlayername())) {
                 throw new ResourceException("Playername cannot be blank");
-            }
-            else if (!checkEmailLength(player.getEmail())) {
+            } else if (!checkEmailLength(player.getEmail())) {
                 throw new ResourceException("Email must be between 1-128 characters");
-            }
-            else if (!isValidEmail(player.getEmail())) {
+            } else if (!isValidEmail(player.getEmail())) {
                 throw new ResourceException("Invalid email");
             }
         } catch (NullPointerException e) {
@@ -156,11 +153,10 @@ public class PlayerService {
             if (!player.isPresent()) {
                 throw new ResourceNotFoundException("player_id not found");
             }
-            if (player.get().getLogin() != true) {
-                throw new ResourceException("player_id not logged in");
+            if (!player.get().getLogin()) {
+                throw new ResourceException("Player not logged in");
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             throw e;
         }
     }
