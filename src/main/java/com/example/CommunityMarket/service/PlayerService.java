@@ -41,6 +41,7 @@ public class PlayerService {
     //post operation
     public List<Player> postPlayer(Player player) {
         Player result = playerRepo.save(player);
+        result.setLogin(false);
         return List.of(result);
     }
 
