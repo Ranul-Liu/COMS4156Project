@@ -78,11 +78,15 @@ public class TransactionController {
                                                @PathVariable("seller_id") Integer seller_id,
                                                @PathVariable("transaction_id") Integer transaction_id)
             throws ResourceException, ResourceNotFoundException {
+        // check whether player logged in
         try {
             playerService.checkPlayerLoggedInById(seller_id);
-        } catch (Exception e) {
-            throw e;
+        } catch (ResourceException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+        // update transaction
         List<Transaction> result = transactionService.updateTransaction(newtransaction, transaction_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -91,11 +95,15 @@ public class TransactionController {
     public ResponseEntity<?> closetransaction(@PathVariable("seller_id") Integer seller_id,
                                               @PathVariable("transaction_id") Integer transaction_id)
             throws ResourceException, ResourceNotFoundException {
+        // check whether player logged in
         try {
             playerService.checkPlayerLoggedInById(seller_id);
-        } catch (Exception e) {
-            throw e;
+        } catch (ResourceException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+        //close transaction
         List<Transaction> result = transactionService.closeTransaction(transaction_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

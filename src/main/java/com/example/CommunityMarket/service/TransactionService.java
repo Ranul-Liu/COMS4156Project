@@ -46,7 +46,7 @@ public class TransactionService {
     }
 
     public List<Transaction> addTransaction(Transaction transaction, Integer seller_id) throws ResourceException, ResourceNotFoundException {
-        checkPostTransactionInput(transaction);
+        checkTransactionInput(transaction);
         if (itemRepo.findById(transaction.getItemID()).isPresent()) {
             LocalDateTime time = LocalDateTime.now();
             transaction.setPostTime(time);
@@ -60,15 +60,13 @@ public class TransactionService {
 
     }
 
-    public List<Transaction> updateTransaction(Transaction newtransaction, Integer transaction_id) throws IllegalArgumentException, ResourceNotFoundException {
+    public List<Transaction> updateTransaction(Transaction newtransaction, Integer transaction_id) throws ResourceNotFoundException, ResourceException {
         Optional<Transaction> Result = transactionRepo.findById(transaction_id);
+        checkTransactionInput(newtransaction);
         if (Result.isPresent()) {
             Transaction transaction = Result.get();
-            //seller can only update price, quantity
             transaction.setPrice(newtransaction.getPrice());
-            //todo: check new quantity < current quantity
             transaction.setItemID(newtransaction.getItemID());
-            transaction.setTransactionID(newtransaction.getItemID());
             transaction.setQuantity(newtransaction.getQuantity());
             transactionRepo.save(transaction);
             return List.of(transaction);
@@ -91,7 +89,7 @@ public class TransactionService {
         }
     }
 
-    public void checkPostTransactionInput(Transaction transaction) throws ResourceException {
+    public void checkTransactionInput(Transaction transaction) throws ResourceException {
         try {
             if (transaction.getPrice() <= 0) {
                 throw new ResourceException("Price can not be zero or negative");
