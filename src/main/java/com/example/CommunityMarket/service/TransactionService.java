@@ -65,6 +65,7 @@ public class TransactionService {
         checkTransactionInput(newtransaction);
         if (Result.isPresent()) {
             Transaction transaction = Result.get();
+
             transaction.setPrice(newtransaction.getPrice());
             transaction.setItemID(newtransaction.getItemID());
             transaction.setQuantity(newtransaction.getQuantity());
@@ -94,8 +95,12 @@ public class TransactionService {
             if (transaction.getPrice() <= 0) {
                 throw new ResourceException("Price can not be zero or negative");
             } else if (transaction.getQuantity() <= 0) {
-                throw new ResourceException("Price can not be zero or negative");
+                throw new ResourceException("Quantity can not be zero or negative");
             }
+            if (transaction.getItemID() <= 0) {
+                throw new ResourceException("Item_id cannot be zero or negative");
+            }
+
         } catch (NullPointerException e) {
             throw new ResourceException("Transaction formatted incorrectly, please provide the following:\n" +
                     "item_id,quantity,initial_price");

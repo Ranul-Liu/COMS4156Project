@@ -29,6 +29,7 @@ public class PlayerController {
         List<Player> result = playerService.getPlayerByTemplate(player_id, playername, email, login);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
     @GetMapping(value = "/player/{id}")
     public ResponseEntity<?> getPlayerById(@PathVariable Integer id) throws ResourceNotFoundException {
         List<Player> result = playerService.getByID(id);
@@ -43,14 +44,14 @@ public class PlayerController {
     }
 
     @RequestMapping(value = "/player/update/{player_id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updatePlayer(@RequestBody Player newPlayer, @PathVariable Integer player_id) throws ResourceNotFoundException, ResourceException{
+    public ResponseEntity<?> updatePlayer(@RequestBody Player newPlayer, @PathVariable Integer player_id) throws ResourceNotFoundException, ResourceException {
         playerService.checkUpdatePlayer(newPlayer);
-        List<Player> result = playerService.updatePlayer(newPlayer,player_id);
+        List<Player> result = playerService.updatePlayer(newPlayer, player_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/player/login/{player_id}")
-    public ResponseEntity<?> loginPlayer(@PathVariable Integer player_id) throws ResourceNotFoundException{
+    public ResponseEntity<?> loginPlayer(@PathVariable Integer player_id) throws ResourceNotFoundException {
         List<Player> result = playerService.loginPlayer(player_id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -63,7 +64,7 @@ public class PlayerController {
 
     @DeleteMapping("/players/delete/{player_id}")
     public void deletePlayer(@PathVariable Integer player_id)
-            throws ResourceNotFoundException{
+            throws ResourceNotFoundException {
 
         playerService.deletePlayerById(player_id);
     }
