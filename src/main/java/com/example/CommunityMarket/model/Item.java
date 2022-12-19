@@ -1,8 +1,8 @@
 package com.example.CommunityMarket.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "item")
@@ -22,17 +22,15 @@ public class Item {
     @JsonProperty("item_category")
     private String itemCategory;
 
-    @ManyToOne
-    @JoinColumn(name="fk_player_id",referencedColumnName = "player_id")
-    private Player player;
 
     //Default Constructor
     public Item() {
-        this.itemId=null;
-        this.itemName=null;
-        this.itemDescription=null;
-        this.itemCategory=null;
+        this.itemId = null;
+        this.itemName = null;
+        this.itemDescription = null;
+        this.itemCategory = null;
     }
+
     public Item(Integer itemId, String itemName, String itemDescription, String itemCategory) {
         this.itemId = itemId;
         this.itemName = itemName;
